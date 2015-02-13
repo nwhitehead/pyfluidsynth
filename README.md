@@ -24,8 +24,9 @@ http://numpy.scipy.org/
 
 ## DOWNLOAD
 
-pyFluidSynth is available as a source distribution from PyPI.
-http://pypi.python.org/pypi/pyFluidSynth
+pyFluidSynth is distributed as Python source, download the
+latest version here:
+https://github.com/nwhitehead/pyfluidsynth/archive/master.zip
 
 
 ## INSTALLATION
