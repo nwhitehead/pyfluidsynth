@@ -1,22 +1,21 @@
 """
 ================================================================================
 
-	pyFluidSynth
+        pyFluidSynth
 
-	Python bindings for FluidSynth
+        Python bindings for FluidSynth
 
-	Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
-	Currently maintained by Bart Spaans <onderstekop@gmail.com>
-	Released under the LGPL
+        Copyright 2008--2015, Nathan Whitehead <nwhitehe@gmail.com>
+        Released under the LGPL
 
-	This module contains python bindings for FluidSynth.  FluidSynth is a
-	software synthesizer for generating music.  It works like a MIDI
-	synthesizer.  You load patches, set parameters, then send NOTEON and
-	NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
-	generally files with the extension SF2.  FluidSynth can either be used
-	to play audio itself, or you can call a function that returns chunks
-	of audio data and output the data to the soundcard yourself.
-	FluidSynth works on all major platforms, so pyFluidSynth should also.
+        This module contains python bindings for FluidSynth.  FluidSynth is a
+        software synthesizer for generating music.  It works like a MIDI
+        synthesizer.  You load patches, set parameters, then send NOTEON and
+        NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
+        generally files with the extension SF2.  FluidSynth can either be used
+        to play audio itself, or you can call a function that returns chunks
+        of audio data and output the data to the soundcard yourself.
+        FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 ================================================================================
 """
@@ -29,11 +28,13 @@ from ctypes.util import find_library
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
 
-lib = find_library('fluidsynth') or find_library('libfluidsynth') or find_library('libfluidsynth-1')
+lib = find_library('fluidsynth') or \
+    find_library('libfluidsynth') or \
+    find_library('libfluidsynth-1')
 
 
 if lib is None:
-	raise ImportError, "Couldn't find the FluidSynth library."
+    raise ImportError, "Couldn't find the FluidSynth library."
 
 
 # Dynamically link the FluidSynth library
@@ -206,7 +207,8 @@ class Synth:
           driver : which audio driver to use for output
                    Possible choices:
                      'alsa', 'oss', 'jack', 'portaudio'
-                     'sndmgr', 'coreaudio', 'Direct Sound'
+                     'sndmgr', 'coreaudio', 'Direct Sound',
+                     'pulseaudio'
 
         Not all drivers will be available for every platform, it
         depends on which drivers were compiled into FluidSynth for
@@ -214,7 +216,8 @@ class Synth:
 
         """
         if driver is not None:
-            assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound']) 
+            assert (driver in ['alsa', 'oss', 'jack', 'portaudio',
+                'sndmgr', 'coreaudio', 'Direct Sound', 'pulseaudio']) 
             fluid_settings_setstr(self.settings, 'audio.driver', driver)
         self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
     def delete(self):
@@ -233,19 +236,19 @@ class Synth:
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
     def noteon(self, chan, key, vel):
         """Play a note"""
-	if key < 0 or key > 128:
-		return False
-	if chan < 0:
-		return False
-	if vel < 0 or vel > 128:
-		return False
+        if key < 0 or key > 128:
+                return False
+        if chan < 0:
+                return False
+        if vel < 0 or vel > 128:
+                return False
         return fluid_synth_noteon(self.synth, chan, key, vel)
     def noteoff(self, chan, key):
         """Stop a note"""
-	if key < 0 or key > 128:
-		return False
-	if chan < 0:
-		return False
+        if key < 0 or key > 128:
+                return False
+        if chan < 0:
+                return False
         return fluid_synth_noteoff(self.synth, chan, key)
     def pitch_bend(self, chan, val):
         """Adjust pitch of a playing channel by small amounts
