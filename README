@@ -1,0 +1,170 @@
+=pyFluidSynth=
+
+==Python bindings for FluidSynth==
+
+Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
+Maintained by Bart Spaans <onderstekop@gmail.com>
+Released under the LGPL
+
+
+This module contains python bindings for FluidSynth.  FluidSynth is a
+software synthesizer for generating music.  It works like a MIDI
+synthesizer.  You load patches, set parameters, then send NOTEON and
+NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
+generally files with the extension SF2.  FluidSynth can either be used
+to play audio itself, or you can call a function that returns
+chunks of audio data and output the data to the soundcard yourself.
+FluidSynth works on all major platforms, so pyFluidSynth should also.
+
+
+==REQUIREMENTS==
+
+FluidSynth 1.0.7 (or later version)
+(earlier versions probably work, untested)
+http://www.nongnu.org/fluid/
+
+NumPy 1.0 or later
+http://numpy.scipy.org/
+
+
+==DOWNLOAD==
+
+pyFluidSynth is available as a source distribution from PyPI.
+http://pypi.python.org/pypi/pyFluidSynth
+
+
+==INSTALLATION==
+
+pyFluidSynth is packaged as Python source using distutils.  To install,
+run the following command as root:
+
+python setup.py install
+
+For more information and options about using distutils, read:
+http://docs.python.org/inst/inst.html
+
+
+==EXAMPLE==
+
+Here is a program that plays a chord for a second.
+
+{{{
+import time
+import fluidsynth
+
+fs = fluidsynth.Synth()
+fs.start()
+
+sfid = fs.sfload("example.sf2")
+fs.program_select(0, sfid, 0, 0)
+
+fs.noteon(0, 60, 30)
+fs.noteon(0, 67, 30)
+fs.noteon(0, 76, 30)
+
+time.sleep(1.0)
+
+fs.noteoff(0, 60)
+fs.noteoff(0, 67)
+fs.noteoff(0, 76)
+
+time.sleep(1.0)
+
+fs.delete()
+}}}
+
+First a Synth object is created to control playback.
+The start() method starts audio output in a separate thread.
+
+To get sound, you need to choose an instrument.  First load a
+SoundFont with sfload(), then select a bank and preset with
+program_select().
+
+  program_select(track, soundfontid, banknum, presetnum)
+
+To start a note, use the noteon() method.
+
+  noteon(track, midinum, velocity)
+
+To stop a note, use noteoff().
+
+  noteoff(track, midinum)
+
+
+==MANAGING AUDIO==
+
+You can also manage audio IO yourself and just use FluidSynth to
+calculate the samples for the music.  You might do this, for example,
+in a game with WAV sound effects and algorithmically generated music.
+To do this, create the Synth object but don't call start().  To
+generate the next chunk of audio, call get_samples().
+
+  get_samples(len)
+
+The length you pass will be the number of audio samples. Unless
+specified otherwise, FluidSynth assumes an output rate of 44100 Hz.
+The return value will be a Numpy array of samples.  By default
+FluidSynth generates stereo sound, so the return array will be
+length 2 * len.
+
+To join arrays together, use numpy.append().
+
+To convert an array of samples into a string of bytes suitable for sending
+to the soundcard, use fluidsynth.raw_audio_string(samples).
+
+Here is an example that generates a chord then plays the data using
+PyAudio.
+
+{{{
+import time
+import numpy
+import pyaudio
+import fluidsynth
+
+pa = pyaudio.PyAudio()
+strm = pa.open(
+    format = pyaudio.paInt16,
+    channels = 2, 
+    rate = 44100, 
+    output = True)
+
+s = []
+
+fl = fluidsynth.Synth()
+
+# Initial silence is 1 second
+s = numpy.append(s, fl.get_samples(44100 * 1))
+
+sfid = fl.sfload("example.sf2")
+fl.program_select(0, sfid, 0, 0)
+
+fl.noteon(0, 60, 30)
+fl.noteon(0, 67, 30)
+fl.noteon(0, 76, 30)
+
+# Chord is held for 2 seconds
+s = numpy.append(s, fl.get_samples(44100 * 2))
+
+fl.noteoff(0, 60)
+fl.noteoff(0, 67)
+fl.noteoff(0, 76)
+
+# Decay of chord is held for 1 second
+s = numpy.append(s, fl.get_samples(44100 * 1))
+
+fl.delete()
+
+samps = fluidsynth.raw_audio_string(s)
+
+print len(samps)
+print 'Starting playback'
+strm.write(samps)
+}}}
+
+
+==BUGS AND LIMITATIONS==
+
+Not all functions in FluidSynth are bound.
+
+Not much error checking, FluidSynth will segfault/crash if you call
+the functions incorrectly sometimes.

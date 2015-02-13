@@ -1,0 +1,60 @@
+================================================================================
+
+	March 2, 2009 - 1.2.4
+
+	* Another attempt to find the proper library on Windows systems. Added 
+	short circuited or expression to find either 'fluidsynth' or 
+	'libfluidsynth'.
+	* Only import numpy when it's actually needed.
+
+
+================================================================================
+
+	January 15, 2009 - 1.2.3
+
+	* Throw ImportError if the fluidsynth library can't be found.
+	* Range checking in noteon and noteoff
+
+ 
+================================================================================
+
+	January 15, 2009 - 1.2.2
+
+	* Small version increment to update website and maintainer info. 
+	  No actual code changes.
+
+ 
+================================================================================
+
+	July 22, 2008 - 1.2.1
+
+	* Added pydoc documentation and this CHANGELOG.
+ 
+
+================================================================================
+
+	July 22, 2008 - 1.2
+
+	* Changed from C extension code to ctypes for portability and simplicity
+	  of code.
+
+	* Updated interface to use objects instead of just functions.
+
+ 
+================================================================================
+
+	July 21, 2008 - 1.1
+
+	* Added direct audio data interface so you don't have to start audio
+	  driver thread.  Makes pyFluidSynth work for audio games and other
+	  applications that manage their own sound.
+
+ 
+================================================================================
+
+	July 16, 2008 - 1.0
+
+	* Imported from previous work done earlier in the summer.
+
+
+================================================================================
