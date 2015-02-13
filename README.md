@@ -38,7 +38,7 @@ python setup.py install
 ```
 
 For more information and options about using distutils, read:
-http://docs.python.org/inst/inst.html
+https://docs.python.org/2/distutils/
 
 
 ## EXAMPLE
