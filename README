@@ -1,10 +1,10 @@
-=pyFluidSynth=
+# pyFluidSynth
 
-==Python bindings for FluidSynth==
+## Python bindings for FluidSynth
 
 Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
-Maintained by Bart Spaans <onderstekop@gmail.com>
-Released under the LGPL
+Contributions by Bart Spaans <onderstekop@gmail.com>
+Released under the MIT license
 
 
 This module contains python bindings for FluidSynth.  FluidSynth is a
@@ -17,38 +17,40 @@ chunks of audio data and output the data to the soundcard yourself.
 FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 
-==REQUIREMENTS==
+## REQUIREMENTS
 
 FluidSynth 1.0.7 (or later version)
 (earlier versions probably work, untested)
 http://www.nongnu.org/fluid/
 
-NumPy 1.0 or later
+NumPy 1.0 or later (for some features)
 http://numpy.scipy.org/
 
 
-==DOWNLOAD==
+## DOWNLOAD
 
 pyFluidSynth is available as a source distribution from PyPI.
 http://pypi.python.org/pypi/pyFluidSynth
 
 
-==INSTALLATION==
+## INSTALLATION
 
 pyFluidSynth is packaged as Python source using distutils.  To install,
 run the following command as root:
 
+```
 python setup.py install
+```
 
 For more information and options about using distutils, read:
 http://docs.python.org/inst/inst.html
 
 
-==EXAMPLE==
+## EXAMPLE
 
 Here is a program that plays a chord for a second.
 
-{{{
+```
 import time
 import fluidsynth
 
@@ -71,51 +73,59 @@ fs.noteoff(0, 76)
 time.sleep(1.0)
 
 fs.delete()
-}}}
+```
 
 First a Synth object is created to control playback.
-The start() method starts audio output in a separate thread.
+The `start()` method starts audio output in a separate thread.
 
 To get sound, you need to choose an instrument.  First load a
-SoundFont with sfload(), then select a bank and preset with
-program_select().
+SoundFont with `sfload()`, then select a bank and preset with
+`program_select()`.
 
-  program_select(track, soundfontid, banknum, presetnum)
+```
+program_select(track, soundfontid, banknum, presetnum)
+```
 
 To start a note, use the noteon() method.
 
-  noteon(track, midinum, velocity)
+```
+noteon(track, midinum, velocity)
+```
 
 To stop a note, use noteoff().
 
-  noteoff(track, midinum)
+```
+noteoff(track, midinum)
+```
 
 
-==MANAGING AUDIO==
+## MANAGING AUDIO
 
 You can also manage audio IO yourself and just use FluidSynth to
 calculate the samples for the music.  You might do this, for example,
 in a game with WAV sound effects and algorithmically generated music.
-To do this, create the Synth object but don't call start().  To
-generate the next chunk of audio, call get_samples().
+To do this, create the Synth object but don't call `start()`.  To
+generate the next chunk of audio, call `get_samples()`.
 
-  get_samples(len)
+```
+get_samples(len)
+```
 
 The length you pass will be the number of audio samples. Unless
 specified otherwise, FluidSynth assumes an output rate of 44100 Hz.
 The return value will be a Numpy array of samples.  By default
 FluidSynth generates stereo sound, so the return array will be
-length 2 * len.
+length `2 * len`.
 
-To join arrays together, use numpy.append().
+To join arrays together, use `numpy.append()`.
 
 To convert an array of samples into a string of bytes suitable for sending
-to the soundcard, use fluidsynth.raw_audio_string(samples).
+to the soundcard, use `fluidsynth.raw_audio_string(samples)`.
 
 Here is an example that generates a chord then plays the data using
 PyAudio.
 
-{{{
+```
 import time
 import numpy
 import pyaudio
@@ -159,10 +169,10 @@ samps = fluidsynth.raw_audio_string(s)
 print len(samps)
 print 'Starting playback'
 strm.write(samps)
-}}}
+```
 
 
-==BUGS AND LIMITATIONS==
+## BUGS AND LIMITATIONS
 
 Not all functions in FluidSynth are bound.
 
