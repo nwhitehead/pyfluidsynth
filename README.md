@@ -2,11 +2,6 @@
 
 ## Python bindings for FluidSynth
 
-Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
-Contributions by Bart Spaans <onderstekop@gmail.com>
-Released under the MIT license
-
-
 This module contains python bindings for FluidSynth.  FluidSynth is a
 software synthesizer for generating music.  It works like a MIDI
 synthesizer.  You load patches, set parameters, then send NOTEON and
@@ -178,3 +173,13 @@ Not all functions in FluidSynth are bound.
 
 Not much error checking, FluidSynth will segfault/crash if you call
 the functions incorrectly sometimes.
+
+## AUTHORS
+
+Original code by Nathan Whitehead `<nwhitehe@gmail.com>`.
+Contributions by Bart Spaans `<onderstekop@gmail.com>`.
+
+Released under the MIT license, feel free to use in any projects
+including commercial ones.
+
+Copyright 2008--2015, Nathan Whitehead
