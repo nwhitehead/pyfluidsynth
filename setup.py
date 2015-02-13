@@ -1,12 +1,10 @@
 from distutils.core import setup, Extension
 
 setup (name = 'pyFluidSynth',
-       version = '1.2.4',
+       version = '1.2.5',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
-       maintainer = 'Bart Spaans',
-       maintainer_email = 'onderstekop@gmail.com',
-       url = 'http://pyfluidsynth.googlecode.com/',
+       url = 'https://github.com/nwhitehead/pyfluidsynth',
        description = 'Python bindings for FluidSynth, a MIDI synthesizer that uses SoundFont instruments',
       long_description = '''
 This module contains python bindings for FluidSynth.  FluidSynth is a

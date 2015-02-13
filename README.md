@@ -24,8 +24,7 @@ http://numpy.scipy.org/
 
 ## DOWNLOAD
 
-pyFluidSynth is distributed as Python source, download the
-latest version here:
+Download the latest version from GitHub here:
 https://github.com/nwhitehead/pyfluidsynth/archive/master.zip
 
 
