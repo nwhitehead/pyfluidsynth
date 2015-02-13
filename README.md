@@ -174,12 +174,16 @@ Not all functions in FluidSynth are bound.
 Not much error checking, FluidSynth will segfault/crash if you call
 the functions incorrectly sometimes.
 
+
 ## AUTHORS
 
 Original code by Nathan Whitehead `<nwhitehe@gmail.com>`.
 Contributions by Bart Spaans `<onderstekop@gmail.com>`.
 
-Released under the MIT license, feel free to use in any projects
-including commercial ones.
+
+## LICENSE
+
+Released under the LGPL v2.1 or any later
+version (this is the same as FluidSynth).
 
 Copyright 2008--2015, Nathan Whitehead

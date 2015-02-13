@@ -3,7 +3,7 @@
 
     * Mover repository to git in GitHub
     * Tweak README to work with GitHub flavored MarkDown
-    * Switch license to MIT to avoid legal issues with game binaries
+    * Include LGPL license text.
 
 
 ================================================================================
