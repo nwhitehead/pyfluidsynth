@@ -1,6 +1,6 @@
 # pyFluidSynth
 
-## Python bindings for FluidSynth
+* Python bindings for FluidSynth *
 
 This module contains python bindings for FluidSynth.  FluidSynth is a
 software synthesizer for generating music.  It works like a MIDI
@@ -45,7 +45,7 @@ https://docs.python.org/2/distutils/
 
 Here is a program that plays a chord for a second.
 
-```
+```python
 import time
 import fluidsynth
 
@@ -120,7 +120,7 @@ to the soundcard, use `fluidsynth.raw_audio_string(samples)`.
 Here is an example that generates a chord then plays the data using
 PyAudio.
 
-```
+```python
 import time
 import numpy
 import pyaudio
