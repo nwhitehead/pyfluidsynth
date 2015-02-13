@@ -1,6 +1,6 @@
 # pyFluidSynth
 
-* Python bindings for FluidSynth *
+<em>Python bindings for FluidSynth</em>
 
 This module contains python bindings for FluidSynth.  FluidSynth is a
 software synthesizer for generating music.  It works like a MIDI
@@ -77,19 +77,19 @@ To get sound, you need to choose an instrument.  First load a
 SoundFont with `sfload()`, then select a bank and preset with
 `program_select()`.
 
-```
+```python
 program_select(track, soundfontid, banknum, presetnum)
 ```
 
 To start a note, use the noteon() method.
 
-```
+```python
 noteon(track, midinum, velocity)
 ```
 
 To stop a note, use noteoff().
 
-```
+```python
 noteoff(track, midinum)
 ```
 
@@ -102,7 +102,7 @@ in a game with WAV sound effects and algorithmically generated music.
 To do this, create the Synth object but don't call `start()`.  To
 generate the next chunk of audio, call `get_samples()`.
 
-```
+```python
 get_samples(len)
 ```
 
