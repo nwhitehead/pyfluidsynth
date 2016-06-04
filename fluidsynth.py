@@ -34,7 +34,7 @@ lib = find_library('fluidsynth') or \
 
 
 if lib is None:
-    raise ImportError, "Couldn't find the FluidSynth library."
+    raise ImportError("Couldn't find the FluidSynth library.")
 
 
 # Dynamically link the FluidSynth library
