@@ -189,10 +189,10 @@ class Synth:
 
         """
         st = new_fluid_settings()
-        fluid_settings_setnum(st, 'synth.gain', gain)
-        fluid_settings_setnum(st, 'synth.sample-rate', samplerate)
+        fluid_settings_setnum(st, b'synth.gain', gain)
+        fluid_settings_setnum(st, b'synth.sample-rate', samplerate)
         # No reason to limit ourselves to 16 channels
-        fluid_settings_setint(st, 'synth.midi-channels', 256)
+        fluid_settings_setint(st, b'synth.midi-channels', 256)
         self.settings = st
         self.synth = new_fluid_synth(st)
         self.audio_driver = None
@@ -218,7 +218,7 @@ class Synth:
         if driver is not None:
             assert (driver in ['alsa', 'oss', 'jack', 'portaudio',
                 'sndmgr', 'coreaudio', 'Direct Sound', 'pulseaudio']) 
-            fluid_settings_setstr(self.settings, 'audio.driver', driver)
+            fluid_settings_setstr(self.settings, b'audio.driver', driver)
         self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
     def delete(self):
         if self.audio_driver is not None:
@@ -227,7 +227,7 @@ class Synth:
         delete_fluid_settings(self.settings)
     def sfload(self, filename, update_midi_preset=0):
         """Load SoundFont and return its ID"""
-        return fluid_synth_sfload(self.synth, filename, update_midi_preset)
+        return fluid_synth_sfload(self.synth, filename.encode(), update_midi_preset)
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used"""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
