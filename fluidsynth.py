@@ -1,23 +1,23 @@
 """
 ================================================================================
 
-	pyFluidSynth
+    pyFluidSynth
 
-	Python bindings for FluidSynth
+    Python bindings for FluidSynth
 
-	Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
+    Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
 
     
-	Released under the LGPL
+    Released under the LGPL
 
-	This module contains python bindings for FluidSynth.  FluidSynth is a
-	software synthesizer for generating music.  It works like a MIDI
-	synthesizer.  You load patches, set parameters, then send NOTEON and
-	NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
-	generally files with the extension SF2.  FluidSynth can either be used
-	to play audio itself, or you can call a function that returns chunks
-	of audio data and output the data to the soundcard yourself.
-	FluidSynth works on all major platforms, so pyFluidSynth should also.
+    This module contains python bindings for FluidSynth.  FluidSynth is a
+    software synthesizer for generating music.  It works like a MIDI
+    synthesizer.  You load patches, set parameters, then send NOTEON and
+    NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
+    generally files with the extension SF2.  FluidSynth can either be used
+    to play audio itself, or you can call a function that returns chunks
+    of audio data and output the data to the soundcard yourself.
+    FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 ================================================================================
 
@@ -36,7 +36,7 @@ lib = find_library('fluidsynth') or \
     find_library('libfluidsynth-1')
 
 if lib is None:
-	raise ImportError("Couldn't find the FluidSynth library.")
+    raise ImportError("Couldn't find the FluidSynth library.")
 
 # Dynamically link the FluidSynth library
 _fl = CDLL(lib)
@@ -163,17 +163,17 @@ fluid_synth_write_s16 = cfunc('fluid_synth_write_s16', c_void_p,
                               ('lincr', c_int, 1),
                               ('rbuf', c_void_p, 1),
                               ('roff', c_int, 1),
-                              ('rincr', c_int, 1))					  
+                              ('rincr', c_int, 1))                      
 
 class fluid_synth_channel_info_t(Structure):
-	_fields_ = [
-		('assigned', c_int),
-		('sfont_id', c_int),
-		('bank', c_int),
-		('program', c_int),
-		('name', c_char*32),
-		('reserved', c_char*32)]
-							  
+    _fields_ = [
+        ('assigned', c_int),
+        ('sfont_id', c_int),
+        ('bank', c_int),
+        ('program', c_int),
+        ('name', c_char*32),
+        ('reserved', c_char*32)]
+                              
 fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
                                   ('synth', c_void_p, 1),
                                   ('chan', c_int, 1),
@@ -230,16 +230,16 @@ new_fluid_midi_driver = cfunc('new_fluid_midi_driver', c_void_p,
                                ('event_handler_data', c_void_p, 1))
 
 class fluid_midi_router_t(Structure):
-	_fields_ = [
-		('synth', c_void_p),
-		('rules_mutex', c_void_p),
-		('rules', c_void_p*6),
-		('free_rules', c_void_p),
-		('event_handler', c_void_p),
-		('event_handler_data', c_void_p),
-		('nr_midi_channels', c_int),
-		('cmd_rule', c_void_p),
-		('cmd_rule_type', POINTER(c_int))]
+    _fields_ = [
+        ('synth', c_void_p),
+        ('rules_mutex', c_void_p),
+        ('rules', c_void_p*6),
+        ('free_rules', c_void_p),
+        ('event_handler', c_void_p),
+        ('event_handler_data', c_void_p),
+        ('nr_midi_channels', c_int),
+        ('cmd_rule', c_void_p),
+        ('cmd_rule_type', POINTER(c_int))]
 
 new_fluid_midi_router = cfunc('new_fluid_midi_router', POINTER(fluid_midi_router_t),
                                ('settings', c_void_p, 1),
@@ -247,16 +247,16 @@ new_fluid_midi_router = cfunc('new_fluid_midi_router', POINTER(fluid_midi_router
                                ('event_handler_data', c_void_p, 1))
 
 fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
-							   ('synth', c_void_p, 1),
-							   ('router', c_void_p, 1))
+                               ('synth', c_void_p, 1),
+                               ('router', c_void_p, 1))
 
 fluid_synth_handle_midi_event = cfunc('fluid_synth_handle_midi_event', POINTER(c_int),
-							   ('data', c_void_p, 1),
-							   ('event', c_void_p, 1))
+                               ('data', c_void_p, 1),
+                               ('event', c_void_p, 1))
 
 fluid_midi_router_handle_midi_event = cfunc('fluid_midi_router_handle_midi_event', POINTER(c_int),
-							   ('data', c_void_p, 1),
-							   ('event', c_void_p, 1))
+                               ('data', c_void_p, 1),
+                               ('event', c_void_p, 1))
 
 fluid_midi_router_clear_rules = cfunc('fluid_midi_router_clear_rules', c_int,
                                     ('router', POINTER(fluid_midi_router_t), 1))
@@ -385,10 +385,10 @@ class Synth:
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
     def channel_info(self, chan):
-		"""get soundfont, bank, prog, preset name of channel"""
-		info=fluid_synth_channel_info_t()
-		fluid_synth_get_channel_info(self.synth, chan, byref(info))
-		return (info.sfont_id, info.bank, info.program, info.name)
+        """get soundfont, bank, prog, preset name of channel"""
+        info=fluid_synth_channel_info_t()
+        fluid_synth_get_channel_info(self.synth, chan, byref(info))
+        return (info.sfont_id, info.bank, info.program, info.name)
     def router_clear(self):
         if self.router is not None:
             fluid_midi_router_clear_rules(self.router)
@@ -485,14 +485,14 @@ class Synth:
     def get_chorus_type(self):
         return fluid_synth_get_chorus_type(self.synth)
     def noteon(self, chan, key, vel):
-		"""Play a note"""
-		if key < 0 or key > 128:
-			return False
-		if chan < 0:
-			return False
-		if vel < 0 or vel > 128:
-			return False
-			return fluid_synth_noteon(self.synth, chan, key, vel)
+        """Play a note"""
+        if key < 0 or key > 128:
+            return False
+        if chan < 0:
+            return False
+        if vel < 0 or vel > 128:
+            return False
+            return fluid_synth_noteon(self.synth, chan, key, vel)
     def noteoff(self, chan, key):
         """Stop a note"""
         if key < 0 or key > 128:
