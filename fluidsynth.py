@@ -27,6 +27,7 @@ Added lots of bindings and stuff to help with playing live -- Bill Peterson <alb
 import time
 from ctypes import *
 from ctypes.util import find_library
+from future.utils import iteritems
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -321,10 +322,10 @@ class Synth:
         added capability for passing arbitrary fluid settings using args
         """
         st = new_fluid_settings()
-        fluid_settings_setnum(st, 'synth.gain', gain)
-        fluid_settings_setnum(st, 'synth.sample-rate', samplerate)
-        fluid_settings_setint(st, 'synth.midi-channels', channels)
-        for opt,val in kwargs.iteritems():
+        fluid_settings_setnum(st, b'synth.gain', gain)
+        fluid_settings_setnum(st, b'synth.sample-rate', samplerate)
+        fluid_settings_setint(st, b'synth.midi-channels', channels)
+        for opt,val in iteritems(kwargs):
             self.setting(opt, val)
         self.settings = st
         self.synth = new_fluid_synth(st)
@@ -333,12 +334,13 @@ class Synth:
         self.router = None
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
+        opt = opt.encode()
         if isinstance(val, basestring):
             fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
             fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
-            fluid_settings_setnum(self.settings, opt, val)            
+            fluid_settings_setnum(self.settings, opt, val)
     def start(self, driver=None, device=None, midi_driver=None):
         """Start audio output driver in separate background thread
 
@@ -360,13 +362,13 @@ class Synth:
         """
         if driver is not None:
             assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound']) 
-            fluid_settings_setstr(self.settings, 'audio.driver', driver)
+            fluid_settings_setstr(self.settings, b'audio.driver', driver.encode())
             if device is not None:
-                fluid_settings_setstr(self.settings, 'audio.%s.device' % (driver), device)
+                fluid_settings_setstr(self.settings, str('audio.%s.device' % (driver)).encode(), device.encode())
             self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
         if midi_driver is not None:
             assert (midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare', 'coremidi'])
-            fluid_settings_setstr(self.settings, 'midi.driver', midi_driver)
+            fluid_settings_setstr(self.settings, b'midi.driver', midi_driver.encode())
             self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)
             fluid_synth_set_midi_router(self.synth, self.router)
             self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
@@ -377,7 +379,7 @@ class Synth:
         delete_fluid_settings(self.settings)
     def sfload(self, filename, update_midi_preset=0):
         """Load SoundFont and return its ID"""
-        return fluid_synth_sfload(self.synth, filename, update_midi_preset)
+        return fluid_synth_sfload(self.synth, filename.encode(), update_midi_preset)
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used"""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
