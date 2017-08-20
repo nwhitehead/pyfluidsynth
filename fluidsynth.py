@@ -494,7 +494,7 @@ class Synth:
             return False
         if vel < 0 or vel > 128:
             return False
-            return fluid_synth_noteon(self.synth, chan, key, vel)
+        return fluid_synth_noteon(self.synth, chan, key, vel)
     def noteoff(self, chan, key):
         """Stop a note"""
         if key < 0 or key > 128:
