@@ -166,6 +166,58 @@ print 'Starting playback'
 strm.write(samps)
 ```
 
+## USING THE SEQUENCER
+
+You can create a sequencer as follows:
+```python
+import fluidsynth
+
+seq = fluidsynth.Sequencer()
+```
+This will by default create a sequencer that will advance at 
+a rate of 1000 ticks per second. To change the rate at which
+the sequencer advances, you can give it the optional `time_scale`
+parameter. As a clock source, it will use your system clock. In
+order to manually advance the sequencer, you can give it the
+parameter `use_system_timer=False`. You will then have to advance
+it using `sequencer.process`.
+
+In order to make the sequencer aware of your synthesizer, you have to
+register it:
+```python
+fs = fluidsynth.Synth()
+# init and start the synthesizer as described above…
+
+synthID = seq.register_fluidsynth(fs)
+```
+You have to keep the ID and use it as a `target` for the midi events
+you want to schedule. Now, you can sequence actual notes:
+```python
+seq.note_on(time=500, absolute=False, channel=0, key=60, velocity=80, dest=synthID)
+```
+If you use relative timing like above, the sequencer will
+schedule the event the specified time from the current position.
+Otherwise, if `absolute` is `True` (the default), you have to use
+absolute track positions (in ticks). So the following code snippet
+will do the same as the one above:
+```python
+current_time = seq.get_tick()
+seq.note_on(current_time + 500, 0, 60, 80, dest=synthID)
+```
+You can also register your own callback functions to be called at
+certain ticks:
+```python
+def seq_callback(time, event, seq, data):
+    print('callback called!')
+
+callbackID = sequencer.register_client("myCallback", seq_callback)
+
+sequencer.timer(current_time + 2000, dest=callbackID)
+```
+Note that event and seq are low-level objects, not actual python objects.
+
+You can find a complete example (inspired by [this one from the fluidsynth library](http://www.fluidsynth.org/api/index.html#Sequencer)) in the test folder.
+
 
 ## BUGS AND LIMITATIONS
 
@@ -178,7 +230,7 @@ the functions incorrectly sometimes.
 ## AUTHORS
 
 Original code by Nathan Whitehead `<nwhitehe@gmail.com>`.
-Contributions by Bart Spaans `<onderstekop@gmail.com>`.
+Contributions by Bart Spaans `<onderstekop@gmail.com>` and Christian Romberg `<distjubo@gmail.com>`.
 
 
 ## LICENSE
