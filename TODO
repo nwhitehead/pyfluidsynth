@@ -1,3 +1,2 @@
-* Bind sequencer functions
 * Range checks in most of Synth's functions
 * Some unit tests.
