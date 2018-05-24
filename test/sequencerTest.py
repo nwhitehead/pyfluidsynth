@@ -31,12 +31,11 @@ def seq_callback(time, event, seq, data):
 
 if __name__=="__main__":
 	global sequencer, fs, mySeqID, synthSeqID, now
-	fs = fluidsynth.Synth(gain=1)
+	fs = fluidsynth.Synth()
 	fs.start()
 	# you might have to use other drivers:
 	#fs.start(driver="alsa", midi_driver="alsa_seq")
 
-	# maybe use better samples. this sounds horrible.
 	sfid = fs.sfload("example.sf2")
 	fs.program_select(0, sfid, 0, 0)
 	fs.program_select(1, sfid, 0, 0) # use the same program for channel 2 for cheapness
