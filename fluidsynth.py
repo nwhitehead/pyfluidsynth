@@ -236,6 +236,10 @@ fluid_synth_handle_midi_event = cfunc('fluid_synth_handle_midi_event', POINTER(c
 new_fluid_sequencer2 = cfunc('new_fluid_sequencer2', c_void_p,
                              ('use_system_timer', c_int, 1))
 
+fluid_sequencer_process = cfunc('fluid_sequencer_process', None,
+                               ('seq', c_void_p, 1),
+                               ('msec', c_uint, 1))
+
 fluid_sequencer_register_fluidsynth = cfunc('fluid_sequencer_register_fluidsynth', c_short,
                                ('seq', c_void_p, 1),
                                ('synth', c_void_p, 1))
@@ -667,28 +671,28 @@ class Sequencer:
 
         return response
 
-    def note(self, date, channel, key, velocity, duration, source=-1, dest=-1, absolute=True):
+    def note(self, time, channel, key, velocity, duration, source=-1, dest=-1, absolute=True):
         evt = self._create_event(source, dest)
         fluid_event_note(evt, channel, key, velocity, duration)
-        self._schedule_event(evt, date, absolute)
+        self._schedule_event(evt, time, absolute)
         delete_fluid_event(evt)
 
-    def note_on(self, date, channel, key, velocity=127, source=-1, dest=-1, absolute=True):
+    def note_on(self, time, channel, key, velocity=127, source=-1, dest=-1, absolute=True):
         evt = self._create_event(source, dest)
         fluid_event_noteon(evt, channel, key, velocity)
-        self._schedule_event(evt, date, absolute)
+        self._schedule_event(evt, time, absolute)
         delete_fluid_event(evt)
 
-    def note_off(self, date, channel, key, source=-1, dest=-1, absolute=True):
+    def note_off(self, time, channel, key, source=-1, dest=-1, absolute=True):
         evt = self._create_event(source, dest)
         fluid_event_noteoff(evt, channel, key)
-        self._schedule_event(evt, date, absolute)
+        self._schedule_event(evt, time, absolute)
         delete_fluid_event(evt)
 
-    def timer(self, date, data=None, source=-1, dest=-1, absolute=True):
+    def timer(self, time, data=None, source=-1, dest=-1, absolute=True):
         evt = self._create_event(source, dest)
         fluid_event_timer(evt, data)
-        self._schedule_event(evt, date, absolute)
+        self._schedule_event(evt, time, absolute)
         delete_fluid_event(evt)
 
     def _create_event(self, source=-1, dest=-1):
@@ -697,13 +701,16 @@ class Sequencer:
         fluid_event_set_dest(evt, dest)
         return evt
 
-    def _schedule_event(self, evt, date, absolute=True):
-        response = fluid_sequencer_send_at(self.sequencer, evt, date, absolute)
+    def _schedule_event(self, evt, time, absolute=True):
+        response = fluid_sequencer_send_at(self.sequencer, evt, time, absolute)
         if response == FLUID_FAILED:
             raise Error("Scheduling event failed")
 
     def get_tick(self):
         return fluid_sequencer_get_tick(self.sequencer)
+
+    def process(self, msec):
+        fluid_sequencer_process(self.sequencer, msec)
 
     def delete(self):
         delete_fluid_sequencer(self.sequencer)
