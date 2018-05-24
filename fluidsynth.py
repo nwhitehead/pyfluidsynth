@@ -54,7 +54,7 @@ def cfunc(name, result, *args):
 
 
 # Bump this up when changing the interface for users
-api_version = '1.2.3'
+api_version = '1.2.5'
 
 # Function prototypes for C versions of functions
 
