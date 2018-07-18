@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension
+from setuptools import setup
 
 setup (name = 'pyFluidSynth',
        version = '1.2.5',
