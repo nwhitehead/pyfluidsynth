@@ -391,7 +391,7 @@ def fluid_synth_write_s16_stereo(synth, len):
     import numpy
     buf = create_string_buffer(len * 4)
     fluid_synth_write_s16(synth, len, buf, 0, 2, buf, 1, 2)
-    return numpy.fromstring(buf[:], dtype=numpy.int16)
+    return numpy.frombuffer(buf[:], dtype=numpy.int16)
 
 
 # Object-oriented interface, simplifies access to functions
