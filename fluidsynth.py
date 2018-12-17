@@ -447,7 +447,7 @@ class Synth:
 
         """
         if driver is not None:
-            assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound']) 
+            assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound', 'pulseaudio']) 
             fluid_settings_setstr(self.settings, b'audio.driver', driver.encode())
             if device is not None:
                 fluid_settings_setstr(self.settings, str('audio.%s.device' % (driver)).encode(), device.encode())
