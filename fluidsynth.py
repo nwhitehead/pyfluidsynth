@@ -421,7 +421,7 @@ class Synth:
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
         opt = opt.encode()
-        if isinstance(val, basestring):
+        if isinstance(val, str):
             fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
             fluid_settings_setint(self.settings, opt, val)
