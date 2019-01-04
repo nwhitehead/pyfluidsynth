@@ -214,8 +214,7 @@ fluid_synth_handle_midi_event = cfunc('fluid_synth_handle_midi_event', POINTER(c
 try:
     new_fluid_cmd_handler=cfunc('new_fluid_cmd_handler', c_void_p,
                                    ('synth', c_void_p, 1),
-#                                  ('router', c_void_p, 1))
-                                   ('router', POINTER(fluid_midi_router_t), 1))
+                                   ('router', c_void_p, 1))
 
     fluid_synth_get_program = cfunc('fluid_synth_get_program', c_int,
                                     ('synth', c_void_p, 1),
@@ -495,7 +494,7 @@ class Synth:
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
         opt = opt.encode()
-        if isinstance(val, basestring):
+        if isinstance(val, str):
             fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
             fluid_settings_setint(self.settings, opt, val)
