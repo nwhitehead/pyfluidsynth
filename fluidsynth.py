@@ -239,12 +239,6 @@ try:
                                    ('banknum', c_int, 1),
                                    ('prognum', c_int, 1))
 
-    fluid_synth_get_chorus_speed = cfunc('fluid_synth_get_chorus_speed', c_double,
-                                         ('synth', c_void_p, 1))
-
-    fluid_synth_get_chorus_depth = cfunc('fluid_synth_get_chorus_depth', c_double,
-                                         ('synth', c_void_p, 1))
-
     fluid_synth_set_reverb_roomsize = cfunc('fluid_synth_set_reverb_roomsize', c_int,
                                         ('synth', c_void_p, 1),
                                         ('roomsize', c_double, 1))
@@ -281,6 +275,27 @@ try:
                                         ('synth', c_void_p, 1),
                                         ('depth', c_double, 1))
 
+    fluid_synth_set_reverb = cfunc('fluid_synth_set_reverb', c_int,
+                                        ('synth', c_void_p, 1),
+                                        ('roomsize', c_double, 1),
+                                        ('damping', c_double, 1),
+                                        ('width', c_double, 1),
+                                        ('level', c_double, 1))
+
+    fluid_synth_set_chorus = cfunc('fluid_synth_set_chorus', c_int,
+                                        ('synth', c_void_p, 1),
+                                        ('nr', c_int, 1),
+                                        ('level', c_double, 1),
+                                        ('speed', c_double, 1),
+                                        ('depth_ms', c_double, 1),
+                                        ('type', c_int, 1))
+                                            
+    fluid_synth_get_chorus_speed = cfunc('fluid_synth_get_chorus_speed', c_double,
+                                         ('synth', c_void_p, 1))
+
+    fluid_synth_get_chorus_depth = cfunc('fluid_synth_get_chorus_depth', c_double,
+                                         ('synth', c_void_p, 1))
+
 except AttributeError:
     fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
                                    ('synth', c_void_p, 1),
@@ -300,12 +315,6 @@ except AttributeError:
                                       ('chan', c_int, 1),
                                       ('info', POINTER(fluid_synth_channel_info_t), 1))
                                       
-    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
-                                        ('synth', c_void_p, 1))
-
-    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
-                                        ('synth', c_void_p, 1))
-                                        
     fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
                                         ('synth', c_void_p, 1),
                                         ('set', c_int, 1),
@@ -322,6 +331,12 @@ except AttributeError:
                                         ('speed', c_double, 1),
                                         ('depth_ms', c_double, 1),
                                         ('type', c_int, 1))
+                                            
+    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
+                                        ('synth', c_void_p, 1))
+
+    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
+                                        ('synth', c_void_p, 1))
                                         
 fluid_synth_get_reverb_roomsize = cfunc('fluid_synth_get_reverb_roomsize', c_double,
                                     ('synth', c_void_p, 1))
@@ -344,7 +359,6 @@ fluid_synth_get_chorus_level = cfunc('fluid_synth_get_chorus_level', c_double,
 
 fluid_synth_get_chorus_type = cfunc('fluid_synth_get_chorus_type', c_int,
                                     ('synth', c_void_p, 1))
-
 
 # fluid sequencer
 new_fluid_sequencer2 = cfunc('new_fluid_sequencer2', c_void_p,
@@ -621,23 +635,14 @@ class Synth:
         if self.router is not None:
             fluid_midi_router_rule_set_param2(self.router.cmd_rule, min, max, mul, add)
     def set_reverb(self, roomsize=-1.0, damping=-1.0, width=-1.0, level=-1.0):
-        """                                  
-        roomsize Reverb room size value (0.0-1.2)
+        """
+        roomsize Reverb room size value (0.0-1.0)
         damping Reverb damping value (0.0-1.0)
         width Reverb width value (0.0-100.0)
         level Reverb level value (0.0-1.0)
         """
         try:
-            ret=FLUID_OK
-            if roomsize>=0:
-                ret=FLUID_FAILED if self.set_reverb_roomsize(roomsize) == FLUID_FAILED else ret
-            if damping>=0:
-                ret=FLUID_FAILED if self.set_reverb_damping(damping) == FLUID_FAILED else ret
-            if width>=0:
-                ret=FLUID_FAILED if self.set_reverb_width(width) == FLUID_FAILED else ret
-            if level>=0:
-                ret=FLUID_FAILED if self.set_reverb_level(level) == FLUID_FAILED else ret
-            return ret
+            return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
         except NameError:
             set=0
             if roomsize>=0:
@@ -658,18 +663,7 @@ class Synth:
         type Chorus waveform type (0=sine, 1=triangle)
         """
         try:
-            ret=FLUID_OK
-            if nr>=0:
-                ret=FLUID_FAILED if self.set_chorus_nr(nr) == FLUID_FAILED else ret
-            if level>=0:
-                ret=FLUID_FAILED if self.set_chorus_level(level) == FLUID_FAILED else ret
-            if speed>=0:
-                ret=FLUID_FAILED if self.set_chorus_speed(speed) == FLUID_FAILED else ret
-            if depth>=0:
-                ret=FLUID_FAILED if self.set_chorus_depth(depth) == FLUID_FAILED else ret
-            if type>=0:
-                ret=FLUID_FAILED if self.set_chorus_type(type) == FLUID_FAILED else ret
-            return ret
+            return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
         except NameError:
             set=0
             if nr>=0:
