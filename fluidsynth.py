@@ -112,6 +112,21 @@ fluid_synth_program_select = cfunc('fluid_synth_program_select', c_int,
                                    ('bank', c_int, 1),
                                    ('preset', c_int, 1))
 
+fluid_synth_unset_program = cfunc('fluid_synth_unset_program', c_int,
+                                   ('synth', c_void_p, 1),
+                                   ('chan', c_int, 1))
+
+fluid_synth_get_program = cfunc('fluid_synth_get_program', c_int,
+                                ('synth', c_void_p, 1),
+                                ('chan', c_int, 1),
+                                ('sfont_id', POINTER(c_int), 1),
+                                ('bank_num', POINTER(c_int), 1),
+                                ('preset_num', POINTER(c_int), 1))
+                                
+fluid_synth_get_sfont_by_id = cfunc('fluid_synth_get_sfont_by_id', c_void_p,
+                                    ('synth', c_void_p, 1),
+                                    ('id', c_int, 1))
+
 fluid_synth_noteon = cfunc('fluid_synth_noteon', c_int,
                            ('synth', c_void_p, 1),
                            ('chan', c_int, 1),
@@ -216,13 +231,6 @@ try:
                                    ('synth', c_void_p, 1),
                                    ('router', c_void_p, 1))
 
-    fluid_synth_get_program = cfunc('fluid_synth_get_program', c_int,
-                                    ('synth', c_void_p, 1),
-                                    ('chan', c_int, 1),
-                                    ('sfont_id', POINTER(c_int), 1),
-                                    ('bank_num', POINTER(c_int), 1),
-                                    ('preset_num', POINTER(c_int), 1))
-                                    
     fluid_preset_get_name = cfunc('fluid_preset_get_name', c_char_p,
                                   ('preset', c_void_p, 1))
 
@@ -230,10 +238,6 @@ try:
                                    ('sfont', c_void_p, 1),
                                    ('banknum', c_int, 1),
                                    ('prognum', c_int, 1))
-
-    fluid_synth_get_sfont_by_id = cfunc('fluid_synth_get_sfont_by_id', c_void_p,
-                                        ('synth', c_void_p, 1),
-                                        ('id', c_int, 1))
 
     fluid_synth_get_chorus_speed = cfunc('fluid_synth_get_chorus_speed', c_double,
                                          ('synth', c_void_p, 1))
@@ -548,11 +552,13 @@ class Synth:
     def program_select(self, chan, sfid, bank, preset):
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
+    def program_unset(self, chan):
+        """Set the preset of a MIDI channel to an unassigned state"""
+        return fluid_synth_unset_program(self.synth, chan)
     def channel_info(self, chan):
         """
         get soundfont, bank, prog, preset name of channel
         superceded by program_info and sfpreset_name, included for backwards-compatibility
-        should maybe be deprecated as there's a good chance I'm the only one who used it
         """
         try:
             info=fluid_synth_channel_info_t()
