@@ -71,6 +71,11 @@ FLUID_FAILED = -1
 # fluid settings
 new_fluid_settings = cfunc('new_fluid_settings', c_void_p)
 
+fluid_settings_getint = cfunc('fluid_settings_getint', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1),
+                              ('val', POINTER(c_int), 1))
+
 fluid_settings_setstr = cfunc('fluid_settings_setstr', c_int,
                               ('settings', c_void_p, 1),
                               ('name', c_char_p, 1),
@@ -617,6 +622,11 @@ class Synth:
             fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
             fluid_settings_setnum(self.settings, opt, val)
+    def settings_getint(self, opt):
+        opt = opt.encode()
+        val = c_int()
+        res = fluid_settings_getint(self.settings, opt, val)
+        return val.value if res != 0 else None
     def start(self, driver=None, device=None, midi_driver=None):
         """Start audio output driver in separate background thread
 
