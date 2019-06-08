@@ -602,14 +602,13 @@ class Synth:
         samplerate : output samplerate in Hz, default is 44100 Hz
         added capability for passing arbitrary fluid settings using args
         """
-        st = new_fluid_settings()
-        fluid_settings_setnum(st, b'synth.gain', gain)
-        fluid_settings_setnum(st, b'synth.sample-rate', samplerate)
-        fluid_settings_setint(st, b'synth.midi-channels', channels)
-        for opt,val in iteritems(kwargs):
+        self.settings = new_fluid_settings()
+        fluid_settings_setnum(self.settings, b'synth.gain', gain)
+        fluid_settings_setnum(self.settings, b'synth.sample-rate', samplerate)
+        fluid_settings_setint(self.settings, b'synth.midi-channels', channels)
+        for opt, val in iteritems(kwargs):
             self.setting(opt, val)
-        self.settings = st
-        self.synth = new_fluid_synth(st)
+        self.synth = new_fluid_synth(self.settings)
         self.audio_driver = None
         self.midi_driver = None
         self.router = None
