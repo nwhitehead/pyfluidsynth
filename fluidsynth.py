@@ -177,6 +177,10 @@ fluid_synth_program_reset = cfunc('fluid_synth_program_reset', c_int,
 fluid_synth_system_reset = cfunc('fluid_synth_system_reset', c_int,
                                   ('synth', c_void_p, 1))
 
+fluid_synth_all_notes_off = cfunc('fluid_synth_all_notes_off', c_int,
+                                  ('synth', c_void_p, 1),
+                                  ('chan', c_int, 1))
+
 fluid_synth_write_s16 = cfunc('fluid_synth_write_s16', c_void_p,
                               ('synth', c_void_p, 1),
                               ('len', c_int, 1),
@@ -874,6 +878,9 @@ class Synth:
     def system_reset(self):
         """Stop all notes and reset all programs"""
         return fluid_synth_system_reset(self.synth)
+    def all_notes_off(self, chan):
+        """Turn off all notes on a MIDI channel (put them into release phase)."""
+        return fluid_synth_all_notes_off(self.synth, chan)
     def get_samples(self, len=1024):
         """Generate audio samples
 
