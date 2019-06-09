@@ -33,17 +33,17 @@ from six import binary_type, iteritems, text_type
 
 
 # Bump this up when changing the interface for users
-api_version = '1.3'
+api_version = '2.0'
 # Function call result
 FLUID_OK = 0
 FLUID_FAILED = -1
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
-
-lib = find_library('fluidsynth') or \
-    find_library('libfluidsynth') or \
-    find_library('libfluidsynth-1')
+lib = (find_library('fluidsynth') or
+       find_library('libfluidsynth') or
+       find_library('libfluidsynth-2') or
+       find_library('libfluidsynth-1'))
 
 if lib is None:
     raise ImportError("Couldn't find the FluidSynth library.")
@@ -63,411 +63,373 @@ def cfunc(name, result, *args):
     return CFUNCTYPE(result, *atypes)((name, _fl), tuple(aflags))
 
 
-# Bump this up when changing the interface for users
-api_version = '1.3'
-
 # Function prototypes for C versions of functions
 
-FLUID_OK = 0
-FLUID_FAILED = -1
-
 # fluid settings
-new_fluid_settings = cfunc('new_fluid_settings', c_void_p)
-
-fluid_settings_getint = cfunc('fluid_settings_getint', c_int,
-                              ('settings', c_void_p, 1),
-                              ('name', c_char_p, 1),
-                              ('val', POINTER(c_int), 1))
-
-fluid_settings_setstr = cfunc('fluid_settings_setstr', c_int,
-                              ('settings', c_void_p, 1),
-                              ('name', c_char_p, 1),
-                              ('str', c_char_p, 1))
-
-fluid_settings_setnum = cfunc('fluid_settings_setnum', c_int,
-                              ('settings', c_void_p, 1),
-                              ('name', c_char_p, 1),
-                              ('val', c_double, 1))
-
-fluid_settings_setint = cfunc('fluid_settings_setint', c_int,
-                              ('settings', c_void_p, 1),
-                              ('name', c_char_p, 1),
-                              ('val', c_int, 1))
-
-delete_fluid_settings = cfunc('delete_fluid_settings', None,
-                              ('settings', c_void_p, 1))
+new_fluid_settings = cfunc(
+    'new_fluid_settings',
+    c_void_p)
+fluid_settings_setstr = cfunc(
+    'fluid_settings_setstr',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('str', c_char_p, 1))
+fluid_settings_setnum = cfunc(
+    'fluid_settings_setnum',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('val', c_double, 1))
+fluid_settings_setint = cfunc(
+    'fluid_settings_setint',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('val', c_int, 1))
+delete_fluid_settings = cfunc(
+    'delete_fluid_settings',
+    None,
+    ('settings', c_void_p, 1))
 
 # fluid synth
-new_fluid_synth = cfunc('new_fluid_synth', c_void_p,
-                        ('settings', c_void_p, 1))
+new_fluid_synth = cfunc(
+    'new_fluid_synth',
+    c_void_p,
+    ('settings', c_void_p, 1))
+delete_fluid_synth = cfunc(
+    'delete_fluid_synth',
+    None,
+    ('synth', c_void_p, 1))
+# soundfont handling
+fluid_synth_sfload = cfunc(
+    'fluid_synth_sfload',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('filename', c_char_p, 1),
+    ('update_midi_presets', c_int, 1))
+fluid_synth_sfunload = cfunc(
+    'fluid_synth_sfunload',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('sfid', c_int, 1),
+    ('update_midi_presets', c_int, 1))
+fluid_synth_get_sfont_by_id = cfunc(
+    'fluid_synth_get_sfont_by_id',
+    c_void_p,
+    ('synth', c_void_p, 1),
+    ('id', c_int, 1))
+fluid_synth_sfont_select = cfunc(
+    'fluid_synth_sfont_select',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('sfid', c_int, 1))
+# MIDI program handling
+fluid_synth_program_select = cfunc(
+    'fluid_synth_program_select',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('sfid', c_int, 1),
+    ('bank', c_int, 1),
+    ('preset', c_int, 1))
+fluid_synth_unset_program = cfunc(
+    'fluid_synth_unset_program',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1))
+fluid_synth_get_program = cfunc(
+    'fluid_synth_get_program',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('sfont_id', POINTER(c_int), 1),
+    ('bank_num', POINTER(c_int), 1),
+    ('preset_num', POINTER(c_int), 1))
+# MIDI events
+fluid_synth_noteon = cfunc(
+    'fluid_synth_noteon',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('key', c_int, 1),
+    ('vel', c_int, 1))
+fluid_synth_noteoff = cfunc(
+    'fluid_synth_noteoff',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('key', c_int, 1))
+fluid_synth_pitch_bend = cfunc(
+    'fluid_synth_pitch_bend',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('val', c_int, 1))
+fluid_synth_cc = cfunc(
+    'fluid_synth_cc',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('ctrl', c_int, 1),
+    ('val', c_int, 1))
+fluid_synth_get_cc = cfunc(
+    'fluid_synth_get_cc',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('num', c_int, 1),
+    ('pval', POINTER(c_int), 1))
+fluid_synth_program_change = cfunc(
+    'fluid_synth_program_change',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('prg', c_int, 1))
+fluid_synth_bank_select = cfunc(
+    'fluid_synth_bank_select',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1),
+    ('bank', c_int, 1))
+fluid_synth_all_notes_off = cfunc(
+    'fluid_synth_all_notes_off',
+    c_int,
+    ('synth', c_void_p, 1),
+    ('chan', c_int, 1))
+# reset functions
+fluid_synth_program_reset = cfunc(
+    'fluid_synth_program_reset',
+    c_int,
+    ('synth', c_void_p, 1))
+fluid_synth_system_reset = cfunc(
+    'fluid_synth_system_reset',
+    c_int,
+    ('synth', c_void_p, 1))
+# misc
+fluid_synth_write_s16 = cfunc(
+    'fluid_synth_write_s16',
+    c_void_p,
+    ('synth', c_void_p, 1),
+    ('len', c_int, 1),
+    ('lbuf', c_void_p, 1),
+    ('loff', c_int, 1),
+    ('lincr', c_int, 1),
+    ('rbuf', c_void_p, 1),
+    ('roff', c_int, 1),
+    ('rincr', c_int, 1))
+fluid_synth_handle_midi_event = cfunc(
+    'fluid_synth_handle_midi_event',
+    POINTER(c_int),
+    ('data', c_void_p, 1),
+    ('event', c_void_p, 1))
 
-delete_fluid_synth = cfunc('delete_fluid_synth', None,
-                           ('synth', c_void_p, 1))
+# reverb
+fluid_synth_get_reverb_roomsize = cfunc(
+    'fluid_synth_get_reverb_roomsize',
+    c_double,
+    ('synth', c_void_p, 1))
+fluid_synth_get_reverb_damp = cfunc(
+    'fluid_synth_get_reverb_damp',
+    c_double,
+    ('synth', c_void_p, 1))
+fluid_synth_get_reverb_level = cfunc(
+    'fluid_synth_get_reverb_level',
+    c_double,
+    ('synth', c_void_p, 1))
+fluid_synth_get_reverb_width = cfunc(
+    'fluid_synth_get_reverb_width',
+    c_double,
+    ('synth', c_void_p, 1))
 
-fluid_synth_sfload = cfunc('fluid_synth_sfload', c_int,
-                           ('synth', c_void_p, 1),
-                           ('filename', c_char_p, 1),
-                           ('update_midi_presets', c_int, 1))
-
-fluid_synth_sfunload = cfunc('fluid_synth_sfunload', c_int,
-                           ('synth', c_void_p, 1),
-                           ('sfid', c_int, 1),
-                           ('update_midi_presets', c_int, 1))
-
-fluid_synth_program_select = cfunc('fluid_synth_program_select', c_int,
-                                   ('synth', c_void_p, 1),
-                                   ('chan', c_int, 1),
-                                   ('sfid', c_int, 1),
-                                   ('bank', c_int, 1),
-                                   ('preset', c_int, 1))
-
-fluid_synth_unset_program = cfunc('fluid_synth_unset_program', c_int,
-                                   ('synth', c_void_p, 1),
-                                   ('chan', c_int, 1))
-
-fluid_synth_get_program = cfunc('fluid_synth_get_program', c_int,
-                                ('synth', c_void_p, 1),
-                                ('chan', c_int, 1),
-                                ('sfont_id', POINTER(c_int), 1),
-                                ('bank_num', POINTER(c_int), 1),
-                                ('preset_num', POINTER(c_int), 1))
-
-fluid_synth_get_sfont_by_id = cfunc('fluid_synth_get_sfont_by_id', c_void_p,
-                                    ('synth', c_void_p, 1),
-                                    ('id', c_int, 1))
-
-fluid_synth_noteon = cfunc('fluid_synth_noteon', c_int,
-                           ('synth', c_void_p, 1),
-                           ('chan', c_int, 1),
-                           ('key', c_int, 1),
-                           ('vel', c_int, 1))
-
-fluid_synth_noteoff = cfunc('fluid_synth_noteoff', c_int,
-                            ('synth', c_void_p, 1),
-                            ('chan', c_int, 1),
-                            ('key', c_int, 1))
-
-fluid_synth_pitch_bend = cfunc('fluid_synth_pitch_bend', c_int,
-                               ('synth', c_void_p, 1),
-                               ('chan', c_int, 1),
-                               ('val', c_int, 1))
-
-fluid_synth_cc = cfunc('fluid_synth_cc', c_int,
-                       ('synth', c_void_p, 1),
-                       ('chan', c_int, 1),
-                       ('ctrl', c_int, 1),
-                       ('val', c_int, 1))
-
-fluid_synth_get_cc = cfunc('fluid_synth_get_cc', c_int,
-                       ('synth', c_void_p, 1),
-                       ('chan', c_int, 1),
-                       ('num', c_int, 1),
-                       ('pval', POINTER(c_int), 1))
-
-fluid_synth_program_change = cfunc('fluid_synth_program_change', c_int,
-                                   ('synth', c_void_p, 1),
-                                   ('chan', c_int, 1),
-                                   ('prg', c_int, 1))
-
-fluid_synth_bank_select = cfunc('fluid_synth_bank_select', c_int,
-                                ('synth', c_void_p, 1),
-                                ('chan', c_int, 1),
-                                ('bank', c_int, 1))
-
-fluid_synth_sfont_select = cfunc('fluid_synth_sfont_select', c_int,
-                                 ('synth', c_void_p, 1),
-                                 ('chan', c_int, 1),
-                                 ('sfid', c_int, 1))
-
-fluid_synth_program_reset = cfunc('fluid_synth_program_reset', c_int,
-                                  ('synth', c_void_p, 1))
-
-fluid_synth_system_reset = cfunc('fluid_synth_system_reset', c_int,
-                                  ('synth', c_void_p, 1))
-
-fluid_synth_all_notes_off = cfunc('fluid_synth_all_notes_off', c_int,
-                                  ('synth', c_void_p, 1),
-                                  ('chan', c_int, 1))
-
-fluid_synth_write_s16 = cfunc('fluid_synth_write_s16', c_void_p,
-                              ('synth', c_void_p, 1),
-                              ('len', c_int, 1),
-                              ('lbuf', c_void_p, 1),
-                              ('loff', c_int, 1),
-                              ('lincr', c_int, 1),
-                              ('rbuf', c_void_p, 1),
-                              ('roff', c_int, 1),
-                              ('rincr', c_int, 1))
-
-# fluid audio driver
-new_fluid_audio_driver = cfunc('new_fluid_audio_driver', c_void_p,
-                               ('settings', c_void_p, 1),
-                               ('synth', c_void_p, 1))
-
-delete_fluid_audio_driver = cfunc('delete_fluid_audio_driver', None,
-                                  ('driver', c_void_p, 1))
-
-# fluid midi driver
-new_fluid_midi_driver = cfunc('new_fluid_midi_driver', c_void_p,
-                               ('settings', c_void_p, 1),
-                               ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
-                               ('event_handler_data', c_void_p, 1))
-
-
-class fluid_midi_router_t(Structure):
-    _fields_ = [
-        ('synth', c_void_p),
-        ('rules_mutex', c_void_p),
-        ('rules', c_void_p*6),
-        ('free_rules', c_void_p),
-        ('event_handler', c_void_p),
-        ('event_handler_data', c_void_p),
-        ('nr_midi_channels', c_int),
-        ('cmd_rule', c_void_p),
-        ('cmd_rule_type', POINTER(c_int))]
-
-
-new_fluid_midi_router = cfunc('new_fluid_midi_router', POINTER(fluid_midi_router_t),
-                               ('settings', c_void_p, 1),
-                               ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
-                               ('event_handler_data', c_void_p, 1))
-
-fluid_midi_router_handle_midi_event = cfunc('fluid_midi_router_handle_midi_event', POINTER(c_int),
-                               ('data', c_void_p, 1),
-                               ('event', c_void_p, 1))
-
-fluid_synth_handle_midi_event = cfunc('fluid_synth_handle_midi_event', POINTER(c_int),
-                               ('data', c_void_p, 1),
-                               ('event', c_void_p, 1))
-
-# some hacks for compatibility with fluidsynth <2
 try:
-    new_fluid_cmd_handler=cfunc('new_fluid_cmd_handler', c_void_p,
-                                   ('synth', c_void_p, 1),
-                                   ('router', c_void_p, 1))
-
-    fluid_preset_get_name = cfunc('fluid_preset_get_name', c_char_p,
-                                  ('preset', c_void_p, 1))
-
-    fluid_sfont_get_preset = cfunc('fluid_sfont_get_preset', c_void_p,
-                                   ('sfont', c_void_p, 1),
-                                   ('banknum', c_int, 1),
-                                   ('prognum', c_int, 1))
-
-    fluid_synth_set_reverb_roomsize = cfunc('fluid_synth_set_reverb_roomsize', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('roomsize', c_double, 1))
-
-    fluid_synth_set_reverb_damp = cfunc('fluid_synth_set_reverb_damp', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('damping', c_double, 1))
-
-    fluid_synth_set_reverb_level = cfunc('fluid_synth_set_reverb_level', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('level', c_double, 1))
-
-    fluid_synth_set_reverb_width = cfunc('fluid_synth_set_reverb_width', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('width', c_double, 1))
-
-    fluid_synth_set_chorus_nr = cfunc('fluid_synth_set_chorus_nr', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('nr', c_int, 1))
-
-    fluid_synth_set_chorus_level = cfunc('fluid_synth_set_chorus_level', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('level', c_double, 1))
-
-    fluid_synth_set_chorus_type = cfunc('fluid_synth_set_chorus_type', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('type', c_int, 1))
-
-    fluid_synth_set_chorus_speed = cfunc('fluid_synth_set_chorus_speed', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('speed', c_double, 1))
-
-    fluid_synth_set_chorus_depth = cfunc('fluid_synth_set_chorus_depth', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('depth', c_double, 1))
-
-    fluid_synth_set_reverb = cfunc('fluid_synth_set_reverb', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('roomsize', c_double, 1),
-                                        ('damping', c_double, 1),
-                                        ('width', c_double, 1),
-                                        ('level', c_double, 1))
-
-    fluid_synth_set_chorus = cfunc('fluid_synth_set_chorus', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('nr', c_int, 1),
-                                        ('level', c_double, 1),
-                                        ('speed', c_double, 1),
-                                        ('depth_ms', c_double, 1),
-                                        ('type', c_int, 1))
-
-    fluid_synth_get_chorus_speed = cfunc('fluid_synth_get_chorus_speed', c_double,
-                                         ('synth', c_void_p, 1))
-
-    fluid_synth_get_chorus_depth = cfunc('fluid_synth_get_chorus_depth', c_double,
-                                         ('synth', c_void_p, 1))
+    fluid_synth_set_reverb = cfunc(
+        'fluid_synth_set_reverb',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('roomsize', c_double, 1),
+        ('damping', c_double, 1),
+        ('width', c_double, 1),
+        ('level', c_double, 1))
 except AttributeError:
-    fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
-                                   ('synth', c_void_p, 1),
-                                   ('router', c_void_p, 1))
+    fluid_synth_set_reverb_full = cfunc(
+        'fluid_synth_set_reverb_full',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('set', c_int, 1),
+        ('roomsize', c_double, 1),
+        ('damping', c_double, 1),
+        ('width', c_double, 1),
+        ('level', c_double, 1))
+    fluid_synth_set_reverb = None
 
+# Handle fluidsynth >= 2.0 API changes
+try:
+    fluid_synth_set_reverb_roomsize = cfunc(
+        'fluid_synth_set_reverb_roomsize',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('roomsize', c_double, 1))
+    fluid_synth_set_reverb_damp = cfunc(
+        'fluid_synth_set_reverb_damp',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('damping', c_double, 1))
+    fluid_synth_set_reverb_level = cfunc(
+        'fluid_synth_set_reverb_level',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('level', c_double, 1))
+    fluid_synth_set_reverb_width = cfunc(
+        'fluid_synth_set_reverb_width',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('width', c_double, 1))
+except AttributeError:
+    fluid_synth_set_reverb_roomsize = None
+    fluid_synth_set_reverb_damp = None
+    fluid_synth_set_reverb_level = None
+    fluid_synth_set_reverb_width = None
 
+# chorus
+fluid_synth_get_chorus_nr = cfunc(
+    'fluid_synth_get_chorus_nr',
+    c_int,
+    ('synth', c_void_p, 1))
+fluid_synth_get_chorus_level = cfunc(
+    'fluid_synth_get_chorus_level',
+    c_double,
+    ('synth', c_void_p, 1))
+fluid_synth_get_chorus_type = cfunc(
+    'fluid_synth_get_chorus_type',
+    c_int,
+    ('synth', c_void_p, 1))
+
+try:
+    fluid_synth_set_chorus = cfunc(
+        'fluid_synth_set_chorus',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('nr', c_int, 1),
+        ('level', c_double, 1),
+        ('speed', c_double, 1),
+        ('depth_ms', c_double, 1),
+        ('type', c_int, 1))
+except AttributeError:
+    fluid_synth_set_chorus_full = cfunc(
+        'fluid_synth_set_chorus_full',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('set', c_int, 1),
+        ('nr', c_int, 1),
+        ('level', c_double, 1),
+        ('speed', c_double, 1),
+        ('depth_ms', c_double, 1),
+        ('type', c_int, 1))
+    fluid_synth_set_chorus = None
+
+# Handle fluidsynth >= 2.0 API changes
+try:
+    fluid_synth_set_chorus_nr = cfunc(
+        'fluid_synth_set_chorus_nr',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('nr', c_int, 1))
+    fluid_synth_set_chorus_level = cfunc(
+        'fluid_synth_set_chorus_level',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('level', c_double, 1))
+    fluid_synth_set_chorus_type = cfunc(
+        'fluid_synth_set_chorus_type',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('type', c_int, 1))
+    fluid_synth_set_chorus_speed = cfunc(
+        'fluid_synth_set_chorus_speed',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('speed', c_double, 1))
+    fluid_synth_set_chorus_depth = cfunc(
+        'fluid_synth_set_chorus_depth',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('depth', c_double, 1))
+    fluid_synth_get_chorus_speed = fluid_synth_get_chorus_speed_Hz = cfunc(
+        'fluid_synth_get_chorus_speed',
+        c_double,
+        ('synth', c_void_p, 1))
+    fluid_synth_get_chorus_depth = fluid_synth_get_chorus_depth_ms = cfunc(
+        'fluid_synth_get_chorus_depth',
+        c_double,
+        ('synth', c_void_p, 1))
+except AttributeError:
+    fluid_synth_get_chorus_speed = fluid_synth_get_chorus_speed_Hz = cfunc(
+        'fluid_synth_get_chorus_speed_Hz',
+        c_double,
+        ('synth', c_void_p, 1))
+    fluid_synth_get_chorus_depth = fluid_synth_get_chorus_depth_ms = cfunc(
+        'fluid_synth_get_chorus_depth_ms',
+        c_double,
+        ('synth', c_void_p, 1))
+
+try:
+    fluid_synth_set_midi_router = cfunc(
+        'fluid_synth_set_midi_router',
+        None,
+        ('synth', c_void_p, 1),
+        ('router', c_void_p, 1))
+except AttributeError:
+    # fluidsynth >= 2.0
+    fluid_synth_set_midi_router = None
+
+try:
     class fluid_synth_channel_info_t(Structure):
         _fields_ = [
             ('assigned', c_int),
             ('sfont_id', c_int),
             ('bank', c_int),
             ('program', c_int),
-            ('name', c_char*32),
-            ('reserved', c_char*32)]
+            ('name', c_char * 32),
+            ('reserved', c_char * 32)]
 
-    fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
-                                      ('synth', c_void_p, 1),
-                                      ('chan', c_int, 1),
-                                      ('info', POINTER(fluid_synth_channel_info_t), 1))
-
-    fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('set', c_int, 1),
-                                        ('roomsize', c_double, 1),
-                                        ('damping', c_double, 1),
-                                        ('width', c_double, 1),
-                                        ('level', c_double, 1))
-
-    fluid_synth_set_chorus_full = cfunc('fluid_synth_set_chorus_full', c_int,
-                                        ('synth', c_void_p, 1),
-                                        ('set', c_int, 1),
-                                        ('nr', c_int, 1),
-                                        ('level', c_double, 1),
-                                        ('speed', c_double, 1),
-                                        ('depth_ms', c_double, 1),
-                                        ('type', c_int, 1))
-
-    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
-                                        ('synth', c_void_p, 1))
-
-    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
-                                        ('synth', c_void_p, 1))
-
-fluid_synth_get_reverb_roomsize = cfunc('fluid_synth_get_reverb_roomsize', c_double,
-                                    ('synth', c_void_p, 1))
-
-fluid_synth_get_reverb_damp = cfunc('fluid_synth_get_reverb_damp', c_double,
-                                    ('synth', c_void_p, 1))
-
-fluid_synth_get_reverb_level = cfunc('fluid_synth_get_reverb_level', c_double,
-                                    ('synth', c_void_p, 1))
-
-fluid_synth_get_reverb_width = cfunc('fluid_synth_get_reverb_width', c_double,
-                                    ('synth', c_void_p, 1))
-
-fluid_synth_get_chorus_nr = cfunc('fluid_synth_get_chorus_nr', c_int,
-                                    ('synth', c_void_p, 1))
-
-fluid_synth_get_chorus_level = cfunc('fluid_synth_get_chorus_level', c_double,
-                                    ('synth', c_void_p, 1))
-
-fluid_synth_get_chorus_type = cfunc('fluid_synth_get_chorus_type', c_int,
-                                    ('synth', c_void_p, 1))
-
-# fluid sequencer
-new_fluid_sequencer2 = cfunc('new_fluid_sequencer2', c_void_p,
-                             ('use_system_timer', c_int, 1))
-
-fluid_sequencer_process = cfunc('fluid_sequencer_process', None,
-                               ('seq', c_void_p, 1),
-                               ('msec', c_uint, 1))
-
-fluid_sequencer_register_fluidsynth = cfunc('fluid_sequencer_register_fluidsynth', c_short,
-                               ('seq', c_void_p, 1),
-                               ('synth', c_void_p, 1))
-
-fluid_sequencer_register_client = cfunc('fluid_sequencer_register_client', c_short,
-                              ('seq', c_void_p, 1),
-                              ('name', c_char_p, 1),
-                              ('callback', CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p), 1),
-                              ('data', c_void_p, 1))
-
-fluid_sequencer_get_tick = cfunc('fluid_sequencer_get_tick', c_uint,
-                                ('seq', c_void_p, 1))
-
-fluid_sequencer_set_time_scale = cfunc('fluid_sequencer_set_time_scale', None,
-                                      ('seq', c_void_p, 1),
-                                      ('scale', c_double, 1))
-
-fluid_sequencer_get_time_scale = cfunc('fluid_sequencer_get_time_scale', c_double,
-                                      ('seq', c_void_p, 1))
-
-fluid_sequencer_send_at = cfunc('fluid_sequencer_send_at', c_int,
-                               ('seq', c_void_p, 1),
-                               ('evt', c_void_p, 1),
-                               ('time', c_uint, 1),
-                               ('absolute', c_int, 1))
-
-delete_fluid_sequencer = cfunc('delete_fluid_sequencer', None,
-                              ('seq', c_void_p, 1))
-
-# fluid event
-new_fluid_event = cfunc('new_fluid_event', c_void_p)
-
-fluid_event_set_source = cfunc('fluid_event_set_source', None,
-                              ('evt', c_void_p, 1),
-                              ('src', c_void_p, 1))
-
-fluid_event_set_dest = cfunc('fluid_event_set_dest', None,
-                            ('evt', c_void_p, 1),
-                            ('dest', c_void_p, 1))
-
-fluid_event_timer = cfunc('fluid_event_timer', None,
-                         ('evt', c_void_p, 1),
-                         ('data', c_void_p, 1))
-
-fluid_event_note = cfunc('fluid_event_note', None,
-                         ('evt', c_void_p, 1),
-                         ('channel', c_int, 1),
-                         ('key', c_short, 1),
-                         ('vel', c_short, 1),
-                         ('duration', c_uint, 1))
-
-fluid_event_noteon = cfunc('fluid_event_noteon', None,
-                         ('evt', c_void_p, 1),
-                         ('channel', c_int, 1),
-                         ('key', c_short, 1),
-                         ('vel', c_short, 1))
-
-fluid_event_noteoff = cfunc('fluid_event_noteoff', None,
-                         ('evt', c_void_p, 1),
-                         ('channel', c_int, 1),
-                         ('key', c_short, 1))
-
-delete_fluid_event = cfunc('delete_fluid_event', None,
-                          ('evt', c_void_p, 1))
+    fluid_synth_get_channel_info = cfunc(
+        'fluid_synth_get_channel_info',
+        c_int,
+        ('synth', c_void_p, 1),
+        ('chan', c_int, 1),
+        ('info', POINTER(fluid_synth_channel_info_t), 1))
+except AttributeError:
+    fluid_synth_get_channel_info = None
+    del fluid_synth_channel_info_t
 
 # fluid audio driver
-new_fluid_audio_driver = cfunc('new_fluid_audio_driver', c_void_p,
-                               ('settings', c_void_p, 1),
-                               ('synth', c_void_p, 1))
-
-delete_fluid_audio_driver = cfunc('delete_fluid_audio_driver', None,
-                                  ('driver', c_void_p, 1))
+new_fluid_audio_driver = cfunc(
+    'new_fluid_audio_driver',
+    c_void_p,
+    ('settings', c_void_p, 1),
+    ('synth', c_void_p, 1))
+delete_fluid_audio_driver = cfunc(
+    'delete_fluid_audio_driver',
+    None,
+    ('driver', c_void_p, 1))
 
 # fluid midi driver
-new_fluid_midi_driver = cfunc('new_fluid_midi_driver', c_void_p,
-                               ('settings', c_void_p, 1),
-                               ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
-                               ('event_handler_data', c_void_p, 1))
+new_fluid_midi_driver = cfunc(
+    'new_fluid_midi_driver',
+    c_void_p,
+    ('settings', c_void_p, 1),
+    ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
+    ('event_handler_data', c_void_p, 1))
 
 
-# fluid midi router rule
+# fluid midi router
 class fluid_midi_router_t(Structure):
     _fields_ = [
         ('synth', c_void_p),
         ('rules_mutex', c_void_p),
-        ('rules', c_void_p*6),
+        ('rules', c_void_p * 6),
         ('free_rules', c_void_p),
         ('event_handler', c_void_p),
         ('event_handler_data', c_void_p),
@@ -476,109 +438,225 @@ class fluid_midi_router_t(Structure):
         ('cmd_rule_type', POINTER(c_int))]
 
 
-fluid_sequencer_register_fluidsynth = cfunc('fluid_sequencer_register_fluidsynth', c_short,
-                               ('seq', c_void_p, 1),
-                               ('synth', c_void_p, 1))
-
-fluid_sequencer_register_client = cfunc('fluid_sequencer_register_client', c_short,
-                              ('seq', c_void_p, 1),
-                              ('name', c_char_p, 1),
-                              ('callback', CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p), 1),
-                              ('data', c_void_p, 1))
-
-fluid_sequencer_get_tick = cfunc('fluid_sequencer_get_tick', c_uint,
-                                ('seq', c_void_p, 1))
-
-fluid_sequencer_set_time_scale = cfunc('fluid_sequencer_set_time_scale', None,
-                                      ('seq', c_void_p, 1),
-                                      ('scale', c_double, 1))
-
-fluid_sequencer_get_time_scale = cfunc('fluid_sequencer_get_time_scale', c_double,
-                                      ('seq', c_void_p, 1))
-
-fluid_sequencer_send_at = cfunc('fluid_sequencer_send_at', c_int,
-                               ('seq', c_void_p, 1),
-                               ('evt', c_void_p, 1),
-                               ('time', c_uint, 1),
-                               ('absolute', c_int, 1))
-
-delete_fluid_sequencer = cfunc('delete_fluid_sequencer', None,
-                              ('seq', c_void_p, 1))
-
-# fluid event
-new_fluid_event = cfunc('new_fluid_event', c_void_p)
-
-fluid_event_set_source = cfunc('fluid_event_set_source', None,
-                              ('evt', c_void_p, 1),
-                              ('src', c_void_p, 1))
-
-fluid_event_set_dest = cfunc('fluid_event_set_dest', None,
-                            ('evt', c_void_p, 1),
-                            ('dest', c_void_p, 1))
-
-fluid_event_timer = cfunc('fluid_event_timer', None,
-                         ('evt', c_void_p, 1),
-                         ('data', c_void_p, 1))
-
-fluid_event_note = cfunc('fluid_event_note', None,
-                         ('evt', c_void_p, 1),
-                         ('channel', c_int, 1),
-                         ('key', c_short, 1),
-                         ('vel', c_short, 1),
-                         ('duration', c_uint, 1))
-
-fluid_event_noteon = cfunc('fluid_event_noteon', None,
-                         ('evt', c_void_p, 1),
-                         ('channel', c_int, 1),
-                         ('key', c_short, 1),
-                         ('vel', c_short, 1))
-
-fluid_event_noteoff = cfunc('fluid_event_noteoff', None,
-                         ('evt', c_void_p, 1),
-                         ('channel', c_int, 1),
-                         ('key', c_short, 1))
-
-delete_fluid_event = cfunc('delete_fluid_event', None,
-                          ('evt', c_void_p, 1))
+new_fluid_midi_router = cfunc(
+    'new_fluid_midi_router',
+    POINTER(fluid_midi_router_t),
+    ('settings', c_void_p, 1),
+    ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
+    ('event_handler_data', c_void_p, 1))
+fluid_midi_router_handle_midi_event = cfunc(
+    'fluid_midi_router_handle_midi_event',
+    POINTER(c_int),
+    ('data', c_void_p, 1),
+    ('event', c_void_p, 1))
 
 # fluid midi router rules
-delete_fluid_midi_router_rule = cfunc('delete_fluid_midi_router_rule', c_int,
-                                    ('rule', c_void_p, 1))
+new_fluid_midi_router_rule = cfunc(
+    'new_fluid_midi_router_rule',
+    c_void_p)
+fluid_midi_router_rule_set_chan = cfunc(
+    'fluid_midi_router_rule_set_chan',
+    None,
+    ('rule', c_void_p, 1),
+    ('min', c_int, 1),
+    ('max', c_int, 1),
+    ('mul', c_float, 1),
+    ('add', c_int, 1))
+fluid_midi_router_rule_set_param1 = cfunc(
+    'fluid_midi_router_rule_set_param1',
+    None,
+    ('rule', c_void_p, 1),
+    ('min', c_int, 1),
+    ('max', c_int, 1),
+    ('mul', c_float, 1),
+    ('add', c_int, 1))
+fluid_midi_router_rule_set_param2 = cfunc(
+    'fluid_midi_router_rule_set_param2',
+    None,
+    ('rule', c_void_p, 1),
+    ('min', c_int, 1),
+    ('max', c_int, 1),
+    ('mul', c_float, 1),
+    ('add', c_int, 1))
+fluid_midi_router_clear_rules = cfunc(
+    'fluid_midi_router_clear_rules',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1))
+fluid_midi_router_set_default_rules = cfunc(
+    'fluid_midi_router_set_default_rules',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1))
+fluid_midi_router_add_rule = cfunc(
+    'fluid_midi_router_add_rule',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1),
+    ('rule', c_void_p, 1),
+    ('type', c_int, 1))
+delete_fluid_midi_router_rule = cfunc(
+    'delete_fluid_midi_router_rule',
+    c_int,
+    ('rule', c_void_p, 1))
 
-new_fluid_midi_router_rule = cfunc('new_fluid_midi_router_rule', c_void_p)
+# command handler
+try:
+    new_fluid_cmd_handler = cfunc(
+        'new_fluid_cmd_handler',
+        c_void_p,
+        ('synth', c_void_p, 1),
+        ('router', c_void_p, 1))
+except AttributeError:
+    new_fluid_cmd_handler = cfunc(
+        'new_fluid_cmd_handler',
+        c_void_p,
+        ('synth', c_void_p, 1))
 
-fluid_midi_router_rule_set_chan = cfunc('fluid_midi_router_rule_set_chan', None,
-                                    ('rule', c_void_p, 1),
-                                    ('min', c_int, 1),
-                                    ('max', c_int, 1),
-                                    ('mul', c_float, 1),
-                                    ('add', c_int, 1))
+# preset handling
+try:
+    fluid_preset_get_name = cfunc(
+        'fluid_preset_get_name',
+        c_char_p,
+        ('preset', c_void_p, 1))
+    fluid_sfont_get_preset = cfunc(
+        'fluid_sfont_get_preset',
+        c_void_p,
+        ('sfont', c_void_p, 1),
+        ('banknum', c_int, 1),
+        ('prognum', c_int, 1))
+except AttributeError:
+    fluid_preset_get_name = None
+    fluid_sfont_get_preset = None
 
-fluid_midi_router_rule_set_param1 = cfunc('fluid_midi_router_rule_set_param1', None,
-                                    ('rule', c_void_p, 1),
-                                    ('min', c_int, 1),
-                                    ('max', c_int, 1),
-                                    ('mul', c_float, 1),
-                                    ('add', c_int, 1))
 
-fluid_midi_router_rule_set_param2 = cfunc('fluid_midi_router_rule_set_param2', None,
-                                    ('rule', c_void_p, 1),
-                                    ('min', c_int, 1),
-                                    ('max', c_int, 1),
-                                    ('mul', c_float, 1),
-                                    ('add', c_int, 1))
+# fluid sequencer
+new_fluid_sequencer2 = cfunc(
+    'new_fluid_sequencer2',
+    c_void_p,
+    ('use_system_timer', c_int, 1))
+fluid_sequencer_process = cfunc(
+    'fluid_sequencer_process',
+    None,
+    ('seq', c_void_p, 1),
+    ('msec', c_uint, 1))
+fluid_sequencer_register_fluidsynth = cfunc(
+    'fluid_sequencer_register_fluidsynth',
+    c_short,
+    ('seq', c_void_p, 1),
+    ('synth', c_void_p, 1))
+fluid_sequencer_register_client = cfunc(
+    'fluid_sequencer_register_client',
+    c_short,
+    ('seq', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('callback', CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p), 1),
+    ('data', c_void_p, 1))
+fluid_sequencer_get_tick = cfunc(
+    'fluid_sequencer_get_tick',
+    c_uint,
+    ('seq', c_void_p, 1))
+fluid_sequencer_set_time_scale = cfunc(
+    'fluid_sequencer_set_time_scale',
+    None,
+    ('seq', c_void_p, 1),
+    ('scale', c_double, 1))
+fluid_sequencer_get_time_scale = cfunc(
+    'fluid_sequencer_get_time_scale',
+    c_double,
+    ('seq', c_void_p, 1))
+fluid_sequencer_send_at = cfunc(
+    'fluid_sequencer_send_at',
+    c_int,
+    ('seq', c_void_p, 1),
+    ('evt', c_void_p, 1),
+    ('time', c_uint, 1),
+    ('absolute', c_int, 1))
+delete_fluid_sequencer = cfunc(
+    'delete_fluid_sequencer',
+    None,
+    ('seq', c_void_p, 1))
+fluid_sequencer_register_fluidsynth = cfunc(
+    'fluid_sequencer_register_fluidsynth',
+    c_short,
+    ('seq', c_void_p, 1),
+    ('synth', c_void_p, 1))
+fluid_sequencer_register_client = cfunc(
+    'fluid_sequencer_register_client',
+    c_short,
+    ('seq', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('callback', CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p), 1),
+    ('data', c_void_p, 1))
+fluid_sequencer_get_tick = cfunc(
+    'fluid_sequencer_get_tick',
+    c_uint,
+    ('seq', c_void_p, 1))
+fluid_sequencer_set_time_scale = cfunc(
+    'fluid_sequencer_set_time_scale',
+    None,
+    ('seq', c_void_p, 1),
+    ('scale', c_double, 1))
+fluid_sequencer_get_time_scale = cfunc(
+    'fluid_sequencer_get_time_scale',
+    c_double,
+    ('seq', c_void_p, 1))
+fluid_sequencer_send_at = cfunc(
+    'fluid_sequencer_send_at',
+    c_int,
+    ('seq', c_void_p, 1),
+    ('evt', c_void_p, 1),
+    ('time', c_uint, 1),
+    ('absolute', c_int, 1))
+delete_fluid_sequencer = cfunc(
+    'delete_fluid_sequencer',
+    None,
+    ('seq', c_void_p, 1))
 
-fluid_midi_router_clear_rules = cfunc('fluid_midi_router_clear_rules', c_int,
-                                    ('router', POINTER(fluid_midi_router_t), 1))
+# fluid event
+new_fluid_event = cfunc(
+    'new_fluid_event',
+    c_void_p)
+fluid_event_set_source = cfunc(
+    'fluid_event_set_source',
+    None,
+    ('evt', c_void_p, 1),
+    ('src', c_void_p, 1))
+fluid_event_set_dest = cfunc(
+    'fluid_event_set_dest',
+    None,
+    ('evt', c_void_p, 1),
+    ('dest', c_void_p, 1))
+fluid_event_timer = cfunc(
+    'fluid_event_timer',
+    None,
+    ('evt', c_void_p, 1),
+    ('data', c_void_p, 1))
+fluid_event_note = cfunc(
+    'fluid_event_note',
+    None,
+    ('evt', c_void_p, 1),
+    ('channel', c_int, 1),
+    ('key', c_short, 1),
+    ('vel', c_short, 1),
+    ('duration', c_uint, 1))
+fluid_event_noteon = cfunc(
+    'fluid_event_noteon',
+    None,
+    ('evt', c_void_p, 1),
+    ('channel', c_int, 1),
+    ('key', c_short, 1),
+    ('vel', c_short, 1))
+fluid_event_noteoff = cfunc(
+    'fluid_event_noteoff',
+    None,
+    ('evt', c_void_p, 1),
+    ('channel', c_int, 1),
+    ('key', c_short, 1))
+delete_fluid_event = cfunc(
+    'delete_fluid_event',
+    None,
+    ('evt', c_void_p, 1))
 
-fluid_midi_router_set_default_rules = cfunc('fluid_midi_router_set_default_rules', c_int,
-                                    ('router', POINTER(fluid_midi_router_t), 1))
 
-fluid_midi_router_add_rule = cfunc('fluid_midi_router_add_rule', c_int,
-                                    ('router', POINTER(fluid_midi_router_t), 1),
-                                    ('rule', c_void_p, 1),
-                                    ('type', c_int, 1))
-
+# convenience functions
 
 def fluid_synth_write_s16_stereo(synth, len):
     """Return generated samples in stereo 16-bit format.
@@ -680,12 +758,19 @@ class Synth:
             assert midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare',
                                    'coremidi']
             fluid_settings_setstr(self.settings, b'midi.driver', midi_driver.encode())
-            self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)
-            try:
-                new_fluid_cmd_handler(self.synth, self.router)
-            except NameError:
+            self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event,
+                                                self.synth)
+
+            if fluid_synth_set_midi_router:
                 fluid_synth_set_midi_router(self.synth, self.router)
-            self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
+            else:
+                new_fluid_cmd_handler(self.synth, self.router)
+
+            self.midi_driver = new_fluid_midi_driver(
+                self.settings,
+                fluid_midi_router_handle_midi_event,
+                self.router)
+
     def delete(self):
         if self.audio_driver is not None:
             delete_fluid_audio_driver(self.audio_driver)
@@ -719,9 +804,11 @@ class Synth:
             info = fluid_synth_channel_info_t()  # noqa:F821
             fluid_synth_get_channel_info(self.synth, chan, byref(info))
             return (info.sfont_id, info.bank, info.program, info.name)
-        except NameError:
-            (sfontid, banknum, prognum) = self.program_info(chan)
-            return (sfontid, banknum, prognum, self.sfpreset_name(sfontid, banknum, prognum))
+
+        # fluidsynth-2
+        (sfontid, banknum, prognum) = self.program_info(chan)
+        return (sfontid, banknum, prognum, self.sfpreset_name(sfontid, banknum, prognum))
+
     def program_info(self, chan):
         sfontid = c_int()
         banknum = c_int()
@@ -730,12 +817,15 @@ class Synth:
         return (sfontid.value, banknum.value, prognum.value)
 
     def sfpreset_name(self, sfid, bank, prog):
-        """Return name of a soundfont preset as a pointer to string"""
-        sfont=fluid_synth_get_sfont_by_id(self.synth, sfid)
-        preset=fluid_sfont_get_preset(sfont, bank, prog)
-        if not preset:
-            return None
-        return fluid_preset_get_name(preset).decode('ascii')
+        """Return name of a soundfont preset."""
+        if not fluid_preset_get_name:
+            raise NotImplementedError(
+                "Fluidsynth library does not provide required 'fluid_preset_get_name' function")
+
+        sfont = fluid_synth_get_sfont_by_id(self.synth, sfid)
+        preset = fluid_sfont_get_preset(sfont, bank, prog)
+        return fluid_preset_get_name(preset).decode('ascii') if preset else None
+
     def router_clear(self):
         if self.router is not None:
             fluid_midi_router_clear_rules(self.router)
@@ -798,19 +888,22 @@ class Synth:
         level: Reverb level value (0.0-1.0)
 
         """
-        try:
+        if fluid_synth_set_reverb:
             return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
-        except NameError:
-            set=0
-            if roomsize>=0:
-                set+=0b0001
-            if damping>=0:
-                set+=0b0010
-            if width>=0:
-                set+=0b0100
-            if level>=0:
-                set+=0b1000
-            return fluid_synth_set_reverb_full(self.synth, set, roomsize, damping, width, level)
+
+        # fluidsynth-1
+        mask = 0
+        if roomsize >= 0:
+            mask += 0b0001
+        if damping >= 0:
+            mask += 0b0010
+        if width >= 0:
+            mask += 0b0100
+        if level >= 0:
+            mask += 0b1000
+
+        return fluid_synth_set_reverb_full(self.synth, mask, roomsize, damping, width, level)
+
     def set_chorus(self, nr=-1, level=-1.0, speed=-1.0, depth=-1.0, type=-1):
         """Set chorus parameters.
 
@@ -822,21 +915,24 @@ class Synth:
         type: Chorus waveform type (0=sine, 1=triangle)
 
         """
-        try:
-            return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
-        except NameError:
-            set=0
-            if nr>=0:
-                set+=0b00001
-            if level>=0:
-                set+=0b00010
-            if speed>=0:
-                set+=0b00100
-            if depth>=0:
-                set+=0b01000
-            if type>=0:
-                set+=0b10000
-            return fluid_synth_set_reverb_full(self.synth, set, roomsize, damping, width, level)
+        if fluid_synth_set_chorus:
+            return fluid_synth_set_chorus(self.synth, nr, level, speed, depth, type)
+
+        # fluidsynth-1
+        mask = 0
+        if nr >= 0:
+            mask += 0b00001
+        if level >= 0:
+            mask += 0b00010
+        if speed >= 0:
+            mask += 0b00100
+        if depth >= 0:
+            mask += 0b01000
+        if type >= 0:
+            mask += 0b10000
+
+        return fluid_synth_set_chorus_full(self.synth, mask, nr, level, speed, depth, type)
+
     def set_reverb_roomsize(self, roomsize):
         return fluid_synth_set_reverb_roomsize(self.synth, roomsize)
 
@@ -886,15 +982,11 @@ class Synth:
         return fluid_synth_get_chorus_type(self.synth)
 
     def get_chorus_speed(self):
-        try:
-            return fluid_synth_get_chorus_speed(self.synth)
-        except NameError:
-            return fluid_synth_get_chorus_speed_Hz(self.synth)
+        return fluid_synth_get_chorus_speed(self.synth)
+
     def get_chorus_depth(self):
-        try:
-            return fluid_synth_get_chorus_depth(self.synth)
-        except NameError:
-            return fluid_synth_get_chorus_depth_ms(self.synth)
+        return fluid_synth_get_chorus_depth(self.synth)
+
     def noteon(self, chan, key, vel):
         """Play a note."""
         if key < 0 or key > 128:
