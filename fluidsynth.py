@@ -37,6 +37,12 @@ api_version = '2.0'
 # Function call result
 FLUID_OK = 0
 FLUID_FAILED = -1
+# Settings types
+FLUID_NO_TYPE = -1  # Undefined type
+FLUID_NUM_TYPE = 0  # Numeric (double)
+FLUID_INT_TYPE = 1  # Integer
+FLUID_STR_TYPE = 2  # String
+FLUID_SET_TYPE = 3  # Set of values.
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -69,6 +75,30 @@ def cfunc(name, result, *args):
 new_fluid_settings = cfunc(
     'new_fluid_settings',
     c_void_p)
+fluid_settings_get_type = cfunc(
+    'fluid_settings_get_type',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1))
+fluid_settings_copystr = cfunc(
+    'fluid_settings_copystr',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('str', c_char_p, 1),
+    ('len', c_int, 1))
+fluid_settings_getnum = cfunc(
+    'fluid_settings_getnum',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('val', POINTER(c_double), 1))
+fluid_settings_getint = cfunc(
+    'fluid_settings_getint',
+    c_int,
+    ('settings', c_void_p, 1),
+    ('name', c_char_p, 1),
+    ('val', POINTER(c_int), 1))
 fluid_settings_setstr = cfunc(
     'fluid_settings_setstr',
     c_int,
@@ -708,10 +738,32 @@ class Synth:
         self.audio_driver = None
         self.midi_driver = None
         self.router = None
-    def setting(self, opt, val):
-        """Change an arbitrary synth setting, type-smart."""
+
+    def setting(self, opt, val=None):
+        """Get/Set an arbitrary synth setting, type-smart."""
         opt = opt.encode()
-        if isinstance(val, text_type):
+
+        if val is None:
+            stype = fluid_settings_get_type(self.settings, opt)
+
+            if stype == FLUID_NUM_TYPE:
+                val = c_double()
+                response = fluid_settings_getnum(self.settings, opt, byref(val))
+                return val.value if response == FLUID_OK else None
+            elif stype == FLUID_INT_TYPE:
+                val = c_int()
+                response = fluid_settings_getint(self.settings, opt, byref(val))
+                return val.value if response == FLUID_OK else None
+            elif stype == FLUID_STR_TYPE:
+                data = create_string_buffer(256)
+                response = fluid_settings_copystr(self.settings, opt, data, 256)
+                return data.value.decode() if response == FLUID_OK else None
+            elif stype == FLUID_SET_TYPE:
+                raise NotImplementedError("Getting a setting value of type FLUID_SET_TYPE is not "
+                                          "supported yet.")
+            elif stype == FLUID_NO_TYPE:
+                raise KeyError("Setting '%s' does not exist." % opt.decode())
+        elif isinstance(val, text_type):
             fluid_settings_setstr(self.settings, opt, val.encode())
         elif isinstance(val, binary_type):
             fluid_settings_setstr(self.settings, opt, val)
@@ -719,11 +771,7 @@ class Synth:
             fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
             fluid_settings_setnum(self.settings, opt, val)
-    def settings_getint(self, opt):
-        opt = opt.encode()
-        val = c_int()
-        res = fluid_settings_getint(self.settings, opt, val)
-        return val.value if res != 0 else None
+
     def start(self, driver=None, device=None, midi_driver=None):
         """Start audio output driver in separate background thread.
 
