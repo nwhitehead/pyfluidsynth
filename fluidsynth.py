@@ -23,7 +23,9 @@
 
 """
 
-from ctypes import *
+# Standard library modules
+from ctypes import (CDLL, CFUNCTYPE, POINTER, Structure, byref, c_char, c_char_p, c_double,
+                    c_float, c_int, c_short, c_uint, c_void_p, create_string_buffer)
 from ctypes.util import find_library
 from future.utils import iteritems
 
