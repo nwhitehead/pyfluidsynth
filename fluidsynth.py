@@ -32,6 +32,12 @@ from ctypes.util import find_library
 from six import binary_type, iteritems, text_type
 
 
+# Bump this up when changing the interface for users
+api_version = '1.3'
+# Function call result
+FLUID_OK = 0
+FLUID_FAILED = -1
+
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
 
@@ -586,6 +592,17 @@ def fluid_synth_write_s16_stereo(synth, len):
     return numpy.frombuffer(buf[:], dtype=numpy.int16)
 
 
+def raw_audio_string(data):
+    """Return a string of bytes to send to soundcard.
+
+    Input is a numpy array of samples.  Default output format
+    is 16-bit signed (other formats not currently supported).
+
+    """
+    import numpy
+    return (data.astype(numpy.int16)).tostring()
+
+
 # Object-oriented interface, simplifies access to functions
 
 class Synth:
@@ -985,14 +1002,3 @@ class Sequencer:
 
     def delete(self):
         delete_fluid_sequencer(self.sequencer)
-
-
-def raw_audio_string(data):
-    """Return a string of bytes to send to soundcard
-
-    Input is a numpy array of samples.  Default output format
-    is 16-bit signed (other formats not currently supported).
-
-    """
-    import numpy
-    return (data.astype(numpy.int16)).tostring()
