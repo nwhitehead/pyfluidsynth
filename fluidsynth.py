@@ -622,8 +622,10 @@ class Synth:
         fluid_settings_setnum(self.settings, b'synth.gain', gain)
         fluid_settings_setnum(self.settings, b'synth.sample-rate', samplerate)
         fluid_settings_setint(self.settings, b'synth.midi-channels', channels)
+
         for opt, val in iteritems(kwargs):
             self.setting(opt, val)
+
         self.synth = new_fluid_synth(self.settings)
         self.audio_driver = None
         self.midi_driver = None
@@ -664,13 +666,19 @@ class Synth:
 
         """
         if driver is not None:
-            assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound', 'pulseaudio'])
+            assert driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio',
+                              'Direct Sound', 'pulseaudio']
             fluid_settings_setstr(self.settings, b'audio.driver', driver.encode())
+
             if device is not None:
-                fluid_settings_setstr(self.settings, str('audio.%s.device' % (driver)).encode(), device.encode())
+                fluid_settings_setstr(self.settings, ('audio.%s.device' % driver).encode(),
+                                      device.encode())
+
             self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
+
         if midi_driver is not None:
-            assert (midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare', 'coremidi'])
+            assert midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare',
+                                   'coremidi']
             fluid_settings_setstr(self.settings, b'midi.driver', midi_driver.encode())
             self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)
             try:
@@ -681,20 +689,26 @@ class Synth:
     def delete(self):
         if self.audio_driver is not None:
             delete_fluid_audio_driver(self.audio_driver)
+
         delete_fluid_synth(self.synth)
         delete_fluid_settings(self.settings)
+
     def sfload(self, filename, update_midi_preset=0):
         """Load SoundFont and return its ID."""
         return fluid_synth_sfload(self.synth, filename.encode(), update_midi_preset)
+
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used."""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
+
     def program_select(self, chan, sfid, bank, preset):
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
+
     def program_unset(self, chan):
         """Set the preset of a MIDI channel to an unassigned state."""
         return fluid_synth_unset_program(self.synth, chan)
+
     def channel_info(self, chan):
         """Get soundfont, bank, prog, preset name of channel.
 
@@ -709,11 +723,12 @@ class Synth:
             (sfontid, banknum, prognum) = self.program_info(chan)
             return (sfontid, banknum, prognum, self.sfpreset_name(sfontid, banknum, prognum))
     def program_info(self, chan):
-        sfontid=c_int()
-        banknum=c_int()
-        prognum=c_int()
+        sfontid = c_int()
+        banknum = c_int()
+        prognum = c_int()
         fluid_synth_get_program(self.synth, chan, byref(sfontid), byref(banknum), byref(prognum))
         return (sfontid.value, banknum.value, prognum.value)
+
     def sfpreset_name(self, sfid, bank, prog):
         """Return name of a soundfont preset as a pointer to string"""
         sfont=fluid_synth_get_sfont_by_id(self.synth, sfid)
@@ -724,43 +739,56 @@ class Synth:
     def router_clear(self):
         if self.router is not None:
             fluid_midi_router_clear_rules(self.router)
+
     def router_default(self):
         if self.router is not None:
             fluid_midi_router_set_default_rules(self.router)
+
     def router_begin(self, type):
         """types are [note|cc|prog|pbend|cpress|kpress]"""
         if self.router is not None:
-            if type=='note':
-                self.router.cmd_rule_type=0
-            elif type=='cc':
-                self.router.cmd_rule_type=1
-            elif type=='prog':
-                self.router.cmd_rule_type=2
-            elif type=='pbend':
-                self.router.cmd_rule_type=3
-            elif type=='cpress':
-                self.router.cmd_rule_type=4
-            elif type=='kpress':
-                self.router.cmd_rule_type=5
+            if type == 'note':
+                self.router.cmd_rule_type = 0
+            elif type == 'cc':
+                self.router.cmd_rule_type = 1
+            elif type == 'prog':
+                self.router.cmd_rule_type = 2
+            elif type == 'pbend':
+                self.router.cmd_rule_type = 3
+            elif type == 'cpress':
+                self.router.cmd_rule_type = 4
+            elif type == 'kpress':
+                self.router.cmd_rule_type = 5
+
             if 'self.router.cmd_rule' in globals():
                 delete_fluid_midi_router_rule(self.router.cmd_rule)
+
             self.router.cmd_rule = new_fluid_midi_router_rule()
+
     def router_end(self):
         if self.router is not None:
             if self.router.cmd_rule is None:
                 return
-            if fluid_midi_router_add_rule(self.router, self.router.cmd_rule, self.router.cmd_rule_type)<0:
+
+            res = fluid_midi_router_add_rule(self.router, self.router.cmd_rule,
+                                             self.router.cmd_rule_type)
+            if res != FLUID_OK:
                 delete_fluid_midi_router_rule(self.router.cmd_rule)
-            self.router.cmd_rule=None
+
+            self.router.cmd_rule = None
+
     def router_chan(self, min, max, mul, add):
         if self.router is not None:
             fluid_midi_router_rule_set_chan(self.router.cmd_rule, min, max, mul, add)
+
     def router_par1(self, min, max, mul, add):
         if self.router is not None:
             fluid_midi_router_rule_set_param1(self.router.cmd_rule, min, max, mul, add)
+
     def router_par2(self, min, max, mul, add):
         if self.router is not None:
             fluid_midi_router_rule_set_param2(self.router.cmd_rule, min, max, mul, add)
+
     def set_reverb(self, roomsize=-1.0, damping=-1.0, width=-1.0, level=-1.0):
         """Set reverb parameters.
 
@@ -811,36 +839,52 @@ class Synth:
             return fluid_synth_set_reverb_full(self.synth, set, roomsize, damping, width, level)
     def set_reverb_roomsize(self, roomsize):
         return fluid_synth_set_reverb_roomsize(self.synth, roomsize)
+
     def set_reverb_damp(self, damp):
         return fluid_synth_set_reverb_damp(self.synth, damp)
+
     def set_reverb_level(self, level):
         return fluid_synth_set_reverb_level(self.synth, level)
+
     def set_reverb_width(self, width):
         return fluid_synth_set_reverb_width(self.synth, width)
+
     def set_chorus_nr(self, nr):
         return fluid_synth_set_chorus_nr(self.synth, nr)
+
     def set_chorus_level(self, level):
         return fluid_synth_set_reverb_level(self.synth, level)
+
     def set_chorus_speed(self, speed):
         return fluid_synth_set_chorus_speed(self.synth, speed)
+
     def set_chorus_depth(self, depth):
         return fluid_synth_set_chorus_depth(self.synth, depth)
+
     def set_chorus_type(self, type):
         return fluid_synth_set_chorus_type(self.synth, type)
+
     def get_reverb_roomsize(self):
         return fluid_synth_get_reverb_roomsize(self.synth)
+
     def get_reverb_damp(self):
         return fluid_synth_get_reverb_damp(self.synth)
+
     def get_reverb_level(self):
         return fluid_synth_get_reverb_level(self.synth)
+
     def get_reverb_width(self):
         return fluid_synth_get_reverb_width(self.synth)
+
     def get_chorus_nr(self):
         return fluid_synth_get_chorus_nr(self.synth)
+
     def get_chorus_level(self):
         return fluid_synth_get_reverb_level(self.synth)
+
     def get_chorus_type(self):
         return fluid_synth_get_chorus_type(self.synth)
+
     def get_chorus_speed(self):
         try:
             return fluid_synth_get_chorus_speed(self.synth)
@@ -860,13 +904,17 @@ class Synth:
         if vel < 0 or vel > 128:
             return False
         return fluid_synth_noteon(self.synth, chan, key, vel)
+
     def noteoff(self, chan, key):
         """Stop a note."""
         if key < 0 or key > 128:
             return False
+
         if chan < 0:
             return False
+
         return fluid_synth_noteoff(self.synth, chan, key)
+
     def pitch_bend(self, chan, val):
         """Adjust pitch of a playing channel by small amounts.
 
@@ -878,6 +926,7 @@ class Synth:
 
         """
         return fluid_synth_pitch_bend(self.synth, chan, val + 8192)
+
     def cc(self, chan, ctrl, val):
         """Send control change value.
 
@@ -895,28 +944,36 @@ class Synth:
 
         """
         return fluid_synth_cc(self.synth, chan, ctrl, val)
+
     def get_cc(self, chan, num):
-        i=c_int()
+        i = c_int()
         fluid_synth_get_cc(self.synth, chan, num, byref(i))
         return i.value
+
     def program_change(self, chan, prg):
         """Change the program."""
         return fluid_synth_program_change(self.synth, chan, prg)
+
     def bank_select(self, chan, bank):
         """Choose a bank."""
         return fluid_synth_bank_select(self.synth, chan, bank)
+
     def sfont_select(self, chan, sfid):
         """Choose a SoundFont."""
         return fluid_synth_sfont_select(self.synth, chan, sfid)
+
     def program_reset(self):
         """Reset the programs on all channels."""
         return fluid_synth_program_reset(self.synth)
+
     def system_reset(self):
         """Stop all notes and reset all programs."""
         return fluid_synth_system_reset(self.synth)
+
     def all_notes_off(self, chan):
         """Turn off all notes on a MIDI channel (put them into release phase)."""
         return fluid_synth_all_notes_off(self.synth, chan)
+
     def get_samples(self, len=1024):
         """Generate audio samples.
 
@@ -944,6 +1001,7 @@ class Sequencer:
 
     def register_fluidsynth(self, synth):
         response = fluid_sequencer_register_fluidsynth(self.sequencer, synth.synth)
+
         if response == FLUID_FAILED:
             raise Error("Registering fluid synth failed")
         return response
@@ -951,12 +1009,12 @@ class Sequencer:
     def register_client(self, name, callback, data=None):
         c_callback = CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p)(callback)
         response = fluid_sequencer_register_client(self.sequencer, name.encode(), c_callback, data)
+
         if response == FLUID_FAILED:
             raise Error("Registering client failed")
 
         # store in a list to prevent garbage collection
         self.client_callbacks.append(c_callback)
-
         return response
 
     def note(self, time, channel, key, velocity, duration, source=-1, dest=-1, absolute=True):
@@ -991,6 +1049,7 @@ class Sequencer:
 
     def _schedule_event(self, evt, time, absolute=True):
         response = fluid_sequencer_send_at(self.sequencer, evt, time, absolute)
+
         if response == FLUID_FAILED:
             raise Error("Scheduling event failed")
 
