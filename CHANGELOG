@@ -2,15 +2,16 @@
 
     Jun 7-10, 2019
 
+    + Bumped `api_version` to "2.0".
     * Integrated, fixed and enhanced fluidsynth 2 compatibility work done
       by Bill Peterson.
-    * Added fluidsynth settings getter functions and enhanced `Synth.settings`
-      to act as a settings retrieval method as well.
+    * Added support for `fluidsynth_settings_get*` functions.
+    * Enhanced `Synth.settings` to act as a settings retrieval method as well.
     * Replaced raising of undefined `Error` exception with `OSError`.
-    * Add `all_notes_off` support to `Synth` class.
+    * Added `all_notes_off` support to `Synth` class.
     * Explicitly import used names from cytpes module instead of star import
       to enable checking for undefined names with code linters.
-    * Use `six` instead of `future` for Python 2 compatibility.
+    * Replaced use of `future` module for Python 2 compatibility with `six`.
     * Ordered function bindings by fluidsynth header file.
     * Re-ordered module level constants, functions and classes to be more
       consistent and in accordacne with general practices.
