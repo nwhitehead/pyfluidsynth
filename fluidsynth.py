@@ -27,13 +27,10 @@
 from ctypes import (CDLL, CFUNCTYPE, POINTER, Structure, byref, c_char, c_char_p, c_double,
                     c_float, c_int, c_short, c_uint, c_void_p, create_string_buffer)
 from ctypes.util import find_library
-from future.utils import iteritems
 
-# Python2-3 compatibility hack
-try:
-    basestring
-except NameError:
-    basestring = str
+# Third-party modules
+from six import binary_type, iteritems, text_type
+
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -614,7 +611,9 @@ class Synth:
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
         opt = opt.encode()
-        if isinstance(val, basestring):
+        if isinstance(val, text_type):
+            fluid_settings_setstr(self.settings, opt, val.encode())
+        elif isinstance(val, binary_type):
             fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
             fluid_settings_setint(self.settings, opt, val)
