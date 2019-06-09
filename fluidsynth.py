@@ -1003,7 +1003,8 @@ class Sequencer:
         response = fluid_sequencer_register_fluidsynth(self.sequencer, synth.synth)
 
         if response == FLUID_FAILED:
-            raise Error("Registering fluid synth failed")
+            raise OSError("Registering fluid synth failed")
+
         return response
 
     def register_client(self, name, callback, data=None):
@@ -1011,7 +1012,7 @@ class Sequencer:
         response = fluid_sequencer_register_client(self.sequencer, name.encode(), c_callback, data)
 
         if response == FLUID_FAILED:
-            raise Error("Registering client failed")
+            raise OSError("Registering client failed")
 
         # store in a list to prevent garbage collection
         self.client_callbacks.append(c_callback)
@@ -1051,7 +1052,7 @@ class Sequencer:
         response = fluid_sequencer_send_at(self.sequencer, evt, time, absolute)
 
         if response == FLUID_FAILED:
-            raise Error("Scheduling event failed")
+            raise OSError("Scheduling event failed")
 
     def get_tick(self):
         return fluid_sequencer_get_tick(self.sequencer)
