@@ -21,9 +21,6 @@
 
 ================================================================================
 
-Added lots of bindings and stuff to help with playing live -- Bill Peterson <albedozero@gmail.com>
-Added sequencer support -- Christian Romberg <distjubo@gmail.com>
-Tried to build in fluidsynth 2 capability while maintaining backwards compatibility -- Bill Peterson <albedozero@gmail.com>
 """
 
 from ctypes import *

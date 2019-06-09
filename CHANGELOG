@@ -1,11 +1,50 @@
 ================================================================================
+
+    Jun 7-10, 2019
+
+    * Integrated, fixed and enhanced fluidsynth 2 compatibility work done
+      by Bill Peterson.
+    * Added fluidsynth settings getter functions and enhanced `Synth.settings`
+      to act as a settings retrieval method as well.
+    * Replaced raising of undefined `Error` exception with `OSError`.
+    * Add `all_notes_off` support to `Synth` class.
+    * Explicitly import used names from cytpes module instead of star import
+      to enable checking for undefined names with code linters.
+    * Use `six` instead of `future` for Python 2 compatibility.
+    * Ordered function bindings by fluidsynth header file.
+    * Re-ordered module level constants, functions and classes to be more
+      consistent and in accordacne with general practices.
+    * Re-formatted code for PEP-8 compliance, better consistency, no
+      overlong lines and better separation of code blocks.
+    * Cleaned up docstrings formatting and punctuation.
+    * Moved notes about changes from module docstring to this change log.
+      -- Christopher Arndt <info@chrisarndt.de>
+
+
+================================================================================
+
+    Jan 6, 2019
+
+    * Added fluidsynth 2 capability while maintaining backwards compatibility
+      -- Bill Peterson <albedozero@gmail.com>
+
+
+================================================================================
+
     May 24, 2018 - 1.2.5
-    
-    * Added sequencer support
+
+    * Added sequencer support -- Christian Romberg <distjubo@gmail.com>
+
+================================================================================
+
+    Jul 28, 2017
+
+    * Added lots of bindings and stuff to help with playing live
+      -- Bill Peterson <albedozero@gmail.com>
 
 
+================================================================================
 
- ================================================================================
     February 13, 2015
 
     * Mover repository to git in GitHub
@@ -15,61 +54,61 @@
 
 ================================================================================
 
-	March 2, 2009 - 1.2.4
+    March 2, 2009 - 1.2.4
 
-	* Another attempt to find the proper library on Windows systems. Added 
-	short circuited or expression to find either 'fluidsynth' or 
-	'libfluidsynth'.
-	* Only import numpy when it's actually needed.
+    * Another attempt to find the proper library on Windows systems. Added
+    short circuited or expression to find either 'fluidsynth' or
+    'libfluidsynth'.
+    * Only import numpy when it's actually needed.
+
+
+================================================================================
+
+    January 15, 2009 - 1.2.3
+
+    * Throw ImportError if the fluidsynth library can't be found.
+    * Range checking in noteon and noteoff
 
 
 ================================================================================
 
-	January 15, 2009 - 1.2.3
+    January 15, 2009 - 1.2.2
 
-	* Throw ImportError if the fluidsynth library can't be found.
-	* Range checking in noteon and noteoff
+    * Small version increment to update website and maintainer info.
+      No actual code changes.
 
- 
-================================================================================
-
-	January 15, 2009 - 1.2.2
-
-	* Small version increment to update website and maintainer info. 
-	  No actual code changes.
-
- 
-================================================================================
-
-	July 22, 2008 - 1.2.1
-
-	* Added pydoc documentation and this CHANGELOG.
- 
 
 ================================================================================
 
-	July 22, 2008 - 1.2
+    July 22, 2008 - 1.2.1
 
-	* Changed from C extension code to ctypes for portability and simplicity
-	  of code.
+    * Added pydoc documentation and this CHANGELOG.
 
-	* Updated interface to use objects instead of just functions.
 
- 
 ================================================================================
 
-	July 21, 2008 - 1.1
+    July 22, 2008 - 1.2
 
-	* Added direct audio data interface so you don't have to start audio
-	  driver thread.  Makes pyFluidSynth work for audio games and other
-	  applications that manage their own sound.
+    * Changed from C extension code to ctypes for portability and simplicity
+      of code.
 
- 
+    * Updated interface to use objects instead of just functions.
+
+
 ================================================================================
 
-	July 16, 2008 - 1.0
+    July 21, 2008 - 1.1
 
-	* Imported from previous work done earlier in the summer.
+    * Added direct audio data interface so you don't have to start audio
+      driver thread.  Makes pyFluidSynth work for audio games and other
+      applications that manage their own sound.
+
+
+================================================================================
+
+    July 16, 2008 - 1.0
+
+    * Imported from previous work done earlier in the summer.
 
 
 ================================================================================
