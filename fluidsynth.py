@@ -45,9 +45,10 @@ if lib is None:
 # Dynamically link the FluidSynth library
 _fl = CDLL(lib)
 
+
 # Helper function for declaring function prototypes
 def cfunc(name, result, *args):
-    """Build and apply a ctypes prototype complete with parameter flags"""
+    """Build and apply a ctypes prototype complete with parameter flags."""
     atypes = []
     aflags = []
     for arg in args:
@@ -574,7 +575,7 @@ fluid_midi_router_add_rule = cfunc('fluid_midi_router_add_rule', c_int,
 
 
 def fluid_synth_write_s16_stereo(synth, len):
-    """Return generated samples in stereo 16-bit format
+    """Return generated samples in stereo 16-bit format.
 
     Return value is a Numpy array of samples.
 
@@ -588,15 +589,17 @@ def fluid_synth_write_s16_stereo(synth, len):
 # Object-oriented interface, simplifies access to functions
 
 class Synth:
-    """Synth represents a FluidSynth synthesizer"""
+    """Represents a FluidSynth synthesizer."""
+
     def __init__(self, gain=0.2, samplerate=44100, channels=256, **kwargs):
-        """Create new synthesizer object to control sound generation
+        """Create new synthesizer object to control sound generation.
 
         Optional keyword arguments:
         gain : scale factor for audio output, default is 0.2
         lower values are quieter, allow more simultaneous notes
         samplerate : output samplerate in Hz, default is 44100 Hz
         added capability for passing arbitrary fluid settings using args
+
         """
         self.settings = new_fluid_settings()
         fluid_settings_setnum(self.settings, b'synth.gain', gain)
@@ -609,7 +612,7 @@ class Synth:
         self.midi_driver = None
         self.router = None
     def setting(self, opt, val):
-        """change an arbitrary synth setting, type-smart"""
+        """Change an arbitrary synth setting, type-smart."""
         opt = opt.encode()
         if isinstance(val, text_type):
             fluid_settings_setstr(self.settings, opt, val.encode())
@@ -625,7 +628,7 @@ class Synth:
         res = fluid_settings_getint(self.settings, opt, val)
         return val.value if res != 0 else None
     def start(self, driver=None, device=None, midi_driver=None):
-        """Start audio output driver in separate background thread
+        """Start audio output driver in separate background thread.
 
         Call this function any time after creating the Synth object.
         If you don't call this function, use get_samples() to generate
@@ -664,24 +667,25 @@ class Synth:
         delete_fluid_synth(self.synth)
         delete_fluid_settings(self.settings)
     def sfload(self, filename, update_midi_preset=0):
-        """Load SoundFont and return its ID"""
+        """Load SoundFont and return its ID."""
         return fluid_synth_sfload(self.synth, filename.encode(), update_midi_preset)
     def sfunload(self, sfid, update_midi_preset=0):
-        """Unload a SoundFont and free memory it used"""
+        """Unload a SoundFont and free memory it used."""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
     def program_select(self, chan, sfid, bank, preset):
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
     def program_unset(self, chan):
-        """Set the preset of a MIDI channel to an unassigned state"""
+        """Set the preset of a MIDI channel to an unassigned state."""
         return fluid_synth_unset_program(self.synth, chan)
     def channel_info(self, chan):
+        """Get soundfont, bank, prog, preset name of channel.
+
+        Superceded by program_info and sfpreset_name, included for backwards-compatibility.
+
         """
-        get soundfont, bank, prog, preset name of channel
-        superceded by program_info and sfpreset_name, included for backwards-compatibility
-        """
-        try:
-            info=fluid_synth_channel_info_t()
+        if fluid_synth_get_channel_info:
+            info = fluid_synth_channel_info_t()  # noqa:F821
             fluid_synth_get_channel_info(self.synth, chan, byref(info))
             return (info.sfont_id, info.bank, info.program, info.name)
         except NameError:
@@ -741,11 +745,13 @@ class Synth:
         if self.router is not None:
             fluid_midi_router_rule_set_param2(self.router.cmd_rule, min, max, mul, add)
     def set_reverb(self, roomsize=-1.0, damping=-1.0, width=-1.0, level=-1.0):
-        """
-        roomsize Reverb room size value (0.0-1.0)
-        damping Reverb damping value (0.0-1.0)
-        width Reverb width value (0.0-100.0)
-        level Reverb level value (0.0-1.0)
+        """Set reverb parameters.
+
+        roomsize: Reverb room size value (0.0-1.0)
+        damping: Reverb damping value (0.0-1.0)
+        width: Reverb width value (0.0-100.0)
+        level: Reverb level value (0.0-1.0)
+
         """
         try:
             return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
@@ -761,12 +767,15 @@ class Synth:
                 set+=0b1000
             return fluid_synth_set_reverb_full(self.synth, set, roomsize, damping, width, level)
     def set_chorus(self, nr=-1, level=-1.0, speed=-1.0, depth=-1.0, type=-1):
-        """
-        nr Chorus voice count (0-99, CPU time consumption proportional to this value)
-        level Chorus level (0.0-10.0)
-        speed Chorus speed in Hz (0.29-5.0)
-        depth_ms Chorus depth (max value depends on synth sample rate, 0.0-21.0 is safe for sample rate values up to 96KHz)
-        type Chorus waveform type (0=sine, 1=triangle)
+        """Set chorus parameters.
+
+        nr: Chorus voice count (0-99, CPU time consumption proportional to this value)
+        level: Chorus level (0.0-10.0)
+        speed: Chorus speed in Hz (0.29-5.0)
+        depth: Chorus depth (max value depends on synth sample rate,
+               0.0-21.0 is safe for sample rate values up to 96KHz)
+        type: Chorus waveform type (0=sine, 1=triangle)
+
         """
         try:
             return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
@@ -826,7 +835,7 @@ class Synth:
         except NameError:
             return fluid_synth_get_chorus_depth_ms(self.synth)
     def noteon(self, chan, key, vel):
-        """Play a note"""
+        """Play a note."""
         if key < 0 or key > 128:
             return False
         if chan < 0:
@@ -835,28 +844,30 @@ class Synth:
             return False
         return fluid_synth_noteon(self.synth, chan, key, vel)
     def noteoff(self, chan, key):
-        """Stop a note"""
+        """Stop a note."""
         if key < 0 or key > 128:
             return False
         if chan < 0:
             return False
         return fluid_synth_noteoff(self.synth, chan, key)
     def pitch_bend(self, chan, val):
-        """Adjust pitch of a playing channel by small amounts
+        """Adjust pitch of a playing channel by small amounts.
 
-        A pitch bend value of 0 is no pitch change from default.
-        A value of -2048 is 1 semitone down.
-        A value of 2048 is 1 semitone up.
+        * A pitch bend value of 0 is no pitch change from default.
+        * A value of -2048 is 1 semitone down.
+        * A value of 2048 is 1 semitone up.
+
         Maximum values are -8192 to +8192 (transposing by 4 semitones).
 
         """
         return fluid_synth_pitch_bend(self.synth, chan, val + 8192)
     def cc(self, chan, ctrl, val):
-        """Send control change value
+        """Send control change value.
 
         The controls that are recognized are dependent on the
-        SoundFont.  Values are always 0 to 127.  Typical controls
+        SoundFont. Values are always 0 to 127. Typical controls
         include:
+
           1 : vibrato
           7 : volume
           10 : pan (left to right)
@@ -864,6 +875,7 @@ class Synth:
           64 : sustain
           91 : reverb
           93 : chorus
+
         """
         return fluid_synth_cc(self.synth, chan, ctrl, val)
     def get_cc(self, chan, num):
@@ -871,28 +883,28 @@ class Synth:
         fluid_synth_get_cc(self.synth, chan, num, byref(i))
         return i.value
     def program_change(self, chan, prg):
-        """Change the program"""
+        """Change the program."""
         return fluid_synth_program_change(self.synth, chan, prg)
     def bank_select(self, chan, bank):
-        """Choose a bank"""
+        """Choose a bank."""
         return fluid_synth_bank_select(self.synth, chan, bank)
     def sfont_select(self, chan, sfid):
-        """Choose a SoundFont"""
+        """Choose a SoundFont."""
         return fluid_synth_sfont_select(self.synth, chan, sfid)
     def program_reset(self):
-        """Reset the programs on all channels"""
+        """Reset the programs on all channels."""
         return fluid_synth_program_reset(self.synth)
     def system_reset(self):
-        """Stop all notes and reset all programs"""
+        """Stop all notes and reset all programs."""
         return fluid_synth_system_reset(self.synth)
     def all_notes_off(self, chan):
         """Turn off all notes on a MIDI channel (put them into release phase)."""
         return fluid_synth_all_notes_off(self.synth, chan)
     def get_samples(self, len=1024):
-        """Generate audio samples
+        """Generate audio samples.
 
         The return value will be a NumPy array containing the given
-        length of audio samples.  If the synth is set to stereo output
+        length of audio samples. If the synth is set to stereo output
         (the default) the array will be size 2 * len.
 
         """
@@ -901,11 +913,13 @@ class Synth:
 
 class Sequencer:
     def __init__(self, time_scale=1000, use_system_timer=True):
-        """Create new sequencer object to control and schedule timing of midi events
+        """Create new sequencer object to control and schedule timing of midi events.
 
         Optional keyword arguments:
+
         time_scale: ticks per second, defaults to 1000
         use_system_timer: whether the sequencer should advance by itself
+
         """
         self.client_callbacks = []
         self.sequencer = new_fluid_sequencer2(use_system_timer)
