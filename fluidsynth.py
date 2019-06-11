@@ -628,42 +628,6 @@ delete_fluid_sequencer = cfunc(
     'delete_fluid_sequencer',
     None,
     ('seq', c_void_p, 1))
-fluid_sequencer_register_fluidsynth = cfunc(
-    'fluid_sequencer_register_fluidsynth',
-    c_short,
-    ('seq', c_void_p, 1),
-    ('synth', c_void_p, 1))
-fluid_sequencer_register_client = cfunc(
-    'fluid_sequencer_register_client',
-    c_short,
-    ('seq', c_void_p, 1),
-    ('name', c_char_p, 1),
-    ('callback', CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p), 1),
-    ('data', c_void_p, 1))
-fluid_sequencer_get_tick = cfunc(
-    'fluid_sequencer_get_tick',
-    c_uint,
-    ('seq', c_void_p, 1))
-fluid_sequencer_set_time_scale = cfunc(
-    'fluid_sequencer_set_time_scale',
-    None,
-    ('seq', c_void_p, 1),
-    ('scale', c_double, 1))
-fluid_sequencer_get_time_scale = cfunc(
-    'fluid_sequencer_get_time_scale',
-    c_double,
-    ('seq', c_void_p, 1))
-fluid_sequencer_send_at = cfunc(
-    'fluid_sequencer_send_at',
-    c_int,
-    ('seq', c_void_p, 1),
-    ('evt', c_void_p, 1),
-    ('time', c_uint, 1),
-    ('absolute', c_int, 1))
-delete_fluid_sequencer = cfunc(
-    'delete_fluid_sequencer',
-    None,
-    ('seq', c_void_p, 1))
 
 # fluid event
 new_fluid_event = cfunc(
