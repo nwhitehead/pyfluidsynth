@@ -490,6 +490,16 @@ fluid_midi_router_handle_midi_event = cfunc(
     c_int,
     ('data', c_void_p, 1),
     ('event', c_void_p, 1))
+fluid_midi_dump_prerouter = cfunc(
+    'fluid_midi_dump_prerouter',
+    c_int,
+    ('data', c_void_p, 1),
+    ('event', c_void_p, 1))
+fluid_midi_dump_postrouter = cfunc(
+    'fluid_midi_dump_postrouter',
+    c_int,
+    ('data', c_void_p, 1),
+    ('event', c_void_p, 1))
 fluid_midi_router_clear_rules = cfunc(
     'fluid_midi_router_clear_rules',
     c_int,
