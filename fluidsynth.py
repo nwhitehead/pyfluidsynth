@@ -490,6 +490,20 @@ fluid_midi_router_handle_midi_event = cfunc(
     c_int,
     ('data', c_void_p, 1),
     ('event', c_void_p, 1))
+fluid_midi_router_clear_rules = cfunc(
+    'fluid_midi_router_clear_rules',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1))
+fluid_midi_router_set_default_rules = cfunc(
+    'fluid_midi_router_set_default_rules',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1))
+fluid_midi_router_add_rule = cfunc(
+    'fluid_midi_router_add_rule',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1),
+    ('rule', c_void_p, 1),
+    ('type', c_int, 1))
 
 # fluid midi router rules
 new_fluid_midi_router_rule = cfunc(
@@ -519,20 +533,6 @@ fluid_midi_router_rule_set_param2 = cfunc(
     ('max', c_int, 1),
     ('mul', c_float, 1),
     ('add', c_int, 1))
-fluid_midi_router_clear_rules = cfunc(
-    'fluid_midi_router_clear_rules',
-    c_int,
-    ('router', POINTER(fluid_midi_router_t), 1))
-fluid_midi_router_set_default_rules = cfunc(
-    'fluid_midi_router_set_default_rules',
-    c_int,
-    ('router', POINTER(fluid_midi_router_t), 1))
-fluid_midi_router_add_rule = cfunc(
-    'fluid_midi_router_add_rule',
-    c_int,
-    ('router', POINTER(fluid_midi_router_t), 1),
-    ('rule', c_void_p, 1),
-    ('type', c_int, 1))
 delete_fluid_midi_router_rule = cfunc(
     'delete_fluid_midi_router_rule',
     c_int,
