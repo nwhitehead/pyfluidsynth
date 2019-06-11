@@ -43,6 +43,13 @@ FLUID_NUM_TYPE = 0  # Numeric (double)
 FLUID_INT_TYPE = 1  # Integer
 FLUID_STR_TYPE = 2  # String
 FLUID_SET_TYPE = 3  # Set of values.
+# MIDI router rule types
+FLUID_MIDI_ROUTER_RULE_NOTE = 0              # MIDI note rule
+FLUID_MIDI_ROUTER_RULE_CC = 1                # MIDI controller rule
+FLUID_MIDI_ROUTER_RULE_PROG_CHANGE = 2       # MIDI program change rule
+FLUID_MIDI_ROUTER_RULE_PITCH_BEND = 3        # MIDI pitch bend rule
+FLUID_MIDI_ROUTER_RULE_CHANNEL_PRESSURE = 4  # MIDI channel pressure rule
+FLUID_MIDI_ROUTER_RULE_KEY_PRESSURE = 5      # MIDI key pressure rule
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -717,6 +724,46 @@ def raw_audio_string(data):
 
 # Object-oriented interface, simplifies access to functions
 
+class RouterRule:
+    """Represents a FluidSynth MIDI router rule."""
+
+    def __init__(self, type=FLUID_MIDI_ROUTER_RULE_NOTE, chan=None, param1=None, param2=None):
+        self.type = type
+        self.rule = new_fluid_midi_router_rule()
+
+        if isinstance(chan, dict):
+            self.set_chan(**chan)
+        elif chan is not None:
+            self.set_chan(*chan)
+
+        if isinstance(param1, dict):
+            self.set_param1(**param1)
+        elif param1 is not None:
+            self.set_param1(*param1)
+
+        if isinstance(param2, dict):
+            self.set_param2(**param2)
+        elif param2 is not None:
+            self.set_param2(*param2)
+
+    def delete(self):
+        if self.rule:
+            delete_fluid_midi_router_rule(self.rule)
+            self.rule = None
+
+    def set_chan(self, min=0, max=15, mul=1.0, add=0):
+        if self.rule:
+            fluid_midi_router_rule_set_chan(self.rule, min, max, mul, add)
+
+    def set_param1(self, min=0, max=127, mul=1.0, add=0):
+        if self.rule:
+            fluid_midi_router_rule_set_param1(self.rule, min, max, mul, add)
+
+    def set_param2(self, min=0, max=127, mul=1.0, add=0):
+        if self.rule:
+            fluid_midi_router_rule_set_param2(self.rule, min, max, mul, add)
+
+
 class Synth:
     """Represents a FluidSynth synthesizer."""
 
@@ -889,50 +936,14 @@ class Synth:
         if self.router is not None:
             fluid_midi_router_set_default_rules(self.router)
 
-    def router_begin(self, type):
-        """types are [note|cc|prog|pbend|cpress|kpress]"""
-        if self.router is not None:
-            if type == 'note':
-                self.router.cmd_rule_type = 0
-            elif type == 'cc':
-                self.router.cmd_rule_type = 1
-            elif type == 'prog':
-                self.router.cmd_rule_type = 2
-            elif type == 'pbend':
-                self.router.cmd_rule_type = 3
-            elif type == 'cpress':
-                self.router.cmd_rule_type = 4
-            elif type == 'kpress':
-                self.router.cmd_rule_type = 5
+    def router_add_rule(self, rule):
+        if self.router is None:
+            return
 
-            if 'self.router.cmd_rule' in globals():
-                delete_fluid_midi_router_rule(self.router.cmd_rule)
+        if rule.rule is None:
+            raise ValueError("Can't add deleted RouterRule instance.")
 
-            self.router.cmd_rule = new_fluid_midi_router_rule()
-
-    def router_end(self):
-        if self.router is not None:
-            if self.router.cmd_rule is None:
-                return
-
-            res = fluid_midi_router_add_rule(self.router, self.router.cmd_rule,
-                                             self.router.cmd_rule_type)
-            if res != FLUID_OK:
-                delete_fluid_midi_router_rule(self.router.cmd_rule)
-
-            self.router.cmd_rule = None
-
-    def router_chan(self, min, max, mul, add):
-        if self.router is not None:
-            fluid_midi_router_rule_set_chan(self.router.cmd_rule, min, max, mul, add)
-
-    def router_par1(self, min, max, mul, add):
-        if self.router is not None:
-            fluid_midi_router_rule_set_param1(self.router.cmd_rule, min, max, mul, add)
-
-    def router_par2(self, min, max, mul, add):
-        if self.router is not None:
-            fluid_midi_router_rule_set_param2(self.router.cmd_rule, min, max, mul, add)
+        return fluid_midi_router_add_rule(self.router, rule.rule, rule.type)
 
     def set_reverb(self, roomsize=-1.0, damping=-1.0, width=-1.0, level=-1.0):
         """Set reverb parameters.
