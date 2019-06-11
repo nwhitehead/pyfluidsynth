@@ -487,7 +487,7 @@ new_fluid_midi_router = cfunc(
     ('event_handler_data', c_void_p, 1))
 fluid_midi_router_handle_midi_event = cfunc(
     'fluid_midi_router_handle_midi_event',
-    POINTER(c_int),
+    c_int,
     ('data', c_void_p, 1),
     ('event', c_void_p, 1))
 
