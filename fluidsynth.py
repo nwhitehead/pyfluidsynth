@@ -31,9 +31,12 @@ from ctypes.util import find_library
 # Third-party modules
 from six import binary_type, iteritems, text_type
 
+# constants
 
 # Bump this up when changing the interface for users
 api_version = '2.0'
+# Used to encode / decode strings passed to / from C functions
+DEFAULT_ENCODING = 'utf-8'
 # Function call result
 FLUID_OK = 0
 FLUID_FAILED = -1
@@ -680,6 +683,20 @@ delete_fluid_event = cfunc(
     ('evt', c_void_p, 1))
 
 
+# (Internal) Helper functions
+
+def _d(s, encoding=DEFAULT_ENCODING):
+    if isinstance(s, binary_type) and encoding:
+        return s.decode(encoding)
+    return s
+
+
+def _e(s, encoding=DEFAULT_ENCODING):
+    if isinstance(s, text_type) and encoding:
+        return s.encode(encoding)
+    return s
+
+
 # convenience functions
 
 def fluid_synth_write_s16_stereo(synth, len):
@@ -750,7 +767,7 @@ class RouterRule:
 class Synth:
     """Represents a FluidSynth synthesizer."""
 
-    def __init__(self, gain=0.2, samplerate=44100, channels=256, **kwargs):
+    def __init__(self, gain=0.2, samplerate=44100.0, channels=256, **kwargs):
         """Create new synthesizer object to control sound generation.
 
         Optional keyword arguments:
@@ -761,9 +778,9 @@ class Synth:
 
         """
         self.settings = new_fluid_settings()
-        fluid_settings_setnum(self.settings, b'synth.gain', gain)
-        fluid_settings_setnum(self.settings, b'synth.sample-rate', samplerate)
-        fluid_settings_setint(self.settings, b'synth.midi-channels', channels)
+        self.setting('synth.gain', float(gain))
+        self.setting('synth.sample-rate', float(samplerate))
+        self.setting('synth.midi-channels', channels)
 
         for opt, val in iteritems(kwargs):
             self.setting(opt, val)
@@ -776,7 +793,7 @@ class Synth:
 
     def setting(self, opt, val=None):
         """Get/Set an arbitrary synth setting, type-smart."""
-        opt = opt.encode()
+        opt = _e(opt)
 
         if val is None:
             stype = fluid_settings_get_type(self.settings, opt)
@@ -792,14 +809,14 @@ class Synth:
             elif stype == FLUID_STR_TYPE:
                 data = create_string_buffer(256)
                 response = fluid_settings_copystr(self.settings, opt, data, 256)
-                return data.value.decode() if response == FLUID_OK else None
+                return _d(data.value) if response == FLUID_OK else None
             elif stype == FLUID_SET_TYPE:
                 raise NotImplementedError("Getting a setting value of type FLUID_SET_TYPE is not "
                                           "supported yet.")
             elif stype == FLUID_NO_TYPE:
-                raise KeyError("Setting '%s' does not exist." % opt.decode())
+                raise KeyError("Setting '%s' does not exist." % _d(opt))
         elif isinstance(val, text_type):
-            fluid_settings_setstr(self.settings, opt, val.encode())
+            fluid_settings_setstr(self.settings, opt, _e(val))
         elif isinstance(val, binary_type):
             fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
@@ -829,18 +846,17 @@ class Synth:
         if driver is not None:
             assert driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio',
                               'Direct Sound', 'pulseaudio']
-            fluid_settings_setstr(self.settings, b'audio.driver', driver.encode())
+            self.setting('audio.driver', driver)
 
             if device is not None:
-                fluid_settings_setstr(self.settings, ('audio.%s.device' % driver).encode(),
-                                      device.encode())
+                self.setting('audio.%s.device' % driver, device)
 
             self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
 
         if midi_driver is not None:
             assert midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare',
                                    'coremidi']
-            fluid_settings_setstr(self.settings, b'midi.driver', midi_driver.encode())
+            self.setting('midi.driver', midi_driver)
             self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event,
                                                 self.synth)
 
@@ -873,7 +889,7 @@ class Synth:
 
     def sfload(self, filename, update_midi_preset=0):
         """Load SoundFont and return its ID."""
-        return fluid_synth_sfload(self.synth, filename.encode(), update_midi_preset)
+        return fluid_synth_sfload(self.synth, _e(filename), update_midi_preset)
 
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used."""
@@ -917,7 +933,7 @@ class Synth:
 
         sfont = fluid_synth_get_sfont_by_id(self.synth, sfid)
         preset = fluid_sfont_get_preset(sfont, bank, prog)
-        return fluid_preset_get_name(preset).decode('ascii') if preset else None
+        return _d(fluid_preset_get_name(preset)) if preset else None
 
     def router_clear(self):
         if self.router is not None:
@@ -1158,7 +1174,7 @@ class Sequencer:
 
     def register_client(self, name, callback, data=None):
         c_callback = CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p)(callback)
-        response = fluid_sequencer_register_client(self.sequencer, name.encode(), c_callback, data)
+        response = fluid_sequencer_register_client(self.sequencer, _e(name), c_callback, data)
 
         if response == FLUID_FAILED:
             raise OSError("Registering client failed")
