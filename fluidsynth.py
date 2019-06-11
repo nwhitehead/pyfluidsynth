@@ -53,6 +53,10 @@ FLUID_MIDI_ROUTER_RULE_PROG_CHANGE = 2       # MIDI program change rule
 FLUID_MIDI_ROUTER_RULE_PITCH_BEND = 3        # MIDI pitch bend rule
 FLUID_MIDI_ROUTER_RULE_CHANNEL_PRESSURE = 4  # MIDI channel pressure rule
 FLUID_MIDI_ROUTER_RULE_KEY_PRESSURE = 5      # MIDI key pressure rule
+# Driver names
+AUDIO_DRIVER_NAMES = ("alsa, coreaudio, dart, dsound, file, jack, oss, portaudio, pulseaudio, "
+                      "sdl2, sndman, waveout").split(", ")
+MIDI_DRIVER_NAMES = "alsa_raw, alsa_seq, coremidi, jack, midishare, oss, winmidi".split(", ")
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -827,25 +831,43 @@ class Synth:
     def start(self, driver=None, device=None, midi_driver=None, cmd_handler=False):
         """Start audio output driver in separate background thread.
 
-        Call this function any time after creating the Synth object.
-        If you don't call this function, use get_samples() to generate
+        Call this function any time after creating the Synth object to start
+        handling events.
+
+        If you don't call this function, use ``get_samples()`` to generate
         samples.
 
-        Optional keyword argument:
-        driver : which audio driver to use for output
-        Possible choices:
-        'alsa', 'oss', 'jack', 'portaudio'
-        'sndmgr', 'coreaudio', 'Direct Sound'
-        device: the device to use for audio output
+        Optional keyword arguments:
 
-        Not all drivers will be available for every platform, it
-        depends on which drivers were compiled into FluidSynth for
-        your platform.
+        :param driver: which audio driver to use for output
+        :type driver: str
+        :param device: the device to use for audio output
+        :type device: str
+        :param midi_driver: which driver to use for MIDI input
+        :type midi_driver: str
+        :param cmd_handler: whether to create a shell command handler
+        :type cmd_handler: bool (default: ``False``)
+
+        Possible choices for ``driver`` are:
+
+        alsa, coreaudio, dart, dsound, file, jack, oss, portaudio, pulseaudio,
+        sdl2, sndman, waveout
+
+        See also: http://www.fluidsynth.org/api/fluidsettings.xml#audio.driver
+
+        Possible choices for ``midi_driver`` are:
+
+        alsa_raw, alsa_seq, coremidi, jack, midishare, oss, winmidi
+
+        See also: http://www.fluidsynth.org/api/fluidsettings.xml#midi.driver
+
+        Not all drivers will be available for every platform, it depends on
+        which drivers were compiled into FluidSynth for your platform.
 
         """
         if driver is not None:
-            assert driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio',
-                              'Direct Sound', 'pulseaudio']
+            if driver not in AUDIO_DRIVER_NAMES:
+                raise ValueError("Unknown audio driver '%'." % driver)
             self.setting('audio.driver', driver)
 
             if device is not None:
@@ -854,8 +876,8 @@ class Synth:
             self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
 
         if midi_driver is not None:
-            assert midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare',
-                                   'coremidi']
+            if midi_driver not in MIDI_DRIVER_NAMES:
+                raise ValueError("Unknown MIDI driver '%'." % midi_driver)
             self.setting('midi.driver', midi_driver)
             self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event,
                                                 self.synth)
