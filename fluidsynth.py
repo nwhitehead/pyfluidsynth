@@ -258,7 +258,7 @@ fluid_synth_write_s16 = cfunc(
     ('rincr', c_int, 1))
 fluid_synth_handle_midi_event = cfunc(
     'fluid_synth_handle_midi_event',
-    POINTER(c_int),
+    c_int,
     ('data', c_void_p, 1),
     ('event', c_void_p, 1))
 
