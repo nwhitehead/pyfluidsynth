@@ -483,7 +483,7 @@ new_fluid_midi_router = cfunc(
     'new_fluid_midi_router',
     POINTER(fluid_midi_router_t),
     ('settings', c_void_p, 1),
-    ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
+    ('handler', CFUNCTYPE(c_int, c_void_p, c_void_p), 1),
     ('event_handler_data', c_void_p, 1))
 fluid_midi_router_handle_midi_event = cfunc(
     'fluid_midi_router_handle_midi_event',
