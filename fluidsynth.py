@@ -504,6 +504,10 @@ fluid_midi_router_add_rule = cfunc(
     ('router', POINTER(fluid_midi_router_t), 1),
     ('rule', c_void_p, 1),
     ('type', c_int, 1))
+delete_fluid_midi_router = cfunc(
+    'delete_fluid_midi_router',
+    c_int,
+    ('router', POINTER(fluid_midi_router_t), 1))
 
 # fluid midi router rules
 new_fluid_midi_router_rule = cfunc(
@@ -876,6 +880,9 @@ class Synth:
 
         if self.midi_driver is not None:
             delete_fluid_midi_driver(self.midi_driver)
+
+        if self.router is not None:
+            delete_fluid_midi_router(self.router)
 
         delete_fluid_synth(self.synth)
         delete_fluid_settings(self.settings)
