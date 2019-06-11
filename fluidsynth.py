@@ -565,6 +565,11 @@ except AttributeError:
         c_void_p,
         ('synth', c_void_p, 1))
 
+delete_fluid_cmd_handler = cfunc(
+        'delete_fluid_cmd_handler',
+        c_void_p,
+        ('handler', c_void_p, 1))
+
 # preset handling
 try:
     fluid_preset_get_name = cfunc(
@@ -767,6 +772,7 @@ class Synth:
         self.audio_driver = None
         self.midi_driver = None
         self.router = None
+        self.cmd_handler = None
 
     def setting(self, opt, val=None):
         """Get/Set an arbitrary synth setting, type-smart."""
@@ -801,7 +807,7 @@ class Synth:
         elif isinstance(val, float):
             fluid_settings_setnum(self.settings, opt, val)
 
-    def start(self, driver=None, device=None, midi_driver=None):
+    def start(self, driver=None, device=None, midi_driver=None, cmd_handler=False):
         """Start audio output driver in separate background thread.
 
         Call this function any time after creating the Synth object.
@@ -838,15 +844,16 @@ class Synth:
             self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event,
                                                 self.synth)
 
-            if fluid_synth_set_midi_router:
-                fluid_synth_set_midi_router(self.synth, self.router)
-            else:
-                new_fluid_cmd_handler(self.synth, self.router)
-
             self.midi_driver = new_fluid_midi_driver(
                 self.settings,
                 fluid_midi_router_handle_midi_event,
                 self.router)
+
+        if cmd_handler:
+            if fluid_synth_set_midi_router:
+                fluid_synth_set_midi_router(self.synth, self.router)
+            else:
+                self.cmd_handler = new_fluid_cmd_handler(self.synth, self.router)
 
     def delete(self):
         if self.audio_driver is not None:
@@ -857,6 +864,9 @@ class Synth:
 
         if self.router is not None:
             delete_fluid_midi_router(self.router)
+
+        if self.cmd_handler is not None:
+            delete_fluid_cmd_handler(self.cmd_handler)
 
         delete_fluid_synth(self.synth)
         delete_fluid_settings(self.settings)
