@@ -6,8 +6,8 @@ import fluidsynth
 pa = pyaudio.PyAudio()
 strm = pa.open(
     format = pyaudio.paInt16,
-    channels = 2, 
-    rate = 44100, 
+    channels = 2,
+    rate = 44100,
     output = True)
 
 s = []
@@ -38,6 +38,6 @@ fl.delete()
 
 samps = fluidsynth.raw_audio_string(s)
 
-print len(samps)
-print 'Starting playback'
+print(len(samps))
+print('Starting playback')
 strm.write(samps)

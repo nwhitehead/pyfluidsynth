@@ -17,6 +17,7 @@ for i in range(10):
     fs.cc(0, 93, 127)
     fs.pitch_bend(0, i * 512)
     time.sleep(0.1)
+
 fs.noteoff(0, 60)
 
 time.sleep(1.0)
