@@ -800,15 +800,19 @@ def _e(s, encoding=DEFAULT_ENCODING):
 
 # convenience functions
 
-def fluid_synth_write_s16_stereo(synth, len):
+def fluid_synth_write_s16_stereo(synth, nframes):
     """Return generated samples in stereo 16-bit format.
 
-    Return value is a Numpy array of samples.
+    :param synth: an instance of class Synth
+    :param nframes: number of sample frames to generate
+    :type nframes: ``int``
+    :return: one-dimenional NumPy array of interleaved samples
+    :rtype: ``np.array(..., dtype=numpy.int16)``
 
     """
     import numpy
-    buf = create_string_buffer(len * 4)
-    fluid_synth_write_s16(synth, len, buf, 0, 2, buf, 1, 2)
+    buf = create_string_buffer(nframes * 4)
+    fluid_synth_write_s16(synth, nframes, buf, 0, 2, buf, 1, 2)
     return numpy.frombuffer(buf[:], dtype=numpy.int16)
 
 
