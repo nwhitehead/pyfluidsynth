@@ -819,8 +819,8 @@ def fluid_synth_write_s16_stereo(synth, nframes):
 def raw_audio_string(data):
     """Return a string of bytes to send to soundcard.
 
-    Input is a numpy array of samples.  Default output format
-    is 16-bit signed (other formats not currently supported).
+    Input is a numpy array of samples. Default output format is 16-bit signed
+    (other formats not currently supported).
 
     """
     import numpy
@@ -1026,7 +1026,7 @@ class Player(BasePlayer):
             ``flac`` or ``oga``
         :type quality: ``float`` (0.0 - 1.0)
         :param progress_callback: Python callable to call after each
-            period-size block of samples has been written. Receives the
+            period-size block of sample frames has been written. Receives the
             filename, filetype, current total number of sample frames written
             and the period size as positional arguments in that order.
         :type progress_callback: callable with 4 positional args
@@ -1074,7 +1074,7 @@ class Player(BasePlayer):
         Internal method called by ``Player.render()``.
 
         :param filename: audio output file path and name
-        'type filename: ``str``
+        :type filename: ``str``
         :param filetype: audio output file type
         :type filetype: ``str``
 
@@ -1126,10 +1126,28 @@ class Synth:
         """Create new synthesizer object to control sound generation.
 
         Optional keyword arguments:
-        gain : scale factor for audio output, default is 0.2
-        lower values are quieter, allow more simultaneous notes
-        samplerate : output samplerate in Hz, default is 44100 Hz
-        added capability for passing arbitrary fluid settings using args
+
+        :param gain: scale factor for audio output, default is 0.2. lower
+            values give quieter output and allow more simultaneous notes
+            without clipping
+        :type gain: ``float``
+        :param samplerate: output samplerate in Hz, default is 44100.0 Hz
+            added capability for passing arbitrary fluid settings using args
+        :type samplerate: ``float``
+        :param channels: the number of MIDI channels the synthesizer supports.
+            MIDI hardware is limited to 16 channels (the default value, but
+            internally FluidSynth can use up to 256 channels, which can be
+            mapped to different MIDI sources.
+        :type channels: ``int``
+
+        Additional keyword arguments are interpreted and applied as fluidsynth
+        settings, i.e. the argument name is used as the setting name and its
+        value as the setting value. Since most fluidsynth setting names are not
+        valid Python identifiers and therefor can not be used keyword arguments
+        directly, you have to pass them via the ``**kwarg`` syntax. The values
+        must have the proper type, i.e. ``int`` for ``FLUID_INT_TYPE` settings,
+        `'float`` for ``FLUID_NUM_TYPE`` and ``str``  or ``bytes`` for
+        ``FLUID_STR_TYPE`` settings.
 
         """
         self.settings = new_fluid_settings()
@@ -1192,13 +1210,13 @@ class Synth:
         Optional keyword arguments:
 
         :param driver: which audio driver to use for output
-        :type driver: str
+        :type driver: ``str``
         :param device: the device to use for audio output
-        :type device: str
+        :type device: ``str``
         :param midi_driver: which driver to use for MIDI input
-        :type midi_driver: str
+        :type midi_driver: ``str``
         :param cmd_handler: whether to create a shell command handler
-        :type cmd_handler: bool (default: ``False``)
+        :type cmd_handler: ``bool`` (default: ``False``)
 
         Possible choices for ``driver`` are:
 
@@ -1329,10 +1347,14 @@ class Synth:
     def set_reverb(self, roomsize=-1.0, damping=-1.0, width=-1.0, level=-1.0):
         """Set reverb parameters.
 
-        roomsize: Reverb room size value (0.0-1.0)
-        damping: Reverb damping value (0.0-1.0)
-        width: Reverb width value (0.0-100.0)
-        level: Reverb level value (0.0-1.0)
+        :param roomsize: Reverb room size value (0.0-1.0)
+        :type roomsize: ``float``
+        :param damping: Reverb damping value (0.0-1.0)
+        :type damping: ``float``
+        :param width: Reverb width value (0.0-100.0)
+        :type width: ``float``
+        :param level: Reverb level value (0.0-1.0)
+        :type level: ``float``
 
         """
         if fluid_synth_set_reverb:
@@ -1354,12 +1376,18 @@ class Synth:
     def set_chorus(self, nr=-1, level=-1.0, speed=-1.0, depth=-1.0, type=-1):
         """Set chorus parameters.
 
-        nr: Chorus voice count (0-99, CPU time consumption proportional to this value)
-        level: Chorus level (0.0-10.0)
-        speed: Chorus speed in Hz (0.29-5.0)
-        depth: Chorus depth (max value depends on synth sample rate,
-               0.0-21.0 is safe for sample rate values up to 96KHz)
-        type: Chorus waveform type (0=sine, 1=triangle)
+        :param nr: Chorus voice count (0-99, CPU time consumption proportional
+            to this value)
+        :type nr: ``int``
+        :param level: Chorus level (0.0-10.0)
+        :type levl: ``float``
+        :param speed: Chorus speed in Hz (0.29-5.0)
+        :type speed: ``float``
+        :param depth: Chorus depth (max value depends on synth sample rate,
+           0.0-21.0 is safe for sample rate values up to 96KHz)
+        :type depth: ``float``
+        :param type: Chorus waveform type (0=sine, 1=triangle)
+        :type type: ``int``
 
         """
         if fluid_synth_set_chorus:
@@ -1530,8 +1558,8 @@ class Sequencer:
 
         Optional keyword arguments:
 
-        time_scale: ticks per second, defaults to 1000
-        use_system_timer: whether the sequencer should advance by itself
+        :param time_scale: ticks per second, defaults to 1000
+        :param use_system_timer: whether the sequencer should advance by itself
 
         """
         self.client_callbacks = []
