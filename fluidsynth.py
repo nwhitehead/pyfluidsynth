@@ -1162,18 +1162,19 @@ class Synth:
                 response = fluid_settings_copystr(self.settings, opt, data, 256)
                 return _d(data.value) if response == FLUID_OK else None
             elif stype == FLUID_SET_TYPE:
-                raise NotImplementedError("Getting a setting value of type FLUID_SET_TYPE is not "
-                                          "supported yet.")
+                raise NotImplementedError("Setting of type FLUID_SET_TYPE not implemented.")
             elif stype == FLUID_NO_TYPE:
                 raise KeyError("Setting '%s' does not exist." % _d(opt))
         elif isinstance(val, text_type):
-            fluid_settings_setstr(self.settings, opt, _e(val))
+            return fluid_settings_setstr(self.settings, opt, _e(val))
         elif isinstance(val, binary_type):
-            fluid_settings_setstr(self.settings, opt, val)
+            return fluid_settings_setstr(self.settings, opt, val)
+        elif isinstance(val, bool):
+            return fluid_settings_setint(self.settings, opt, 1 if val else 0)
         elif isinstance(val, int):
-            fluid_settings_setint(self.settings, opt, val)
+            return fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
-            fluid_settings_setnum(self.settings, opt, val)
+            return fluid_settings_setnum(self.settings, opt, val)
 
     def start(self, driver=None, device=None, midi_driver=None, cmd_handler=False):
         """Start audio output driver in separate background thread.
