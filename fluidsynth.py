@@ -25,7 +25,7 @@
 
 # Standard library modules
 from ctypes import (CDLL, CFUNCTYPE, POINTER, Structure, byref, c_char, c_char_p, c_double,
-                    c_float, c_int, c_short, c_uint, c_void_p, create_string_buffer)
+                    c_float, c_int, c_short, c_size_t, c_uint, c_void_p, create_string_buffer)
 from ctypes.util import find_library
 
 # Third-party modules
@@ -53,10 +53,16 @@ FLUID_MIDI_ROUTER_RULE_PROG_CHANGE = 2       # MIDI program change rule
 FLUID_MIDI_ROUTER_RULE_PITCH_BEND = 3        # MIDI pitch bend rule
 FLUID_MIDI_ROUTER_RULE_CHANNEL_PRESSURE = 4  # MIDI channel pressure rule
 FLUID_MIDI_ROUTER_RULE_KEY_PRESSURE = 5      # MIDI key pressure rule
+# MIDI player state
+FLUID_PLAYER_READY = 0  # Player is ready
+FLUID_PLAYER_PLAYING = 1  # Player is currently playing
+FLUID_PLAYER_DONE = 2  # Player is finished playing
 # Driver names
 AUDIO_DRIVER_NAMES = ("alsa, coreaudio, dart, dsound, file, jack, oss, portaudio, pulseaudio, "
                       "sdl2, sndman, waveout").split(", ")
 MIDI_DRIVER_NAMES = "alsa_raw, alsa_seq, coremidi, jack, midishare, oss, winmidi".split(", ")
+AUDIO_FILE_TYPES = ("aiff, au, auto, avr, caf, flac, htk, iff, mat, oga, paf, pvf, raw, sd2, sds, "
+                    "sf, voc, w64, wav, xi").split(", ")
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -593,6 +599,97 @@ except AttributeError:
     fluid_preset_get_name = None
     fluid_sfont_get_preset = None
 
+# fluid file renderer
+new_fluid_file_renderer = cfunc(
+    'new_fluid_file_renderer',
+    c_void_p,
+    ('synth', c_void_p, 1))
+fluid_file_renderer_process_block = cfunc(
+    'fluid_file_renderer_process_block',
+    c_int,
+    ('dev', c_void_p, 1))
+fluid_file_set_encoding_quality = cfunc(
+    'fluid_file_set_encoding_quality',
+    c_int,
+    ('dev', c_void_p, 1),
+    ('q', c_double, 1))
+delete_fluid_file_renderer = cfunc(
+    'delete_fluid_file_renderer',
+    c_void_p,
+    ('dev', c_void_p, 1))
+
+# fluid midi player
+new_fluid_player = cfunc(
+    'new_fluid_player',
+    c_void_p,
+    ('synth', c_void_p, 1))
+fluid_player_add = cfunc(
+    'fluid_player_add',
+    c_int,
+    ('player', c_void_p, 1),
+    ('midifile', c_char_p, 1))
+fluid_player_add_mem = cfunc(
+    'fluid_player_add_mem',
+    c_int,
+    ('player', c_void_p, 1),
+    ('buffer', c_void_p, 1),
+    ('len', c_size_t, 1))
+fluid_player_get_bpm = cfunc(
+    'fluid_player_get_bpm',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_get_midi_tempo = cfunc(
+    'fluid_player_get_midi_tempo',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_get_status = cfunc(
+    'fluid_player_get_status',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_get_current_tick = cfunc(
+    'fluid_player_get_current_tick',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_get_total_ticks = cfunc(
+    'fluid_player_get_total_ticks',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_join = cfunc(
+    'fluid_player_join',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_play = cfunc(
+    'fluid_player_play',
+    c_int,
+    ('player', c_void_p, 1))
+fluid_player_seek = cfunc(
+    'fluid_player_seek',
+    c_int,
+    ('player', c_void_p, 1),
+    ('ticks', c_int, 1))
+fluid_player_set_loop = cfunc(
+    'fluid_player_set_loop',
+    c_int,
+    ('player', c_void_p, 1),
+    ('loop', c_int, 1))
+fluid_player_set_bpm = cfunc(
+    'fluid_player_set_bpm',
+    c_int,
+    ('player', c_void_p, 1),
+    ('bpm', c_int, 1))
+fluid_player_set_midi_tempo = cfunc(
+    'fluid_player_set_midi_tempo',
+    c_int,
+    ('player', c_void_p, 1),
+    ('tempo', c_int, 1))
+fluid_player_stop = cfunc(
+    'fluid_player_stop',
+    c_int,
+    ('player', c_void_p, 1))
+delete_fluid_player = cfunc(
+    'delete_fluid_player',
+    c_void_p,
+    ('player', c_void_p, 1))
 
 # fluid sequencer
 new_fluid_sequencer2 = cfunc(
@@ -766,6 +863,256 @@ class RouterRule:
     def set_param2(self, min=0, max=127, mul=1.0, add=0):
         if self.rule:
             fluid_midi_router_rule_set_param2(self.rule, min, max, mul, add)
+
+
+class BasePlayer(object):
+    """Interface for the FluidSynth internal MIDI player."""
+
+    def __init__(self, synth):
+        """Initialize Player instance.
+
+        :param synth: an instance of class Synth
+
+        """
+        self.synth = synth
+        self.player = new_fluid_player(self.synth.synth)
+
+    def delete(self):
+        delete_fluid_player(self.player)
+
+    def add(self, filename):
+        """Add Standard MIDI File to the playlist.
+
+        :param filename: SMF name / path
+        :type filename: ``str``
+
+        """
+        return fluid_player_add(self.player, _e(filename))
+
+    def add_mem(self, data):
+        """Add SMF data to the playlist.
+
+        :param data: SMF MIDI data
+        :type data: ``bytes`` or ``bytearray``
+
+        """
+        return fluid_player_add_mem(self.player, data, len(data))
+
+    def play(self):
+        """Start playing."""
+        return fluid_player_play(self.player)
+
+    def join(self):
+        """Wait until player is finished playing."""
+        return fluid_player_join(self.player)
+
+    def stop(self):
+        """Stop playing."""
+        return fluid_player_stop(self.player)
+
+    @property
+    def bpm(self):
+        """Return current player tempo in BPM.
+
+        :return: tempo in beats (quarter notes) per minute
+
+        """
+        return fluid_player_get_bpm(self.player)
+
+    @bpm.setter
+    def bpm(self, beats_per_minute):
+        """Set player tempo in BPM.
+
+        :param: beats_per_minute: tempo in beats (quarter notes) per minute
+        :type beats_per_minute: ``int``
+
+        """
+        return fluid_player_set_bpm(self.player, beats_per_minute)
+
+    @property
+    def current_tick(self):
+        """Return current player position.
+
+        :return: position in MIDI ticks
+        :rtype: ``int``
+
+        """
+        return fluid_player_get_current_tick(self.player)
+
+    @current_tick.setter
+    def current_tick(self, ticks):
+        """Seek to given player position.
+
+        :param ticks: position in MIDI ticks
+        :type ticks: ``int``
+
+        """
+        return fluid_player_seek(self.player, ticks)
+
+    @property
+    def status(self):
+        """Return player status.
+
+        :return: ``FLUID_PLAYER_READY``, ``FLUID_PLAYER_PLAYING``,
+            or ``FLUID_PLAYER_DONE`` constant value
+
+        """
+        return fluid_player_get_status(self.player)
+
+    @property
+    def tempo(self):
+        """Return current player tempo.
+
+        :return: tempo in microseconds per beat (quarter note)
+        :rtype: ``int``
+
+        """
+        return fluid_player_get_midi_tempo(self.player)
+
+    @tempo.setter
+    def tempo(self, ms_per_quarter_note):
+        """Set player tempo.
+
+        :param ms_per_quarter_note: tempo in microseconds per beat (quarter note)
+        :type ms_per_quarter_note: ``int``
+
+        """
+        return fluid_player_set_midi_tempo(self.player, ms_per_quarter_note)
+
+    @property
+    def total_ticks(self):
+        """Return duration of current MIDI track in ticks.
+
+        :rtype: ``int``
+
+        """
+        return fluid_player_get_total_ticks(self.player)
+
+
+class Player(BasePlayer):
+    reverb_presets = {
+        # room size (0.0-1.2), damping (0.0-1.0), width (0.0-100.0), level (0.0-1.0)
+        'Preset 1': (0.2, 0.0, 0.5, 0.9),
+        'Preset 2': (0.4, 0.2, 0.5, 0.8),
+        'Preset 3': (0.6, 0.4, 0.5, 0.7),
+        'Preset 4': (0.8, 0.7, 0.5, 0.6),
+        'Preset 5': (0.8, 0.0, 0.5, 0.5)
+    }
+
+    def play(self, offset=0):
+        """Start playing at given offset.
+
+        :param offset: time offset in MIDI ticks
+        :type offset: ``int``
+
+        """
+        if offset != self.current_tick:
+            self.seek(offset)
+
+        return super(Player, self).play()
+
+    def render(self, filename, filetype=None, quality=0.5, progress_callback=None):
+        """Render MIDI file to audio file.
+
+        :param filename: audio output file path and name
+        'type filename: ``str``
+        :param filetype: audio output file type
+        :type filetype: ``str``
+        :param quality: variable bit rate encoding quality when file type is
+            ``flac`` or ``oga``
+        :type quality: ``float`` (0.0 - 1.0)
+        :param progress_callback: Python callable to call after each
+            period-size block of samples has been written. Receives the
+            filename, filetype, current total number of sample frames written
+            and the period size as positional arguments in that order.
+        :type progress_callback: callable with 4 positional args
+
+        Possible choices for ``filetype`` are:
+
+        aiff, au, auto, avr, caf, flac, htk, iff, mat, oga, paf, pvf, raw, sd2,
+        sds, sf, voc, w64, wav, xi
+
+        See also: http://www.fluidsynth.org/api/fluidsettings.xml#audio.file.type
+
+        """
+        self._set_render_settings(filename, filetype)
+        renderer = new_fluid_file_renderer(self.synth.synth)
+        if not renderer:
+            raise OSError('Failed to create MIDI file renderer.')
+
+        fluid_file_set_encoding_quality(renderer, quality)
+        period_size = self.synth.setting('audio.period-size')
+        num_samples = 0  # sample frame counter
+
+        try:
+            while self.status != FLUID_PLAYER_DONE:
+                # render one block
+                if fluid_file_renderer_process_block(renderer) != FLUID_OK:
+                    raise OSError('MIDI file renderer error.')
+
+                # increment with period size
+                num_samples += period_size
+                if progress_callback:
+                    # for progress reporting
+                    progress_callback(filename, filetype, num_samples, period_size)
+        finally:
+            self.stop()
+            self.join()
+            self.synth.setting('player.timing-source', 'system')
+            self.synth.setting("synth.lock-memory", 1)
+            delete_fluid_file_renderer(renderer)
+
+        return num_samples
+
+    def _set_render_settings(self, filename, filetype=None):
+        """Set audio file and audio file type and non-realtime rendering mode.
+
+        Internal method called by ``Player.render()``.
+
+        :param filename: audio output file path and name
+        'type filename: ``str``
+        :param filetype: audio output file type
+        :type filetype: ``str``
+
+        """
+        if filetype is not None and filetype not in AUDIO_FILE_TYPES:
+            raise OSError("Unnown file type '%s'." % filetype)
+
+        self.synth.setting("audio.file.name", filename)
+        self.synth.setting("player.timing-source", "sample")
+        self.synth.setting("synth.lock-memory", 0)
+
+        if filetype is not None:
+            self.synth.setting("audio.file.type", filetype)
+
+    def set_reverb(self, preset):
+        """Change reverb preset.
+
+        :param preset: reverb preset name (one of the ``Player.reverb_presets`` keys)
+        :type preset: ``str``
+
+        """
+        self.synth.set_reverb(*self.reverb_presets[preset])
+
+    def set_gain(self, gain):
+        """Set synth master volume.
+
+        :param gain: gain value ``0.2 - 10.0``
+        :type gain: ``float``
+
+        """
+        self.synth.setting('synth.gain', float(gain))
+
+    def stop(self):
+        """Stop playing.
+
+        Also triggers release phase of all currently sounding notes.
+
+        """
+        result = super(Player, self).stop()
+        # Stop notes on all (-1) channels
+        self.synth.all_notes_off(-1)
+        return result
 
 
 class Synth:
