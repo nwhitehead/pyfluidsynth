@@ -1,25 +1,65 @@
 ================================================================================
 
-    Jun 7-10, 2019
+    Jun 7-12, 2019 Christopher Arndt <info@chrisarndt.de>
 
-    + Bumped `api_version` to "2.0".
+    Enhancements & new features:
+
     * Integrated, fixed and enhanced fluidsynth 2 compatibility work done
       by Bill Peterson.
+    * Added support for support for fluidsynth MIDI player and renderer
+      and a new `Player` class for an object-oriented API to these.
     * Added support for `fluidsynth_settings_get*` functions.
     * Enhanced `Synth.settings` to act as a settings retrieval method as well.
-    * Replaced raising of undefined `Error` exception with `OSError`.
-    * Added `all_notes_off` support to `Synth` class.
-    * Explicitly import used names from cytpes module instead of star import
-      to enable checking for undefined names with code linters.
-    * Replaced use of `future` module for Python 2 compatibility with `six`.
+    * Added support for passing bool values to `Synth.setting`.
+    * Added support for passing bytes string values to `Synth.settings`.
+    * Added `all_notes_off` method to `Synth` class.
+    * Added `RouterRule` class (see below).
+    * Added MIDI router debug handler function bindings.
+    * Added tests scripts for fluidsynth MIDI file renderer.
+    * Described parameter names and types for most important functions and
+      methods with Sphinx-compatible syntax.
+    * Added module-level constants for fluid setting types (`FLUID_*_TYPE`),
+      MIDI router (`FLUID_MIDI_ROUTER_RULE_*` rule types, and MIDI player
+      state (`FLUID_PLAYER_*`).
+    * Added module-level constants `AUDIO_DRIVER_NAMES` and `MIDI_DRIVER_NAMES`
+      listing known audio and MIDI drivers.
+    * Added module-level constant `AUDIO_FILE_TYPES` listing known audio
+      file types for rendering.
+    * Added `.gitignore` file.
+    * Added configuration for `flake8`, `pylint' and `isort` QA tools.
+
+    Changes:
+
+    * Bumped `api_version` to "2.0".
+    * Updated copyright note at top of module source.
+    * Replaced use of `future` module for Python 2 compatibility with (simpler)
+      `six` module.
+    * Changed import of `ctypes` module to explicitly import used names instead
+      of star import to enable checking for undefined names with code linters.
+    * Changed `Synth.setting` to return result of `fluid_setting_set*` calls.
+    * Changed API to add MIDI router rules to be more object-oriented:
+
+      * Added `RouterRule` class.
+      * Added `router_add_rule` method of `Synth` class, which takes a
+        `RouterRule` instance as argument.
+      * Removed `router_begin`, `router_end`, `router_chan`, `router_par1,
+        `router_par2` methods from `Synth` class.
+    * Updated list of available audio and MIDI drivers in code and documentation.
+    * `Synth.start()` now raises `ValueError` if unknown driver name is passed.
     * Ordered function bindings by fluidsynth header file.
     * Re-ordered module level constants, functions and classes to be more
-      consistent and in accordacne with general practices.
+      consistent and in accordance with general Python best practices.
     * Re-formatted code for PEP-8 compliance, better consistency, no
       overlong lines and better separation of code blocks.
-    * Cleaned up docstrings formatting and punctuation.
     * Moved notes about changes from module docstring to this change log.
-      -- Christopher Arndt <info@chrisarndt.de>
+
+    Fixes:
+
+    * Replaced raising of undefined `Error` exception with `OSError`.
+    * Cleaned up docstrings formatting and punctuation.
+    * Made sure tests scripts find example soundfont when called from another
+      directory.
+    * Fixed Python 3 incompatibilities in test scripts.
 
 
 ================================================================================
