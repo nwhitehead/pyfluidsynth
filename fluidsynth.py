@@ -31,7 +31,7 @@ from ctypes.util import find_library
 # Third-party modules
 from six import binary_type, iteritems, text_type
 
-# constants
+# Constants
 
 # Bump this up when changing the interface for users
 api_version = '2.0'
@@ -91,7 +91,7 @@ def cfunc(name, result, *args):
 
 # Function prototypes for C versions of functions
 
-# fluid settings
+# Fluid settings
 new_fluid_settings = cfunc(
     'new_fluid_settings',
     c_void_p)
@@ -142,7 +142,7 @@ delete_fluid_settings = cfunc(
     None,
     ('settings', c_void_p, 1))
 
-# fluid synth
+# Fluid synth
 new_fluid_synth = cfunc(
     'new_fluid_synth',
     c_void_p,
@@ -151,7 +151,7 @@ delete_fluid_synth = cfunc(
     'delete_fluid_synth',
     None,
     ('synth', c_void_p, 1))
-# soundfont handling
+# Soundfont handling
 fluid_synth_sfload = cfunc(
     'fluid_synth_sfload',
     c_int,
@@ -248,7 +248,7 @@ fluid_synth_all_notes_off = cfunc(
     c_int,
     ('synth', c_void_p, 1),
     ('chan', c_int, 1))
-# reset functions
+# Reset functions
 fluid_synth_program_reset = cfunc(
     'fluid_synth_program_reset',
     c_int,
@@ -257,7 +257,7 @@ fluid_synth_system_reset = cfunc(
     'fluid_synth_system_reset',
     c_int,
     ('synth', c_void_p, 1))
-# misc
+# Misc
 fluid_synth_write_s16 = cfunc(
     'fluid_synth_write_s16',
     c_void_p,
@@ -275,7 +275,7 @@ fluid_synth_handle_midi_event = cfunc(
     ('data', c_void_p, 1),
     ('event', c_void_p, 1))
 
-# reverb
+# Reverb
 fluid_synth_get_reverb_roomsize = cfunc(
     'fluid_synth_get_reverb_roomsize',
     c_double,
@@ -342,7 +342,7 @@ except AttributeError:
     fluid_synth_set_reverb_level = None
     fluid_synth_set_reverb_width = None
 
-# chorus
+# Chorus
 fluid_synth_get_chorus_nr = cfunc(
     'fluid_synth_get_chorus_nr',
     c_int,
@@ -454,7 +454,7 @@ except AttributeError:
     fluid_synth_get_channel_info = None
     del fluid_synth_channel_info_t
 
-# fluid audio driver
+# Fluid audio driver
 new_fluid_audio_driver = cfunc(
     'new_fluid_audio_driver',
     c_void_p,
@@ -465,7 +465,7 @@ delete_fluid_audio_driver = cfunc(
     None,
     ('driver', c_void_p, 1))
 
-# fluid midi driver
+# Fluid MIDI driver
 new_fluid_midi_driver = cfunc(
     'new_fluid_midi_driver',
     c_void_p,
@@ -478,7 +478,7 @@ delete_fluid_midi_driver = cfunc(
     ('driver', c_void_p, 1))
 
 
-# fluid midi router
+# Fluid MIDI router
 class fluid_midi_router_t(Structure):
     _fields_ = [
         ('synth', c_void_p),
@@ -532,7 +532,7 @@ delete_fluid_midi_router = cfunc(
     c_int,
     ('router', POINTER(fluid_midi_router_t), 1))
 
-# fluid midi router rules
+# Fluid MIDI router rules
 new_fluid_midi_router_rule = cfunc(
     'new_fluid_midi_router_rule',
     c_void_p)
@@ -565,7 +565,7 @@ delete_fluid_midi_router_rule = cfunc(
     c_int,
     ('rule', c_void_p, 1))
 
-# command handler
+# Command handler
 try:
     new_fluid_cmd_handler = cfunc(
         'new_fluid_cmd_handler',
@@ -583,7 +583,7 @@ delete_fluid_cmd_handler = cfunc(
         c_void_p,
         ('handler', c_void_p, 1))
 
-# preset handling
+# Preset handling
 try:
     fluid_preset_get_name = cfunc(
         'fluid_preset_get_name',
@@ -599,7 +599,7 @@ except AttributeError:
     fluid_preset_get_name = None
     fluid_sfont_get_preset = None
 
-# fluid file renderer
+# Fluid file renderer
 new_fluid_file_renderer = cfunc(
     'new_fluid_file_renderer',
     c_void_p,
@@ -618,7 +618,7 @@ delete_fluid_file_renderer = cfunc(
     c_void_p,
     ('dev', c_void_p, 1))
 
-# fluid midi player
+# Fluid MIDI player
 new_fluid_player = cfunc(
     'new_fluid_player',
     c_void_p,
@@ -691,7 +691,7 @@ delete_fluid_player = cfunc(
     c_void_p,
     ('player', c_void_p, 1))
 
-# fluid sequencer
+# Fluid sequencer
 new_fluid_sequencer2 = cfunc(
     'new_fluid_sequencer2',
     c_void_p,
@@ -738,7 +738,7 @@ delete_fluid_sequencer = cfunc(
     None,
     ('seq', c_void_p, 1))
 
-# fluid event
+# Fluid events
 new_fluid_event = cfunc(
     'new_fluid_event',
     c_void_p)
@@ -798,7 +798,7 @@ def _e(s, encoding=DEFAULT_ENCODING):
     return s
 
 
-# convenience functions
+# Convenience functions
 
 def fluid_synth_write_s16_stereo(synth, nframes):
     """Return generated samples in stereo 16-bit format.
@@ -1050,14 +1050,13 @@ class Player(BasePlayer):
 
         try:
             while self.status != FLUID_PLAYER_DONE:
-                # render one block
+                # Render one block
                 if fluid_file_renderer_process_block(renderer) != FLUID_OK:
                     raise OSError('MIDI file renderer error.')
 
-                # increment with period size
                 num_samples += period_size
                 if progress_callback:
-                    # for progress reporting
+                    # For progress reporting
                     progress_callback(filename, filetype, num_samples, period_size)
         finally:
             self.stop()
@@ -1581,7 +1580,7 @@ class Sequencer:
         if response == FLUID_FAILED:
             raise OSError("Registering client failed")
 
-        # store in a list to prevent garbage collection
+        # Store in a list to prevent garbage collection
         self.client_callbacks.append(c_callback)
         return response
 
