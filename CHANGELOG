@@ -42,7 +42,7 @@
       * Added `RouterRule` class.
       * Added `router_add_rule` method of `Synth` class, which takes a
         `RouterRule` instance as argument.
-      * Removed `router_begin`, `router_end`, `router_chan`, `router_par1,
+      * Removed `router_begin`, `router_end`, `router_chan`, `router_par1`,
         `router_par2` methods from `Synth` class.
     * Updated list of available audio and MIDI drivers in code and documentation.
     * `Synth.start()` now raises `ValueError` if unknown driver name is passed.
