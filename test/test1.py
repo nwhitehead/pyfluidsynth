@@ -1,4 +1,6 @@
 import time
+from os.path import dirname, join
+
 import fluidsynth
 
 fs = fluidsynth.Synth()
@@ -7,7 +9,7 @@ fs.start()
 ## Use something like:
 # fs.start(driver="pulseaudio")
 
-sfid = fs.sfload("example.sf2")
+sfid = fs.sfload(join(dirname(__file__), "example.sf2"))
 fs.program_select(0, sfid, 0, 0)
 
 fs.noteon(0, 60, 30)

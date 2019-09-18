@@ -1,4 +1,6 @@
 import time
+from os.path import dirname, join
+
 import numpy
 import pyaudio
 import fluidsynth
@@ -6,8 +8,8 @@ import fluidsynth
 pa = pyaudio.PyAudio()
 strm = pa.open(
     format = pyaudio.paInt16,
-    channels = 2, 
-    rate = 44100, 
+    channels = 2,
+    rate = 44100,
     output = True)
 
 s = []
@@ -17,7 +19,7 @@ fl = fluidsynth.Synth()
 # Initial silence is 1 second
 s = numpy.append(s, fl.get_samples(44100 * 1))
 
-sfid = fl.sfload("example.sf2")
+sfid = fs.sfload(join(dirname(__file__), "example.sf2"))
 fl.program_select(0, sfid, 0, 0)
 
 fl.noteon(0, 60, 30)
@@ -38,6 +40,6 @@ fl.delete()
 
 samps = fluidsynth.raw_audio_string(s)
 
-print len(samps)
-print 'Starting playback'
+print(len(samps))
+print('Starting playback')
 strm.write(samps)
