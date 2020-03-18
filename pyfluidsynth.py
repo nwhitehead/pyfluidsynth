@@ -179,22 +179,22 @@ fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
                                   ('chan', c_int, 1),
                                   ('info', POINTER(fluid_synth_channel_info_t), 1))
 
-fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
-                                    ('synth', c_void_p, 1),
-                                    ('set', c_int, 1),
-                                    ('roomsize', c_double, 1),
-                                    ('damping', c_double, 1),
-                                    ('width', c_double, 1),
-                                    ('level', c_double, 1))
+# fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
+#                                     ('synth', c_void_p, 1),
+#                                     ('set', c_int, 1),
+#                                     ('roomsize', c_double, 1),
+#                                     ('damping', c_double, 1),
+#                                     ('width', c_double, 1),
+#                                     ('level', c_double, 1))
                                     
-fluid_synth_set_chorus_full = cfunc('fluid_synth_set_chorus_full', c_int,
-                                    ('synth', c_void_p, 1),
-                                    ('set', c_int, 1),
-                                    ('nr', c_int, 1),
-                                    ('level', c_double, 1),
-                                    ('speed', c_double, 1),
-                                    ('depth_ms', c_double, 1),
-                                    ('type', c_int, 1))
+# fluid_synth_set_chorus_full = cfunc('fluid_synth_set_chorus_full', c_int,
+#                                     ('synth', c_void_p, 1),
+#                                     ('set', c_int, 1),
+#                                     ('nr', c_int, 1),
+#                                     ('level', c_double, 1),
+#                                     ('speed', c_double, 1),
+#                                     ('depth_ms', c_double, 1),
+#                                     ('type', c_int, 1))
 
 fluid_synth_get_reverb_roomsize = cfunc('fluid_synth_get_reverb_roomsize', c_double,
                                     ('synth', c_void_p, 1))
@@ -447,13 +447,13 @@ class Synth:
 
         """
         if driver is not None:
-            assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound', 'pulseaudio']) 
+            # assert (driver in ['alsa', 'oss', 'jack', 'portaudio', 'sndmgr', 'coreaudio', 'Direct Sound', 'pulseaudio']) 
             fluid_settings_setstr(self.settings, b'audio.driver', driver.encode())
             if device is not None:
                 fluid_settings_setstr(self.settings, str('audio.%s.device' % (driver)).encode(), device.encode())
             self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
         if midi_driver is not None:
-            assert (midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare', 'coremidi'])
+            # assert (midi_driver in ['alsa_seq', 'alsa_raw', 'oss', 'winmidi', 'midishare', 'coremidi'])
             fluid_settings_setstr(self.settings, b'midi.driver', midi_driver.encode())
             self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)
             fluid_synth_set_midi_router(self.synth, self.router)

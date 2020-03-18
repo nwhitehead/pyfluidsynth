@@ -15,5 +15,5 @@ generally files with the extension SF2.  FluidSynth can either be used
 to play audio itself, or you can call a function that returns chunks
 of audio data and output the data to the soundcard yourself.
 ''',
-       py_modules = ['fluidsynth'],
+       py_modules = ['pyfluidsynth'],
        install_requires = ['future'])
