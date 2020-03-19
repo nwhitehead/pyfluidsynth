@@ -28,6 +28,8 @@ Added sequencer support -- Christian Romberg <distjubo@gmail.com>
 from ctypes import *
 from ctypes.util import find_library
 from future.utils import iteritems
+from wave import Wave_read, open
+from typing import Tuple
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -82,6 +84,74 @@ fluid_settings_setint = cfunc('fluid_settings_setint', c_int,
 delete_fluid_settings = cfunc('delete_fluid_settings', None,
                               ('settings', c_void_p, 1))
 
+# fluid ramsfont
+class fluid_sfont_t(Structure):
+    _fields_ = [
+        ('data', c_void_p),
+        ('id', c_int),
+        ('refcount', c_int),
+        ('bankofs', c_int),
+
+        ('free', c_void_p),
+        ('get_name', c_void_p),
+        ('get_preset', c_void_p),
+        ('iteration_start', c_void_p),
+        ('iteration_next', c_void_p)
+    ]
+
+fluid_ramsfont_create_sfont = cfunc( 'fluid_ramsfont_create_sfont', POINTER(fluid_sfont_t) )
+
+fluid_ramsfont_set_name = cfunc( 'fluid_ramsfont_set_name', c_int,
+                               ( 'sfont', c_void_p, 1 ),
+                               ( 'name', c_char_p, 1 ) )
+
+fluid_ramsfont_add_izone = cfunc( 'fluid_ramsfont_add_izone', c_int,
+                                ( 'sfont', c_void_p, 1 ),
+                                ( 'bank', c_uint, 1 ),
+                                ( 'num', c_uint, 1 ),
+                                ( 'sample', c_void_p, 1 ),
+                                ( 'lokey', c_int, 1 ),
+                                ( 'hikey', c_int, 1 ) )
+
+fluid_ramsfont_remove_izone = cfunc( 'fluid_ramsfont_remove_izone', c_int,
+                                   ( 'sfont', c_void_p, 1 ),
+                                   ( 'bank', c_uint, 1 ),
+                                   ( 'num', c_uint, 1 ),
+                                   ( 'sample', c_void_p, 1 ) )
+
+fluid_ramsfont_izone_set_gen = cfunc( 'fluid_ramsfont_izone_set_gen', c_int,
+                                    ( 'sfont', c_void_p, 1 ),
+                                    ( 'bank', c_uint, 1 ),
+                                    ( 'num', c_uint, 1 ),
+                                    ( 'sample', c_void_p, 1 ),
+                                    ( 'gen_type', c_int, 1 ),
+                                    ( 'value', c_float, 1 ) )
+
+fluid_ramsfont_izone_set_loop = cfunc( 'fluid_ramsfont_izone_set_loop', c_int,
+                                     ( 'sfont', c_void_p, 1 ),
+                                     ( 'bank', c_uint, 1 ),
+                                     ( 'num', c_uint, 1 ),
+                                     ( 'sample', c_void_p, 1 ),
+                                     ( 'on', c_int, 1 ),
+                                     ( 'loopstart', c_float, 1 ),
+                                     ( 'loopend', c_float, 1 ) )
+
+new_fluid_ramsample = cfunc( 'new_fluid_ramsample', c_void_p )
+
+delete_fluid_ramsample = cfunc( 'delete_fluid_ramsample', c_int,
+                              ( 'sample', c_void_p, 1 ) )
+
+fluid_sample_set_name = cfunc( 'fluid_sample_set_name', c_int,
+                             ( 'sample', c_void_p, 1 ),
+                             ( 'name', c_char_p, 1 ) )
+
+fluid_sample_set_sound_data = cfunc( 'fluid_sample_set_sound_data', c_int,
+                                   ( 'sample', c_void_p, 1 ),
+                                   ( 'data', c_void_p, 1 ),
+                                   ( 'nbframes', c_uint, 1 ),
+                                   ( 'copy_data', c_short, 1 ),
+                                   ( 'rootkey', c_int, 1 ) )
+
 # fluid synth
 new_fluid_synth = cfunc('new_fluid_synth', c_void_p,
                         ('settings', c_void_p, 1))
@@ -98,6 +168,14 @@ fluid_synth_sfunload = cfunc('fluid_synth_sfunload', c_int,
                            ('synth', c_void_p, 1),
                            ('sfid', c_int, 1),
                            ('update_midi_presets', c_int, 1))
+
+fluid_synth_add_sfont = cfunc('fluid_synth_add_sfont', c_int,
+                           ('synth', c_void_p, 1),
+                           ('sfont', c_void_p, 1))
+
+fluid_synth_remove_sfont = cfunc('fluid_synth_remove_sfont', c_int,
+                           ('synth', c_void_p, 1),
+                           ('sfont', c_void_p, 1))
 
 fluid_synth_program_select = cfunc('fluid_synth_program_select', c_int,
                                    ('synth', c_void_p, 1),
@@ -273,6 +351,9 @@ delete_fluid_sequencer = cfunc('delete_fluid_sequencer', None,
 # fluid event
 new_fluid_event = cfunc('new_fluid_event', c_void_p)
 
+fluid_event_get_data = cfunc('fluid_event_get_data', c_void_p,
+                            ('evt', c_void_p, 1))
+
 fluid_event_set_source = cfunc('fluid_event_set_source', None,
                               ('evt', c_void_p, 1),
                               ('src', c_void_p, 1))
@@ -395,6 +476,37 @@ def fluid_synth_write_s16_stereo(synth, len):
 
 
 # Object-oriented interface, simplifies access to functions
+class RamSoundFont:
+    @staticmethod
+    def create_sample ( name : str, wave : Wave_read, rootkey : int ) -> c_void_p:
+        sample = new_fluid_ramsample()
+        
+        fluid_sample_set_name( sample, create_string_buffer( name.encode(), 20 ) )
+
+        assert wave.getsampwidth() == 2, f"Samples must be 16bit WAVE files, got {wave.getsampwidth() * 8}bit"
+        assert wave.getnchannels() == 1, f"Samples must be mono WAVE files, got {wave.getnchannels()} channels"
+
+        nbframes = wave.getnframes()
+
+        fluid_sample_set_sound_data( sample, wave.readframes( nbframes ), nbframes, c_short( 1 ), rootkey )
+
+        return sample
+
+    def __init__ ( self ):
+        self.sfont : fluid_sfont_t = fluid_ramsfont_create_sfont()
+
+    def add_sample_zone ( self, bank : int, num : int, sample : c_void_p, lokey: int, hikey : int ) -> int:
+        return fluid_ramsfont_add_izone( self.sfont.contents.data, bank, num, sample, lokey, hikey )
+
+    def add_wave_zone ( self, bank : int, num : int, wave : Wave_read, lokey: int, hikey : int ) -> Tuple[ c_void_p, int ]:
+        sample = RamSoundFont.create_sample( f"ola{lokey}", wave, lokey )
+
+        return ( sample, self.add_sample_zone( bank, num, sample, lokey, hikey ) )
+        
+    def add_wave_zone_file ( self, bank : int, num : int, file : str, lokey: int, hikey : int ) -> Tuple[ c_void_p, int ]:
+        wave = open( file, 'rb' )
+
+        return self.add_wave_zone( bank, num, wave, lokey, hikey )
 
 class Synth:
     """Synth represents a FluidSynth synthesizer"""
@@ -469,6 +581,10 @@ class Synth:
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used"""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
+    def add_sfont( self, soundfont ):
+        return fluid_synth_add_sfont(self.synth, soundfont.sfont)
+    def remove_sfont( self, soundfont ):
+        return fluid_synth_remove_sfont(self.synth, soundfont.sfont)
     def program_select(self, chan, sfid, bank, preset):
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
