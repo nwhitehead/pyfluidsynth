@@ -29,7 +29,7 @@ from ctypes import *
 from ctypes.util import find_library
 from future.utils import iteritems
 from wave import Wave_read, open
-from typing import Tuple
+from typing import Dict, Tuple
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -474,6 +474,66 @@ def fluid_synth_write_s16_stereo(synth, len):
     fluid_synth_write_s16(synth, len, buf, 0, 2, buf, 1, 2)
     return numpy.frombuffer(buf[:], dtype=numpy.int16)
 
+GEN_STARTADDROFS = 0
+GEN_ENDADDROFS = 1
+GEN_STARTLOOPADDROFS = 2
+GEN_ENDLOOPADDROFS = 3
+GEN_STARTADDRCOARSEOFS = 4
+GEN_MODLFOTOPITCH = 5
+GEN_VIBLFOTOPITCH = 6
+GEN_MODENVTOPITCH = 7
+GEN_FILTERFC = 8
+GEN_FILTERQ = 9
+GEN_MODLFOTOFILTERFC = 10
+GEN_MODENVTOFILTERFC = 11
+GEN_ENDADDRCOARSEOFS = 12
+GEN_MODLFOTOVOL = 13
+GEN_UNUSED1 = 14
+GEN_CHORUSSEND = 15
+GEN_REVERBSEND = 16
+GEN_PAN = 17
+GEN_UNUSED2 = 18
+GEN_UNUSED3 = 19
+GEN_UNUSED4 = 20
+GEN_MODLFODELAY = 21
+GEN_MODLFOFREQ = 22
+GEN_VIBLFODELAY = 23
+GEN_VIBLFOFREQ = 24
+GEN_MODENVDELAY = 25
+GEN_MODENVATTACK = 26
+GEN_MODENVHOLD = 27
+GEN_MODENVDECAY = 28
+GEN_MODENVSUSTAIN = 29
+GEN_MODENVRELEASE = 30
+GEN_KEYTOMODENVHOLD = 31
+GEN_KEYTOMODENVDECAY = 32
+GEN_VOLENVDELAY = 33
+GEN_VOLENVATTACK = 34
+GEN_VOLENVHOLD = 35
+GEN_VOLENVDECAY = 36
+GEN_VOLENVSUSTAIN = 37
+GEN_VOLENVRELEASE = 38
+GEN_KEYTOVOLENVHOLD = 39
+GEN_KEYTOVOLENVDECAY = 40
+GEN_INSTRUMENT = 41
+GEN_RESERVED1 = 42
+GEN_KEYRANGE = 43
+GEN_VELRANGE = 44
+GEN_STARTLOOPADDRCOARSEOFS = 45
+GEN_KEYNUM = 46
+GEN_VELOCITY = 47
+GEN_ATTENUATION = 48
+GEN_RESERVED2 = 49
+GEN_ENDLOOPADDRCOARSEOFS = 20
+GEN_COARSETUNE = 51
+GEN_FINETUNE = 52
+GEN_SAMPLEID = 53
+GEN_SAMPLEMODE = 54
+GEN_RESERVED3 = 55
+GEN_SCALETUNE = 56
+GEN_EXCLUSIVECLASS = 57
+GEN_OVERRIDEROOTKEY = 58
+GEN_PITCH = 59
 
 # Object-oriented interface, simplifies access to functions
 class RamSoundFont:
@@ -485,10 +545,11 @@ class RamSoundFont:
 
         assert wave.getsampwidth() == 2, f"Samples must be 16bit WAVE files, got {wave.getsampwidth() * 8}bit"
         assert wave.getnchannels() == 1, f"Samples must be mono WAVE files, got {wave.getnchannels()} channels"
+        assert wave.getframerate() == 44100, f"Samples must be 44100hz WAVE files, got {wave.getframerate()}hz"
 
         nbframes = wave.getnframes()
 
-        if wave.getnframes() == 2147483647:
+        if nbframes == 2147483647:
             frames : bytearray = bytearray( wave.readframes( 2000 ) )
             
             while True:
@@ -509,19 +570,29 @@ class RamSoundFont:
 
     def __init__ ( self ):
         self.sfont : fluid_sfont_t = fluid_ramsfont_create_sfont()
+        self.sample_id : int = 0
 
-    def add_sample_zone ( self, bank : int, num : int, sample : c_void_p, lokey: int, hikey : int ) -> int:
-        return fluid_ramsfont_add_izone( self.sfont.contents.data, bank, num, sample, lokey, hikey )
-
-    def add_wave_zone ( self, bank : int, num : int, wave : Wave_read, lokey: int, hikey : int ) -> Tuple[ c_void_p, int ]:
-        sample = RamSoundFont.create_sample( f"ola{lokey}", wave, lokey )
-
-        return ( sample, self.add_sample_zone( bank, num, sample, lokey, hikey ) )
+    def add_sample_zone ( self, bank : int, num : int, sample : c_void_p, lokey: int, hikey : int, generators : Dict[int, float] = {} ) -> int:
+        res = fluid_ramsfont_add_izone( self.sfont.contents.data, bank, num, sample, lokey, hikey )
         
-    def add_wave_zone_file ( self, bank : int, num : int, file : str, lokey: int, hikey : int ) -> Tuple[ c_void_p, int ]:
+        if res == FLUID_OK:
+            for key, value in generators.items():
+                fluid_ramsfont_izone_set_gen( self.sfont.contents.data, bank, num, sample, key, value )
+        
+        return res
+
+    def add_wave_zone ( self, bank : int, num : int, wave : Wave_read, lokey: int, hikey : int, generators : Dict[int, float] = {} ) -> Tuple[ c_void_p, int ]:
+        sample = RamSoundFont.create_sample( f"sample_{self.sample_id}", wave, lokey )
+
+        self.sample_id += 1
+
+        return ( sample, self.add_sample_zone( bank, num, sample, lokey, hikey, generators = generators ) )
+        
+    def add_wave_zone_file ( self, bank : int, num : int, file : str, lokey: int, hikey : int, generators : Dict[int, float] = {} ) -> Tuple[ c_void_p, int ]:
         wave = open( file, 'rb' )
 
-        return self.add_wave_zone( bank, num, wave, lokey, hikey )
+        return self.add_wave_zone( bank, num, wave, lokey, hikey, generators = generators )
+
 
 class Synth:
     """Synth represents a FluidSynth synthesizer"""
