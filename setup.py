@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup (name = 'pyFluidSynth',
+setup (name = 'pyFluidSynth-musikla',
        version = '1.2.5',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
