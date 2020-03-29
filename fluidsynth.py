@@ -405,15 +405,15 @@ class Synth:
         gain : scale factor for audio output, default is 0.2
         lower values are quieter, allow more simultaneous notes
         samplerate : output samplerate in Hz, default is 44100 Hz
-        added capability for passing arbitrary fluid settings using args
+        added capability for passing arbitrary fluid settings using kwargs
         """
         st = new_fluid_settings()
         fluid_settings_setnum(st, b'synth.gain', gain)
         fluid_settings_setnum(st, b'synth.sample-rate', samplerate)
         fluid_settings_setint(st, b'synth.midi-channels', channels)
+        self.settings = st
         for opt,val in iteritems(kwargs):
             self.setting(opt, val)
-        self.settings = st
         self.synth = new_fluid_synth(st)
         self.audio_driver = None
         self.midi_driver = None
