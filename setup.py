@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup (name = 'pyFluidSynth-musikla',
-       version = '1.2.5',
+       version = '1.2.6',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
        url = 'https://github.com/nwhitehead/pyfluidsynth',
