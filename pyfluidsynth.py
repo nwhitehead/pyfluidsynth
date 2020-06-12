@@ -54,6 +54,8 @@ def cfunc(name, result, *args):
         aflags.append((arg[2], arg[0]) + arg[3:])
     return CFUNCTYPE(result, *atypes)((name, _fl), tuple(aflags))
 
+c_int_p = POINTER(c_int)
+c_double_p = POINTER(c_double)
 
 # Bump this up when changing the interface for users
 api_version = '1.2.5'
@@ -80,6 +82,16 @@ fluid_settings_setint = cfunc('fluid_settings_setint', c_int,
                               ('settings', c_void_p, 1),
                               ('name', c_char_p, 1),
                               ('val', c_int, 1))
+
+fluid_settings_getint = cfunc('fluid_settings_getint', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1),
+                              ('val', c_int_p, 1))
+
+fluid_settings_getnum = cfunc('fluid_settings_getnum', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1),
+                              ('val', c_double_p, 1))
 
 delete_fluid_settings = cfunc('delete_fluid_settings', None,
                               ('settings', c_void_p, 1))
@@ -242,6 +254,15 @@ fluid_synth_write_s16 = cfunc('fluid_synth_write_s16', c_void_p,
                               ('rbuf', c_void_p, 1),
                               ('roff', c_int, 1),
                               ('rincr', c_int, 1))
+
+new_fluid_file_renderer = cfunc('new_fluid_file_renderer', c_void_p,
+                               ('synth', c_void_p, 1))
+
+fluid_file_renderer_process_block = cfunc('fluid_file_renderer_process_block', c_int,
+                                         ('dev', c_void_p, 1))
+
+delete_fluid_file_renderer = cfunc('delete_fluid_file_renderer', c_void_p,
+                                  ('dev', c_void_p, 1))
 
 class fluid_synth_channel_info_t(Structure):
     _fields_ = [
@@ -593,6 +614,8 @@ class RamSoundFont:
 
         return self.add_wave_zone( bank, num, wave, lokey, hikey, generators = generators )
 
+    def delete ( self ):
+        pass
 
 class Synth:
     """Synth represents a FluidSynth synthesizer"""
@@ -609,9 +632,9 @@ class Synth:
         fluid_settings_setnum(st, b'synth.gain', gain)
         fluid_settings_setnum(st, b'synth.sample-rate', samplerate)
         fluid_settings_setint(st, b'synth.midi-channels', channels)
+        self.settings = st
         for opt,val in iteritems(kwargs):
             self.setting(opt, val)
-        self.settings = st
         self.synth = new_fluid_synth(st)
         self.audio_driver = None
         self.midi_driver = None
@@ -627,6 +650,29 @@ class Synth:
             fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
             fluid_settings_setnum(self.settings, opt, val)
+    
+    def get_setting(self, opt, t):
+        opt_bf = opt.encode()
+
+        if t is str:
+            raise BaseException( "Not yet implemented" )
+        elif t is int:
+            pt = ( c_int * 1 )()
+
+            if fluid_settings_getint(self.settings, opt_bf, cast(pt, c_int_p)) == FLUID_FAILED:
+                raise BaseException( f"Setting '{opt}' not found" )
+            
+            return pt[ 0 ]
+        elif t is float:
+            pt = ( c_double * 1 )()
+
+            if fluid_settings_getnum(self.settings, opt_bf, cast(pt, c_double_p)) == FLUID_FAILED:
+                raise BaseException( f"Setting '{opt}' not found" )
+            
+            return pt[ 0 ]
+        else:
+            raise BaseException( "Invalid setting type " + str( t ) )
+
     def start(self, driver=None, device=None, midi_driver=None):
         """Start audio output driver in separate background thread
 
@@ -918,6 +964,59 @@ class Sequencer:
 
     def delete(self):
         delete_fluid_sequencer(self.sequencer)
+
+class FileRenderer:
+    def __init__ ( self, synth : Synth ):
+        self.synth : Synth = synth
+        self.renderer : c_void_p = new_fluid_file_renderer( synth.synth )
+
+        if not self.renderer:
+            raise BaseException( "Could not create a file renderer" )
+    
+    def process_block ( self ):
+        return fluid_file_renderer_process_block( self.renderer )
+
+    def delete ( self ):
+        delete_fluid_file_renderer( self.renderer )
+
+    @staticmethod
+    def fast_loop_sequencer ( synth : Synth, sequencer : Sequencer, total_time : int ):
+        """
+        Renders a sequencer to a file as fast as possible, using the maximum CPU available, instead of doing it realtime
+
+        Total time is the number of milliseconds to render to the file
+        """
+        renderer = FileRenderer( synth )
+
+        period_size = synth.get_setting( "audio.period-size", int )
+        sample_rate = synth.get_setting( "synth.sample-rate", float )
+
+        # Number of msecs per period
+        # There are `sample_rate` samples per second, so rule of 3 simple:
+        # `sample_rate` --- 1000,
+        # `period_size` --- msecs_pp
+        msecs_pp = ( period_size * 1000 ) / sample_rate
+
+        elapsed_msecs : int = 0
+        leftovers : float = msecs_pp
+
+        if leftovers < 0:
+            elapsed_msecs += 1
+            sequencer.process( 1 )
+
+        while elapsed_msecs < total_time:
+            if leftovers > 1:
+                elapsed_msecs += int( leftovers )
+                leftovers = leftovers % 1
+
+            res = renderer.process_block()
+
+            if res == FLUID_FAILED:
+                break
+                
+            leftovers += msecs_pp
+        
+        renderer.delete()
 
 def raw_audio_string(data):
     """Return a string of bytes to send to soundcard
