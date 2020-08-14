@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup (name = 'pyFluidSynth-musikla',
-       version = '1.2.6',
+       version = '1.2.7',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
-       url = 'https://github.com/nwhitehead/pyfluidsynth',
+       url = 'https://github.com/pedromsilvapt/pyfluidsynth',
        description = 'Python bindings for FluidSynth, a MIDI synthesizer that uses SoundFont instruments',
       long_description = '''
 This module contains python bindings for FluidSynth.  FluidSynth is a

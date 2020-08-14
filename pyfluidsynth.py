@@ -36,7 +36,8 @@ from typing import Dict, Tuple
 
 lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
-    find_library('libfluidsynth-1')
+    find_library('libfluidsynth-1') or \
+    find_library('libfluidsynth-2')
 
 if lib is None:
     raise ImportError("Couldn't find the FluidSynth library.")
@@ -111,58 +112,80 @@ class fluid_sfont_t(Structure):
         ('iteration_next', c_void_p)
     ]
 
-fluid_ramsfont_create_sfont = cfunc( 'fluid_ramsfont_create_sfont', POINTER(fluid_sfont_t) )
+try:
+    fluid_ramsfont_create_sfont = cfunc( 'fluid_ramsfont_create_sfont', POINTER(fluid_sfont_t) )
 
-fluid_ramsfont_set_name = cfunc( 'fluid_ramsfont_set_name', c_int,
-                               ( 'sfont', c_void_p, 1 ),
-                               ( 'name', c_char_p, 1 ) )
-
-fluid_ramsfont_add_izone = cfunc( 'fluid_ramsfont_add_izone', c_int,
+    fluid_ramsfont_set_name = cfunc( 'fluid_ramsfont_set_name', c_int,
                                 ( 'sfont', c_void_p, 1 ),
-                                ( 'bank', c_uint, 1 ),
-                                ( 'num', c_uint, 1 ),
-                                ( 'sample', c_void_p, 1 ),
-                                ( 'lokey', c_int, 1 ),
-                                ( 'hikey', c_int, 1 ) )
+                                ( 'name', c_char_p, 1 ) )
 
-fluid_ramsfont_remove_izone = cfunc( 'fluid_ramsfont_remove_izone', c_int,
-                                   ( 'sfont', c_void_p, 1 ),
-                                   ( 'bank', c_uint, 1 ),
-                                   ( 'num', c_uint, 1 ),
-                                   ( 'sample', c_void_p, 1 ) )
-
-fluid_ramsfont_izone_set_gen = cfunc( 'fluid_ramsfont_izone_set_gen', c_int,
+    fluid_ramsfont_add_izone = cfunc( 'fluid_ramsfont_add_izone', c_int,
                                     ( 'sfont', c_void_p, 1 ),
                                     ( 'bank', c_uint, 1 ),
                                     ( 'num', c_uint, 1 ),
                                     ( 'sample', c_void_p, 1 ),
-                                    ( 'gen_type', c_int, 1 ),
-                                    ( 'value', c_float, 1 ) )
+                                    ( 'lokey', c_int, 1 ),
+                                    ( 'hikey', c_int, 1 ) )
 
-fluid_ramsfont_izone_set_loop = cfunc( 'fluid_ramsfont_izone_set_loop', c_int,
-                                     ( 'sfont', c_void_p, 1 ),
-                                     ( 'bank', c_uint, 1 ),
-                                     ( 'num', c_uint, 1 ),
-                                     ( 'sample', c_void_p, 1 ),
-                                     ( 'on', c_int, 1 ),
-                                     ( 'loopstart', c_float, 1 ),
-                                     ( 'loopend', c_float, 1 ) )
+    fluid_ramsfont_remove_izone = cfunc( 'fluid_ramsfont_remove_izone', c_int,
+                                    ( 'sfont', c_void_p, 1 ),
+                                    ( 'bank', c_uint, 1 ),
+                                    ( 'num', c_uint, 1 ),
+                                    ( 'sample', c_void_p, 1 ) )
 
-new_fluid_ramsample = cfunc( 'new_fluid_ramsample', c_void_p )
+    fluid_ramsfont_izone_set_gen = cfunc( 'fluid_ramsfont_izone_set_gen', c_int,
+                                        ( 'sfont', c_void_p, 1 ),
+                                        ( 'bank', c_uint, 1 ),
+                                        ( 'num', c_uint, 1 ),
+                                        ( 'sample', c_void_p, 1 ),
+                                        ( 'gen_type', c_int, 1 ),
+                                        ( 'value', c_float, 1 ) )
 
-delete_fluid_ramsample = cfunc( 'delete_fluid_ramsample', c_int,
-                              ( 'sample', c_void_p, 1 ) )
+    fluid_ramsfont_izone_set_loop = cfunc( 'fluid_ramsfont_izone_set_loop', c_int,
+                                        ( 'sfont', c_void_p, 1 ),
+                                        ( 'bank', c_uint, 1 ),
+                                        ( 'num', c_uint, 1 ),
+                                        ( 'sample', c_void_p, 1 ),
+                                        ( 'on', c_int, 1 ),
+                                        ( 'loopstart', c_float, 1 ),
+                                        ( 'loopend', c_float, 1 ) )
 
-fluid_sample_set_name = cfunc( 'fluid_sample_set_name', c_int,
-                             ( 'sample', c_void_p, 1 ),
-                             ( 'name', c_char_p, 1 ) )
+    new_fluid_ramsample = cfunc( 'new_fluid_ramsample', c_void_p )
 
-fluid_sample_set_sound_data = cfunc( 'fluid_sample_set_sound_data', c_int,
-                                   ( 'sample', c_void_p, 1 ),
-                                   ( 'data', c_void_p, 1 ),
-                                   ( 'nbframes', c_uint, 1 ),
-                                   ( 'copy_data', c_short, 1 ),
-                                   ( 'rootkey', c_int, 1 ) )
+    delete_fluid_ramsample = cfunc( 'delete_fluid_ramsample', c_int,
+                                ( 'sample', c_void_p, 1 ) )
+
+    fluid_sample_set_name = cfunc( 'fluid_sample_set_name', c_int,
+                                ( 'sample', c_void_p, 1 ),
+                                ( 'name', c_char_p, 1 ) )
+
+    fluid_sample_set_sound_data = cfunc( 'fluid_sample_set_sound_data', c_int,
+                                    ( 'sample', c_void_p, 1 ),
+                                    ( 'data', c_void_p, 1 ),
+                                    ( 'nbframes', c_uint, 1 ),
+                                    ( 'copy_data', c_short, 1 ),
+                                    ( 'rootkey', c_int, 1 ) )
+except:
+    # Mocks for version 2
+    fluid_ramsfont_create_sfont = lambda: None
+
+    fluid_ramsfont_set_name = lambda sfont, name: None # int
+
+    fluid_ramsfont_add_izone = lambda sfont, bank, num, sample, lokey, hikey: None # int
+
+    fluid_ramsfont_remove_izone = lambda sfont, bank, num, sample: None # int
+
+    fluid_ramsfont_izone_set_gen = lambda sfont, bank, num, sample, gen_type, value: None # int
+
+    fluid_ramsfont_izone_set_loop = lambda sfont, bank, num, sample, on, loopstart, loopend: None # int 
+
+    new_fluid_ramsample = lambda: None #void_p
+
+    delete_fluid_ramsample = lambda sample: None # int
+
+    fluid_sample_set_name = lambda sample, name: None # int 
+
+    fluid_sample_set_sound_data = lambda sample, data, nbframes, copy_data, rootkey: None # int 
 
 # fluid synth
 new_fluid_synth = cfunc('new_fluid_synth', c_void_p,
@@ -273,10 +296,13 @@ class fluid_synth_channel_info_t(Structure):
         ('name', c_char*32),
         ('reserved', c_char*32)]
 
-fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
-                                  ('synth', c_void_p, 1),
-                                  ('chan', c_int, 1),
-                                  ('info', POINTER(fluid_synth_channel_info_t), 1))
+try:
+    fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
+                                    ('synth', c_void_p, 1),
+                                    ('chan', c_int, 1),
+                                    ('info', POINTER(fluid_synth_channel_info_t), 1))
+except:
+    fluid_synth_get_channel_info = lambda synth, chan, info: None # int
 
 # fluid_synth_set_reverb_full = cfunc('fluid_synth_set_reverb_full', c_int,
 #                                     ('synth', c_void_p, 1),
@@ -314,18 +340,30 @@ fluid_synth_get_chorus_nr = cfunc('fluid_synth_get_chorus_nr', c_int,
 fluid_synth_get_chorus_level = cfunc('fluid_synth_get_chorus_level', c_double,
                                     ('synth', c_void_p, 1))
 
-fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
-                                    ('synth', c_void_p, 1))
+try:
+    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
+                                        ('synth', c_void_p, 1))
+except:
+    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed', c_double,
+                                        ('synth', c_void_p, 1))
 
-fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
-                                    ('synth', c_void_p, 1))
+try:
+    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
+                                        ('synth', c_void_p, 1))
+except:
+    # V2
+    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth', c_double,
+                                        ('synth', c_void_p, 1))
 
 fluid_synth_get_chorus_type = cfunc('fluid_synth_get_chorus_type', c_int,
                                     ('synth', c_void_p, 1))
 
-fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
-                               ('synth', c_void_p, 1),
-                               ('router', c_void_p, 1))
+try:
+    fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
+                                ('synth', c_void_p, 1),
+                                ('router', c_void_p, 1))
+except:
+    fluid_synth_set_midi_router = lambda synth, router: None # None
 
 fluid_synth_handle_midi_event = cfunc('fluid_synth_handle_midi_event', POINTER(c_int),
                                ('data', c_void_p, 1),
@@ -716,7 +754,10 @@ class Synth:
         """Unload a SoundFont and free memory it used"""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
     def add_sfont( self, soundfont ):
-        return fluid_synth_add_sfont(self.synth, soundfont.sfont)
+        if soundfont.sfont is not None:
+            return fluid_synth_add_sfont(self.synth, soundfont.sfont)
+        
+        return None
     def remove_sfont( self, soundfont ):
         return fluid_synth_remove_sfont(self.synth, soundfont.sfont)
     def program_select(self, chan, sfid, bank, preset):
@@ -1018,6 +1059,19 @@ class FileRenderer:
         
         renderer.delete()
 
+    
+    # fluid_settings_t* settings, fluid_synth_t* synth, fluid_player_t* player
+    # @staticmethod
+    # def fast_render_loop_player( synth : Synth, player : Player ):
+    #     renderer = FileRenderer( synth )
+
+    #     # TODO
+    #     while player.get_status() == FLUID_PLAYER_PLAYING:
+    #         if renderer.process_block() != 0:
+    #             break
+        
+    #     delete_fluid_file_renderer( renderer )
+        
 def raw_audio_string(data):
     """Return a string of bytes to send to soundcard
 
