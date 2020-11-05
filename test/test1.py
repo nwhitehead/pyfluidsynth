@@ -2,7 +2,7 @@ import time
 import fluidsynth
 
 fs = fluidsynth.Synth()
-fs.start()
+fs.start(driver='dsound')
 ## Your installation of FluidSynth may require a different driver.
 ## Use something like:
 # fs.start(driver="pulseaudio")
