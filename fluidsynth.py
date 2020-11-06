@@ -20,10 +20,6 @@
     FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 ================================================================================
-
-Added lots of bindings and stuff to help with playing live -- Bill Peterson <albedozero@gmail.com>
-Added sequencer support -- Christian Romberg <distjubo@gmail.com>
-Added fluidsynth 2 compatibility -- Bill Peterson <albedozero@gmail.com>
 """
 
 from ctypes import *
