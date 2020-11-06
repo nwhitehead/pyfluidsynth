@@ -88,6 +88,22 @@ fluid_settings_setint = cfunc('fluid_settings_setint', c_int,
                               ('name', c_char_p, 1),
                               ('val', c_int, 1))
 
+fluid_settings_copystr = cfunc('fluid_settings_copystr', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1),
+                              ('str', c_char_p, 1),
+                              ('len', c_int, 1))
+
+fluid_settings_getnum = cfunc('fluid_settings_getnum', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1),
+                              ('val', POINTER(c_double), 1))
+
+fluid_settings_getint = cfunc('fluid_settings_getint', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1),
+                              ('val', POINTER(c_int), 1))
+
 delete_fluid_settings = cfunc('delete_fluid_settings', None,
                               ('settings', c_void_p, 1))
 
@@ -521,13 +537,24 @@ class Synth:
         self.router = None
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
-        opt = opt.encode()
         if isinstance(val, (str, bytes)):
-            fluid_settings_setstr(self.settings, opt, val)
+            fluid_settings_setstr(self.settings, opt.encode(), val.encode())
         elif isinstance(val, int):
-            fluid_settings_setint(self.settings, opt, val)
+            fluid_settings_setint(self.settings, opt.encode(), val)
         elif isinstance(val, float):
-            fluid_settings_setnum(self.settings, opt, val)
+            fluid_settings_setnum(self.settings, opt.encode(), c_double(val))
+    def get_setting(self, opt):
+        """get current value of an arbitrary synth setting"""
+        val = c_int()
+        if fluid_settings_getint(self.settings, opt.encode(), byref(val)) != FLUID_FAILED:
+            return val.value
+        strval = create_string_buffer(32)
+        if fluid_settings_copystr(self.settings, opt.encode(), strval, 32) != FLUID_FAILED:
+            return strval.value.decode()
+        num = c_double()
+        if fluid_settings_getnum(self.settings, opt.encode(), byref(num)) != FLUID_FAILED:
+            return round(num.value, 6)
+        return None
     def start(self, driver=None, device=None, midi_driver=None):
         """Start audio output driver in separate background thread
 
@@ -541,21 +568,22 @@ class Synth:
         midi_driver : the midi driver to use for communicating with midi devices
         see http://www.fluidsynth.org/api/fluidsettings.xml for allowed values and defaults by platform
         """
-        if driver is not None:
-            fluid_settings_setstr(self.settings, b'audio.driver', driver.encode())
-            if device is not None:
-                fluid_settings_setstr(self.settings, str('audio.%s.device' % (driver)).encode(), device.encode())
-            self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
-        if midi_driver is not None:
-            fluid_settings_setstr(self.settings, b'midi.driver', midi_driver.encode())
-            self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)
-            if new_fluid_cmd_hander is not None:
-                new_fluid_cmd_handler(self.synth, self.router)
-            else:
-                fluid_synth_set_midi_router(self.synth, self.router)
-            self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
+        driver = driver or self.get_setting('audio.driver')
+        device = device or self.get_setting('audio.%s.device' % driver)
+        midi_driver = midi_driver or self.get_setting('midi.driver')
+        
+        self.setting('audio.driver', driver)
+        self.setting('audio.%s.device' % driver, device)
+        self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
+        self.setting('midi.driver', midi_driver)
+        self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)
+        if new_fluid_cmd_handler:
+            new_fluid_cmd_handler(self.synth, self.router)
+        else:
+            fluid_synth_set_midi_router(self.synth, self.router)
+        self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
     def delete(self):
-        if self.audio_driver is not None:
+        if self.audio_driver:
             delete_fluid_audio_driver(self.audio_driver)
         delete_fluid_synth(self.synth)
         delete_fluid_settings(self.settings)
