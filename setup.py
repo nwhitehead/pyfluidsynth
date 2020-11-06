@@ -16,4 +16,4 @@ to play audio itself, or you can call a function that returns chunks
 of audio data and output the data to the soundcard yourself.
 ''',
        py_modules = ['fluidsynth'],
-       install_requires = ['future'])
+       install_requires = ['numpy'])
