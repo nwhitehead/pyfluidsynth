@@ -16,10 +16,13 @@ FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 FluidSynth 1.0.7 (or later version)
 (earlier versions probably work, untested)
-http://www.nongnu.org/fluid/
+http://www.fluidsynth.org/
+* Windows/Android Binaries: https://github.com/FluidSynth/fluidsynth/releases
+* MacOS/Linux Distributions: https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions
+* Building from Source: https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake
 
 NumPy 1.0 or later (for some features)
-http://numpy.scipy.org/
+http://numpy.org/
 
 
 ## DOWNLOAD
