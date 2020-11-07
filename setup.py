@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup (name = 'pyFluidSynth',
-       version = '1.2.5',
+       version = '1.3.0',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
        url = 'https://github.com/nwhitehead/pyfluidsynth',
@@ -16,4 +16,4 @@ to play audio itself, or you can call a function that returns chunks
 of audio data and output the data to the soundcard yourself.
 ''',
        py_modules = ['fluidsynth'],
-       install_requires = ['future'])
+       install_requires = ['numpy'])

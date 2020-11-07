@@ -1,7 +1,14 @@
 ================================================================================
+    Nov 6, 2020 - 1.3.0
+
+    * Added lots of bindings and stuff to help with playing live -- Bill Peterson <albedozero@gmail.com>
+    * Added fluidsynth 2 compatibility -- Bill Peterson <albedozero@gmail.com>
+
+
+================================================================================
     May 24, 2018 - 1.2.5
     
-    * Added sequencer support
+    * Added sequencer support -- Christian Romberg <distjubo@gmail.com>
 
 
 
