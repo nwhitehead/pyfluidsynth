@@ -14,8 +14,8 @@ FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 ## REQUIREMENTS
 
-FluidSynth 1.0.7 (or later version)
-(earlier versions probably work, untested)
+FluidSynth 2.0.0 (or later version)
+(earlier versions are not supported. While they probably work, some features will be unavailble)
 http://www.fluidsynth.org/
 * Windows/Android Binaries: https://github.com/FluidSynth/fluidsynth/releases
 * MacOS/Linux Distributions: https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions
