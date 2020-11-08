@@ -66,6 +66,18 @@ api_version = '1.3.0'
 FLUID_OK = 0
 FLUID_FAILED = -1
 
+fluid_version = cfunc('fluid_version', c_void_p,
+                        ('major', POINTER(c_int), 1),
+                        ('minor', POINTER(c_int), 1),
+                        ('micro', POINTER(c_int), 1))
+
+majver = c_int()
+fluid_version(majver, c_int(), c_int())
+if majver.value > 1:
+    FLUIDSETTING_EXISTS = FLUID_OK
+else:
+    FLUIDSETTING_EXISTS = 1
+
 # fluid settings
 new_fluid_settings = cfunc('new_fluid_settings', c_void_p)
 
@@ -542,13 +554,13 @@ class Synth:
     def get_setting(self, opt):
         """get current value of an arbitrary synth setting"""
         val = c_int()
-        if fluid_settings_getint(self.settings, opt.encode(), byref(val)) != FLUID_FAILED:
+        if fluid_settings_getint(self.settings, opt.encode(), byref(val)) == FLUIDSETTING_EXISTS:
             return val.value
         strval = create_string_buffer(32)
-        if fluid_settings_copystr(self.settings, opt.encode(), strval, 32) != FLUID_FAILED:
+        if fluid_settings_copystr(self.settings, opt.encode(), strval, 32) == FLUIDSETTING_EXISTS:
             return strval.value.decode()
         num = c_double()
-        if fluid_settings_getnum(self.settings, opt.encode(), byref(num)) != FLUID_FAILED:
+        if fluid_settings_getnum(self.settings, opt.encode(), byref(num)) == FLUIDSETTING_EXISTS:
             return round(num.value, 6)
         return None
     def start(self, driver=None, device=None, midi_driver=None):
@@ -567,7 +579,7 @@ class Synth:
         driver = driver or self.get_setting('audio.driver')
         device = device or self.get_setting('audio.%s.device' % driver)
         midi_driver = midi_driver or self.get_setting('midi.driver')
-        
+
         self.setting('audio.driver', driver)
         self.setting('audio.%s.device' % driver, device)
         self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
