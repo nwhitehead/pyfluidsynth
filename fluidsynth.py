@@ -480,7 +480,7 @@ fluid_synth_get_sfont_by_id = cfunc('fluid_synth_get_sfont_by_id', c_void_p,
 fluid_sfont_get_preset = cfunc('fluid_sfont_get_preset', c_void_p,
                                ('sfont', c_void_p, 1),
                                ('banknum', c_int, 1),
-                               ('prognum', c_int, 1))
+                               ('prenum', c_int, 1))
 
 fluid_preset_get_name = cfunc('fluid_preset_get_name', c_char_p,
                               ('preset', c_void_p, 1))
@@ -614,30 +614,30 @@ class Synth:
             fluid_synth_get_channel_info(self.synth, chan, byref(info))
             return (info.sfont_id, info.bank, info.program, info.name)
         else:
-            (sfontid, banknum, prognum) = self.program_info(chan)
-            presetname = self.sfpreset_name(sfontid, banknum, prognum)
-            return (sfontid, banknum, prognum, presetname)
+            (sfontid, banknum, presetnum) = self.program_info(chan)
+            presetname = self.sfpreset_name(sfontid, banknum, presetnum)
+            return (sfontid, banknum, presetnum, presetname)
     def program_info(self, chan):
         """get active soundfont, bank, prog on a channel"""
         if fluid_synth_get_program is not None:
             sfontid=c_int()
             banknum=c_int()
-            prognum=c_int()
-            fluid_synth_get_program(self.synth, chan, byref(sfontid), byref(banknum), byref(prognum))
-            return (sfontid.value, banknum.value, prognum.value)
+            presetnum=c_int()
+            fluid_synth_get_program(self.synth, chan, byref(sfontid), byref(banknum), byref(presetnum))
+            return (sfontid.value, banknum.value, presetnum.value)
         else:
             (sfontid, banknum, prognum, presetname) = self.channel_info(chan)
             return (sfontid, banknum, prognum)
-    def sfpreset_name(self, sfid, bank, prog):
+    def sfpreset_name(self, sfid, bank, prenum):
         """Return name of a soundfont preset"""
         if fluid_synth_get_sfont_by_id is not None:
             sfont=fluid_synth_get_sfont_by_id(self.synth, sfid)
-            preset=fluid_sfont_get_preset(sfont, bank, prog)
+            preset=fluid_sfont_get_preset(sfont, bank, prenum)
             if not preset:
                 return None
             return fluid_preset_get_name(preset).decode('ascii')
         else:
-            (sfontid, banknum, prognum, presetname) = self.channel_info(chan)
+            (sfontid, banknum, presetnum, presetname) = self.channel_info(chan)
             return presetname
     def router_clear(self):
         if self.router is not None:
