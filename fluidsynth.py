@@ -404,7 +404,7 @@ delete_fluid_audio_driver = cfunc('delete_fluid_audio_driver', None,
 # fluid midi driver
 new_fluid_midi_driver = cfunc('new_fluid_midi_driver', c_void_p,
                                ('settings', c_void_p, 1),
-                               ('handler', CFUNCTYPE(POINTER(c_int), c_void_p, c_void_p), 1),
+                               ('handler', CFUNCTYPE(c_void_p, c_void_p, c_void_p), 1),
                                ('event_handler_data', c_void_p, 1))
 
 
