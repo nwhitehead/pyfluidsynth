@@ -993,16 +993,9 @@ class Synth:
         fluid_player_set_playback_callback(self.player, self.custom_router_callback, self.synth)
         status = fluid_player_add(self.player, filename.encode())
         if status == FLUID_FAILED: return status
-        playerThread = threading.Thread(target=self.playMidiThread, args=(1,), daemon=True)
-        playerThread.start()
-
-    def playMidiThread(self, name):
         status = fluid_player_play(self.player)
-        if status == FLUID_FAILED: return status
-        fluid_player_join(self.player)
-        delete_fluid_player(self.player)
-        return FLUID_OK
-
+        return status
+    
     def play_midi_stop(self):
         status = fluid_player_stop(self.player)
         if status == FLUID_FAILED: return status
