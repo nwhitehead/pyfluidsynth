@@ -626,7 +626,7 @@ class Synth:
         self.setting('synth.midi-channels', channels)
         for opt,val in kwargs.items():
             self.setting(opt, val)
-        self.synth = new_fluid_synth(st)
+        self.synth = new_fluid_synth(self.settings)
         self.audio_driver = None
         self.midi_driver = None
         self.router = None
