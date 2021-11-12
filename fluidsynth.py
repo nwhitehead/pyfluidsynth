@@ -25,7 +25,6 @@
 from ctypes import *
 from ctypes.util import find_library
 import os
-import threading # Added by JAllin, September 2021
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -37,7 +36,7 @@ if hasattr(os, 'add_dll_directory'):
 
 lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
-    find_library('libfluidsynth-3') or \ # Added by JAllin, September 2021
+    find_library('libfluidsynth-3') or \
     find_library('libfluidsynth-2') or \
     find_library('libfluidsynth-1')
     
@@ -118,7 +117,6 @@ fluid_settings_getint = cfunc('fluid_settings_getint', c_int,
 delete_fluid_settings = cfunc('delete_fluid_settings', None,
                               ('settings', c_void_p, 1))
 
-# fluid midi tuning (by JAllin, July 2021)
 fluid_synth_activate_key_tuning = cfunc('fluid_synth_activate_key_tuning', c_int,
                                         ('synth', c_void_p, 1),
                                         ('bank', c_int, 1),
@@ -139,7 +137,6 @@ fluid_synth_deactivate_tuning = cfunc('fluid_synth_deactivate_tuning', c_int,
                                       ('chan', c_int, 1),
                                       ('apply', c_int, 1))
 
-# JAllin: this may be wrong. Untested
 fluid_synth_tuning_dump = cfunc('fluid_synth_tuning_dump', c_int,
                                 ('synth', c_void_p, 1),
                                 ('bank', c_int, 1),
@@ -425,7 +422,6 @@ fluid_event_noteoff = cfunc('fluid_event_noteoff', None,
 delete_fluid_event = cfunc('delete_fluid_event', None,
                           ('evt', c_void_p, 1))
 
-# fluid midi events. Added by JAllin, September 2021
 fluid_midi_event_get_channel = cfunc('fluid_midi_event_get_channel', c_int,
                                   ('evt', c_void_p, 1))
 
@@ -447,7 +443,6 @@ fluid_midi_event_get_value = cfunc('fluid_midi_event_get_value', c_int,
 fluid_midi_event_get_velocity = cfunc('fluid_midi_event_get_velocity', c_int,
                                   ('evt', c_void_p, 1))
 
-# fluid midi file player. Added by JAllin, September 2021
 # tempo_type used by fluid_player_set_tempo()
 FLUID_PLAYER_TEMPO_INTERNAL = 0
 FLUID_PLAYER_TEMPO_EXTERNAL_BPM = 1
@@ -657,7 +652,7 @@ class Synth:
             return round(num.value, 6)
         return None
     
-    def start(self, driver=None, device=None, midi_driver=None, midi_router=None): # Modified by JAllin to add support for an external midi router
+    def start(self, driver=None, device=None, midi_driver=None, midi_router=None):
         """Start audio output driver in separate background thread
 
         Call this function any time after creating the Synth object.
@@ -683,19 +678,13 @@ class Synth:
             new_fluid_cmd_handler(self.synth, self.router)
         else:
             fluid_synth_set_midi_router(self.synth, self.router)
-#        self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
-        ## Remaining lines in Synth.start() added by JAllin, August 2021
         if midi_router == None: ## Use fluidsynth to create a MIDI event handler
-            ## Comment out this line to stop Fluidsynth grabbing MIDI input. Another source, eg mido, can then be used for MIDI input 
             self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
             self.custom_router_callback = None
         else:                   ## Supply an external MIDI event handler    
             self.custom_router_callback = CFUNCTYPE(c_int, c_void_p, c_void_p)(midi_router)
             self.midi_driver = new_fluid_midi_driver(self.settings, self.custom_router_callback, self.router)
-
         return FLUID_OK
-
-
 
     def delete(self):
         if self.audio_driver:
@@ -898,7 +887,6 @@ class Synth:
             return fluid_synth_get_chorus_depth_ms(self.synth)
     def get_chorus_type(self):
         return fluid_synth_get_chorus_type(self.synth)
-    ## JAllin, September 2021: three upper limits changed from 128 to 127. MIDI standard uses 1 to 128 inclusive, MIDI (including fluidsynth) programming uses 0 to 127
     def noteon(self, chan, key, vel):
         """Play a note"""
          if key < 0 or key > 127:
@@ -968,8 +956,6 @@ class Synth:
 
         """
         return fluid_synth_write_s16_stereo(self.synth, len)
-    ## Remaining methods in Synth class added by JAllin, July 2021 ff
-       ## Work in progress!!
     def tuning_dump(self, bank, prog, pitch):
         return fluid_synth_tuning_dump(self.synth, bank, prog, name.encode(), length(name), pitch)
 
