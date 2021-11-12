@@ -35,7 +35,6 @@ if hasattr(os, 'add_dll_directory'):
 
 lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
-    find_library('libfluidsynth-3') or \
     find_library('libfluidsynth-2') or \
     find_library('libfluidsynth-1')
     
