@@ -889,7 +889,7 @@ class Synth:
         return fluid_synth_get_chorus_type(self.synth)
     def noteon(self, chan, key, vel):
         """Play a note"""
-         if key < 0 or key > 127:
+        if key < 0 or key > 127:
             return False
         if chan < 0:
             return False
