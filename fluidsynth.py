@@ -688,6 +688,7 @@ class Synth:
         if midi_router == None: ## Use fluidsynth to create a MIDI event handler
             ## Comment out this line to stop Fluidsynth grabbing MIDI input. Another source, eg mido, can then be used for MIDI input 
             self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
+            self.custom_router_callback = None
         else:                   ## Supply an external MIDI event handler    
             self.custom_router_callback = CFUNCTYPE(c_int, c_void_p, c_void_p)(midi_router)
             self.midi_driver = new_fluid_midi_driver(self.settings, self.custom_router_callback, self.router)
@@ -990,7 +991,8 @@ class Synth:
     def play_midi_file(self, filename):
         self.player = new_fluid_player(self.synth)
         if self.player == None: return FLUID_FAILED
-        fluid_player_set_playback_callback(self.player, self.custom_router_callback, self.synth)
+        if self.custom_router_callback != None:
+            fluid_player_set_playback_callback(self.player, self.custom_router_callback, self.synth)
         status = fluid_player_add(self.player, filename.encode())
         if status == FLUID_FAILED: return status
         status = fluid_player_play(self.player)
