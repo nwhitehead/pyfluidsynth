@@ -244,8 +244,8 @@ fluid_synth_all_notes_off = cfunc('fluid_synth_all_notes_off', c_int,
                                   ('chan', c_int, 1))
 
 fluid_synth_all_sounds_off = cfunc('fluid_synth_all_sounds_off', c_int,
-                                  ('synth', c_void_p, 1),
-                                  ('chan', c_int, 1))
+                                   ('synth', c_void_p, 1),
+                                   ('chan', c_int, 1))
 
 
 class fluid_synth_channel_info_t(Structure):
