@@ -631,7 +631,7 @@ class Synth:
         """
         self.settings = new_fluid_settings()
         self.setting('synth.gain', gain)
-        self.setting('synth.sample-rate', samplerate)
+        self.setting('synth.sample-rate', float(samplerate))
         self.setting('synth.midi-channels', channels)
         for opt,val in kwargs.items():
             self.setting(opt, val)
