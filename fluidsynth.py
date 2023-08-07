@@ -452,6 +452,12 @@ fluid_midi_event_get_value = cfunc('fluid_midi_event_get_value', c_int,
 fluid_midi_event_get_velocity = cfunc('fluid_midi_event_get_velocity', c_int,
                                   ('evt', c_void_p, 1))
 
+# fluid_player_status returned by fluid_player_get_status()
+FLUID_PLAYER_READY = 0
+FLUID_PLAYER_PLAYING = 1
+FLUID_PLAYER_STOPPING = 2
+FLUID_PLAYER_DONE = 3
+
 # tempo_type used by fluid_player_set_tempo()
 FLUID_PLAYER_TEMPO_INTERNAL = 0
 FLUID_PLAYER_TEMPO_EXTERNAL_BPM = 1
@@ -463,10 +469,13 @@ new_fluid_player = cfunc('new_fluid_player', c_void_p,
 delete_fluid_player = cfunc('delete_fluid_player', None,
                              ('player', c_void_p, 1))
 
-fluid_player_add = cfunc('fluid_player_add', c_void_p,
+fluid_player_add = cfunc('fluid_player_add', c_int,
                          ('player', c_void_p, 1),
                          ('filename', c_char_p, 1))
 
+
+fluid_player_get_status = cfunc('fluid_player_get_status', c_int,
+                                ('player', c_void_p, 1))
 fluid_player_join = cfunc('fluid_player_join', c_int,
                           ('player', c_void_p, 1))
 
@@ -631,7 +640,7 @@ class Synth:
         """
         self.settings = new_fluid_settings()
         self.setting('synth.gain', gain)
-        self.setting('synth.sample-rate', samplerate)
+        self.setting('synth.sample-rate', float(samplerate))
         self.setting('synth.midi-channels', channels)
         for opt,val in kwargs.items():
             self.setting(opt, val)
@@ -1025,14 +1034,14 @@ class Sequencer:
     def register_fluidsynth(self, synth):
         response = fluid_sequencer_register_fluidsynth(self.sequencer, synth.synth)
         if response == FLUID_FAILED:
-        	raise Error("Registering fluid synth failed")
+            raise Error("Registering fluid synth failed")
         return response
 
     def register_client(self, name, callback, data=None):
         c_callback = CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p)(callback)
         response = fluid_sequencer_register_client(self.sequencer, name.encode(), c_callback, data)
         if response == FLUID_FAILED:
-        	raise Error("Registering client failed")
+            raise Error("Registering client failed")
 
         # store in a list to prevent garbage collection
         self.client_callbacks.append(c_callback)
