@@ -2,6 +2,8 @@
 
 <em>Python bindings for FluidSynth</em>
 
+**NOTE:** *This unofficial fork is now unamaintained and the repository archived!*
+
 This module contains python bindings for FluidSynth.  FluidSynth is a
 software synthesizer for generating music.  It works like a MIDI
 synthesizer.  You load patches, set parameters, then send NOTEON and
