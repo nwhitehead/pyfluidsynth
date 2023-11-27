@@ -83,6 +83,13 @@ else:
 # fluid settings
 new_fluid_settings = cfunc('new_fluid_settings', c_void_p)
 
+fluid_settings_get_type = cfunc('fluid_settings_get_type', c_int,
+                              ('settings', c_void_p, 1),
+                              ('name', c_char_p, 1))
+FLUID_NUM_TYPE = 0
+FLUID_INT_TYPE = 1
+FLUID_STR_TYPE = 2
+
 fluid_settings_setstr = cfunc('fluid_settings_setstr', c_int,
                               ('settings', c_void_p, 1),
                               ('name', c_char_p, 1),
@@ -631,24 +638,29 @@ class Synth:
         self.midi_driver = None
         self.router = None
     def setting(self, opt, val):
-        """change an arbitrary synth setting, type-smart"""
-        if isinstance(val, (str, bytes)):
-            fluid_settings_setstr(self.settings, opt.encode(), val.encode())
-        elif isinstance(val, int):
-            fluid_settings_setint(self.settings, opt.encode(), val)
-        elif isinstance(val, float):
-            fluid_settings_setnum(self.settings, opt.encode(), c_double(val))
+        """change a synth setting, type-smart"""
+        stype = fluid_settings_get_type(self.st, opt.encode())
+        if stype == FLUID_STR_TYPE:
+            fluid_settings_setstr(self.st, opt.encode(), str(val).encode())
+        elif stype == FLUID_INT_TYPE:
+            fluid_settings_setint(self.st, opt.encode(), int(val))
+        elif stype == FLUID_NUM_TYPE:
+            fluid_settings_setnum(self.st, opt.encode(), c_double(val))
     def get_setting(self, opt):
-        """get current value of an arbitrary synth setting"""
-        val = c_int()
-        if fluid_settings_getint(self.settings, opt.encode(), byref(val)) == FLUIDSETTING_EXISTS:
-            return val.value
-        strval = create_string_buffer(32)
-        if fluid_settings_copystr(self.settings, opt.encode(), strval, 32) == FLUIDSETTING_EXISTS:
-            return strval.value.decode()
-        num = c_double()
-        if fluid_settings_getnum(self.settings, opt.encode(), byref(num)) == FLUIDSETTING_EXISTS:
-            return round(num.value, 6)
+        """get current value of a synth setting"""
+        stype = fluid_settings_get_type(self.st, opt.encode())
+        if stype == FLUID_STR_TYPE:
+            strval = create_string_buffer(32)
+            if fluid_settings_copystr(self.st, opt.encode(), strval, 32) == FLUIDSETTING_EXISTS:
+                return strval.value.decode()
+        elif stype == FLUID_INT_TYPE:
+            val = c_int()
+            if fluid_settings_getint(self.st, opt.encode(), byref(val)) == FLUIDSETTING_EXISTS:
+                return val.value
+        elif stype == FLUID_NUM_TYPE:
+            num = c_double()
+            if fluid_settings_getnum(self.settings, opt.encode(), byref(num)) == FLUIDSETTING_EXISTS:
+                return round(num.value, 6)
         return None
     
     def start(self, driver=None, device=None, midi_driver=None, midi_router=None):
