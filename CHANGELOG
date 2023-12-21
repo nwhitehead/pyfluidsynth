@@ -1,7 +1,27 @@
 ================================================================================
+    Feb 10, 2023 - 1.3.2
+
+    * Add `all_sounds_off` and `all_notes_off` methods. -- Kevin Zakka <kevinarmandzakka@gmail.com>
+
+
+================================================================================
+    Nov 11, 2021 - 1.3.1
+
+    * Added methods to support tuning, event analysis, and midi file playback -- Jonathan Allin <jonathan@jonathanallin.com>
+    * Added support for using an external midi router callback function -- Jonathan Allin <jonathan@jonathanallin.com>
+
+
+================================================================================
+    Nov 6, 2020 - 1.3.0
+
+    * Added lots of bindings and stuff to help with playing live -- Bill Peterson <albedozero@gmail.com>
+    * Added fluidsynth 2 compatibility -- Bill Peterson <albedozero@gmail.com>
+
+
+================================================================================
     May 24, 2018 - 1.2.5
-    
-    * Added sequencer support
+
+    * Added sequencer support -- Christian Romberg <distjubo@gmail.com>
 
 
 
@@ -17,8 +37,8 @@
 
 	March 2, 2009 - 1.2.4
 
-	* Another attempt to find the proper library on Windows systems. Added 
-	short circuited or expression to find either 'fluidsynth' or 
+	* Another attempt to find the proper library on Windows systems. Added
+	short circuited or expression to find either 'fluidsynth' or
 	'libfluidsynth'.
 	* Only import numpy when it's actually needed.
 
@@ -30,21 +50,21 @@
 	* Throw ImportError if the fluidsynth library can't be found.
 	* Range checking in noteon and noteoff
 
- 
+
 ================================================================================
 
 	January 15, 2009 - 1.2.2
 
-	* Small version increment to update website and maintainer info. 
+	* Small version increment to update website and maintainer info.
 	  No actual code changes.
 
- 
+
 ================================================================================
 
 	July 22, 2008 - 1.2.1
 
 	* Added pydoc documentation and this CHANGELOG.
- 
+
 
 ================================================================================
 
@@ -55,7 +75,7 @@
 
 	* Updated interface to use objects instead of just functions.
 
- 
+
 ================================================================================
 
 	July 21, 2008 - 1.1
@@ -64,7 +84,7 @@
 	  driver thread.  Makes pyFluidSynth work for audio games and other
 	  applications that manage their own sound.
 
- 
+
 ================================================================================
 
 	July 16, 2008 - 1.0
