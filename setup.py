@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup (name = 'pyFluidSynth-musikla',
-       version = '1.3.2',
+       version = '1.3.3',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
        url = 'https://github.com/pedromsilvapt/pyfluidsynth',
@@ -16,4 +16,4 @@ to play audio itself, or you can call a function that returns chunks
 of audio data and output the data to the soundcard yourself.
 ''',
        py_modules = ['pyfluidsynth'],
-       install_requires = ['future, numpy'])
+       install_requires = ['future', 'numpy'])

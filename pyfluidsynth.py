@@ -61,7 +61,7 @@ def cfunc(name, result, *args):
             aflags.append((arg[2], arg[0]) + arg[3:])
         return CFUNCTYPE(result, *atypes)((name, _fl), tuple(aflags))
     else: # Handle Fluidsynth 1.x, 2.x, etc. API differences
-        return None
+        return lambda *args: None
 
 c_int_p = POINTER(c_int)
 c_double_p = POINTER(c_double)
@@ -902,7 +902,7 @@ class Synth:
         elif isinstance( val, bytes ):
             fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
-            fluid_settings_setint(self.settings, opt.encode(), val)
+            fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
             fluid_settings_setnum(self.settings, opt, c_double(val))
 
