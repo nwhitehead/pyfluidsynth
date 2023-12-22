@@ -1,10 +1,10 @@
 from setuptools import setup
 
-setup (name = 'pyFluidSynth',
-       version = '1.3.2',
+setup (name = 'pyFluidSynth-musikla',
+       version = '1.3.3',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
-       url = 'https://github.com/nwhitehead/pyfluidsynth',
+       url = 'https://github.com/pedromsilvapt/pyfluidsynth',
        description = 'Python bindings for FluidSynth, a MIDI synthesizer that uses SoundFont instruments',
       long_description = '''
 This module contains python bindings for FluidSynth.  FluidSynth is a
@@ -15,5 +15,5 @@ generally files with the extension SF2.  FluidSynth can either be used
 to play audio itself, or you can call a function that returns chunks
 of audio data and output the data to the soundcard yourself.
 ''',
-       py_modules = ['fluidsynth'],
-       install_requires = ['numpy'])
+       py_modules = ['pyfluidsynth'],
+       install_requires = ['future', 'numpy'])

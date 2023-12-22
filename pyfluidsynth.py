@@ -24,6 +24,9 @@
 
 from ctypes import *
 from ctypes.util import find_library
+from future.utils import iteritems
+from wave import Wave_read, open
+from typing import Dict, Tuple
 import os
 
 # A short circuited or expression to find the FluidSynth library
@@ -36,9 +39,9 @@ if hasattr(os, 'add_dll_directory'):
 
 lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
-    find_library('libfluidsynth-3') or \
+    find_library('libfluidsynth-1') or \
     find_library('libfluidsynth-2') or \
-    find_library('libfluidsynth-1')
+    find_library('libfluidsynth-3')
 
 if lib is None:
     raise ImportError("Couldn't find the FluidSynth library.")
@@ -58,7 +61,10 @@ def cfunc(name, result, *args):
             aflags.append((arg[2], arg[0]) + arg[3:])
         return CFUNCTYPE(result, *atypes)((name, _fl), tuple(aflags))
     else: # Handle Fluidsynth 1.x, 2.x, etc. API differences
-        return None
+        return lambda *args: None
+
+c_int_p = POINTER(c_int)
+c_double_p = POINTER(c_double)
 
 # Bump this up when changing the interface for users
 api_version = '1.3.1'
@@ -107,15 +113,105 @@ fluid_settings_copystr = cfunc('fluid_settings_copystr', c_int,
 fluid_settings_getnum = cfunc('fluid_settings_getnum', c_int,
                               ('settings', c_void_p, 1),
                               ('name', c_char_p, 1),
-                              ('val', POINTER(c_double), 1))
+                              ('val', c_double_p, 1))
 
 fluid_settings_getint = cfunc('fluid_settings_getint', c_int,
                               ('settings', c_void_p, 1),
                               ('name', c_char_p, 1),
-                              ('val', POINTER(c_int), 1))
+                              ('val', c_int_p, 1))
 
 delete_fluid_settings = cfunc('delete_fluid_settings', None,
                               ('settings', c_void_p, 1))
+
+# fluid ramsfont
+class fluid_sfont_t(Structure):
+    _fields_ = [
+        ('data', c_void_p),
+        ('id', c_int),
+        ('refcount', c_int),
+        ('bankofs', c_int),
+
+        ('free', c_void_p),
+        ('get_name', c_void_p),
+        ('get_preset', c_void_p),
+        ('iteration_start', c_void_p),
+        ('iteration_next', c_void_p)
+    ]
+
+try:
+    fluid_ramsfont_create_sfont = cfunc( 'fluid_ramsfont_create_sfont', POINTER(fluid_sfont_t) )
+
+    fluid_ramsfont_set_name = cfunc( 'fluid_ramsfont_set_name', c_int,
+                                ( 'sfont', c_void_p, 1 ),
+                                ( 'name', c_char_p, 1 ) )
+
+    fluid_ramsfont_add_izone = cfunc( 'fluid_ramsfont_add_izone', c_int,
+                                    ( 'sfont', c_void_p, 1 ),
+                                    ( 'bank', c_uint, 1 ),
+                                    ( 'num', c_uint, 1 ),
+                                    ( 'sample', c_void_p, 1 ),
+                                    ( 'lokey', c_int, 1 ),
+                                    ( 'hikey', c_int, 1 ) )
+
+    fluid_ramsfont_remove_izone = cfunc( 'fluid_ramsfont_remove_izone', c_int,
+                                    ( 'sfont', c_void_p, 1 ),
+                                    ( 'bank', c_uint, 1 ),
+                                    ( 'num', c_uint, 1 ),
+                                    ( 'sample', c_void_p, 1 ) )
+
+    fluid_ramsfont_izone_set_gen = cfunc( 'fluid_ramsfont_izone_set_gen', c_int,
+                                        ( 'sfont', c_void_p, 1 ),
+                                        ( 'bank', c_uint, 1 ),
+                                        ( 'num', c_uint, 1 ),
+                                        ( 'sample', c_void_p, 1 ),
+                                        ( 'gen_type', c_int, 1 ),
+                                        ( 'value', c_float, 1 ) )
+
+    fluid_ramsfont_izone_set_loop = cfunc( 'fluid_ramsfont_izone_set_loop', c_int,
+                                        ( 'sfont', c_void_p, 1 ),
+                                        ( 'bank', c_uint, 1 ),
+                                        ( 'num', c_uint, 1 ),
+                                        ( 'sample', c_void_p, 1 ),
+                                        ( 'on', c_int, 1 ),
+                                        ( 'loopstart', c_float, 1 ),
+                                        ( 'loopend', c_float, 1 ) )
+
+    new_fluid_ramsample = cfunc( 'new_fluid_ramsample', c_void_p )
+
+    delete_fluid_ramsample = cfunc( 'delete_fluid_ramsample', c_int,
+                                ( 'sample', c_void_p, 1 ) )
+
+    fluid_sample_set_name = cfunc( 'fluid_sample_set_name', c_int,
+                                ( 'sample', c_void_p, 1 ),
+                                ( 'name', c_char_p, 1 ) )
+
+    fluid_sample_set_sound_data = cfunc( 'fluid_sample_set_sound_data', c_int,
+                                    ( 'sample', c_void_p, 1 ),
+                                    ( 'data', c_void_p, 1 ),
+                                    ( 'nbframes', c_uint, 1 ),
+                                    ( 'copy_data', c_short, 1 ),
+                                    ( 'rootkey', c_int, 1 ) )
+except:
+    # Mocks for version 2
+    fluid_ramsfont_create_sfont = lambda: None
+
+    fluid_ramsfont_set_name = lambda sfont, name: None # int
+
+    fluid_ramsfont_add_izone = lambda sfont, bank, num, sample, lokey, hikey: None # int
+
+    fluid_ramsfont_remove_izone = lambda sfont, bank, num, sample: None # int
+
+    fluid_ramsfont_izone_set_gen = lambda sfont, bank, num, sample, gen_type, value: None # int
+
+    fluid_ramsfont_izone_set_loop = lambda sfont, bank, num, sample, on, loopstart, loopend: None # int
+
+    new_fluid_ramsample = lambda: None #void_p
+
+    delete_fluid_ramsample = lambda sample: None # int
+
+    fluid_sample_set_name = lambda sample, name: None # int
+
+    fluid_sample_set_sound_data = lambda sample, data, nbframes, copy_data, rootkey: None # int
 
 fluid_synth_activate_key_tuning = cfunc('fluid_synth_activate_key_tuning', c_int,
                                         ('synth', c_void_p, 1),
@@ -161,6 +257,14 @@ fluid_synth_sfunload = cfunc('fluid_synth_sfunload', c_int,
                            ('synth', c_void_p, 1),
                            ('sfid', c_int, 1),
                            ('update_midi_presets', c_int, 1))
+
+fluid_synth_add_sfont = cfunc('fluid_synth_add_sfont', c_int,
+                           ('synth', c_void_p, 1),
+                           ('sfont', c_void_p, 1))
+
+fluid_synth_remove_sfont = cfunc('fluid_synth_remove_sfont', c_int,
+                           ('synth', c_void_p, 1),
+                           ('sfont', c_void_p, 1))
 
 fluid_synth_program_select = cfunc('fluid_synth_program_select', c_int,
                                    ('synth', c_void_p, 1),
@@ -239,6 +343,15 @@ fluid_synth_write_s16 = cfunc('fluid_synth_write_s16', c_void_p,
                               ('roff', c_int, 1),
                               ('rincr', c_int, 1))
 
+new_fluid_file_renderer = cfunc('new_fluid_file_renderer', c_void_p,
+                               ('synth', c_void_p, 1))
+
+fluid_file_renderer_process_block = cfunc('fluid_file_renderer_process_block', c_int,
+                                         ('dev', c_void_p, 1))
+
+delete_fluid_file_renderer = cfunc('delete_fluid_file_renderer', c_void_p,
+                                  ('dev', c_void_p, 1))
+
 fluid_synth_all_notes_off = cfunc('fluid_synth_all_notes_off', c_int,
                                   ('synth', c_void_p, 1),
                                   ('chan', c_int, 1))
@@ -246,7 +359,6 @@ fluid_synth_all_notes_off = cfunc('fluid_synth_all_notes_off', c_int,
 fluid_synth_all_sounds_off = cfunc('fluid_synth_all_sounds_off', c_int,
                                    ('synth', c_void_p, 1),
                                    ('chan', c_int, 1))
-
 
 class fluid_synth_channel_info_t(Structure):
     _fields_ = [
@@ -340,18 +452,30 @@ fluid_synth_get_chorus_nr = cfunc('fluid_synth_get_chorus_nr', c_int,
 fluid_synth_get_chorus_level = cfunc('fluid_synth_get_chorus_level', c_double,
                                     ('synth', c_void_p, 1))
 
-fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
-                                    ('synth', c_void_p, 1))
+try:
+    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed_Hz', c_double,
+                                        ('synth', c_void_p, 1))
+except:
+    fluid_synth_get_chorus_speed_Hz = cfunc('fluid_synth_get_chorus_speed', c_double,
+                                        ('synth', c_void_p, 1))
 
-fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
-                                    ('synth', c_void_p, 1))
+try:
+    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth_ms', c_double,
+                                        ('synth', c_void_p, 1))
+except:
+    # V2
+    fluid_synth_get_chorus_depth_ms = cfunc('fluid_synth_get_chorus_depth', c_double,
+                                        ('synth', c_void_p, 1))
 
 fluid_synth_get_chorus_type = cfunc('fluid_synth_get_chorus_type', c_int,
                                     ('synth', c_void_p, 1))
 
-fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
-                               ('synth', c_void_p, 1),
-                               ('router', c_void_p, 1))
+try:
+    fluid_synth_set_midi_router = cfunc('fluid_synth_set_midi_router', None,
+                                ('synth', c_void_p, 1),
+                                ('router', c_void_p, 1))
+except:
+    fluid_synth_set_midi_router = lambda synth, router: None # None
 
 fluid_synth_handle_midi_event = cfunc('fluid_synth_handle_midi_event', c_int,
                                ('data', c_void_p, 1),
@@ -397,6 +521,9 @@ delete_fluid_sequencer = cfunc('delete_fluid_sequencer', None,
 
 # fluid event
 new_fluid_event = cfunc('new_fluid_event', c_void_p)
+
+fluid_event_get_data = cfunc('fluid_event_get_data', c_void_p,
+                            ('evt', c_void_p, 1))
 
 fluid_event_set_source = cfunc('fluid_event_set_source', None,
                               ('evt', c_void_p, 1),
@@ -624,8 +751,127 @@ def fluid_synth_write_s16_stereo(synth, len):
     fluid_synth_write_s16(synth, len, buf, 0, 2, buf, 1, 2)
     return numpy.frombuffer(buf[:], dtype=numpy.int16)
 
+GEN_STARTADDROFS = 0
+GEN_ENDADDROFS = 1
+GEN_STARTLOOPADDROFS = 2
+GEN_ENDLOOPADDROFS = 3
+GEN_STARTADDRCOARSEOFS = 4
+GEN_MODLFOTOPITCH = 5
+GEN_VIBLFOTOPITCH = 6
+GEN_MODENVTOPITCH = 7
+GEN_FILTERFC = 8
+GEN_FILTERQ = 9
+GEN_MODLFOTOFILTERFC = 10
+GEN_MODENVTOFILTERFC = 11
+GEN_ENDADDRCOARSEOFS = 12
+GEN_MODLFOTOVOL = 13
+GEN_UNUSED1 = 14
+GEN_CHORUSSEND = 15
+GEN_REVERBSEND = 16
+GEN_PAN = 17
+GEN_UNUSED2 = 18
+GEN_UNUSED3 = 19
+GEN_UNUSED4 = 20
+GEN_MODLFODELAY = 21
+GEN_MODLFOFREQ = 22
+GEN_VIBLFODELAY = 23
+GEN_VIBLFOFREQ = 24
+GEN_MODENVDELAY = 25
+GEN_MODENVATTACK = 26
+GEN_MODENVHOLD = 27
+GEN_MODENVDECAY = 28
+GEN_MODENVSUSTAIN = 29
+GEN_MODENVRELEASE = 30
+GEN_KEYTOMODENVHOLD = 31
+GEN_KEYTOMODENVDECAY = 32
+GEN_VOLENVDELAY = 33
+GEN_VOLENVATTACK = 34
+GEN_VOLENVHOLD = 35
+GEN_VOLENVDECAY = 36
+GEN_VOLENVSUSTAIN = 37
+GEN_VOLENVRELEASE = 38
+GEN_KEYTOVOLENVHOLD = 39
+GEN_KEYTOVOLENVDECAY = 40
+GEN_INSTRUMENT = 41
+GEN_RESERVED1 = 42
+GEN_KEYRANGE = 43
+GEN_VELRANGE = 44
+GEN_STARTLOOPADDRCOARSEOFS = 45
+GEN_KEYNUM = 46
+GEN_VELOCITY = 47
+GEN_ATTENUATION = 48
+GEN_RESERVED2 = 49
+GEN_ENDLOOPADDRCOARSEOFS = 20
+GEN_COARSETUNE = 51
+GEN_FINETUNE = 52
+GEN_SAMPLEID = 53
+GEN_SAMPLEMODE = 54
+GEN_RESERVED3 = 55
+GEN_SCALETUNE = 56
+GEN_EXCLUSIVECLASS = 57
+GEN_OVERRIDEROOTKEY = 58
+GEN_PITCH = 59
 
 # Object-oriented interface, simplifies access to functions
+class RamSoundFont:
+    @staticmethod
+    def create_sample ( name : str, wave : Wave_read, rootkey : int ) -> c_void_p:
+        sample = new_fluid_ramsample()
+
+        fluid_sample_set_name( sample, create_string_buffer( name.encode(), 20 ) )
+
+        assert wave.getsampwidth() == 2, f"Samples must be 16bit WAVE files, got {wave.getsampwidth() * 8}bit"
+        assert wave.getnchannels() == 1, f"Samples must be mono WAVE files, got {wave.getnchannels()} channels"
+        assert wave.getframerate() == 44100, f"Samples must be 44100hz WAVE files, got {wave.getframerate()}hz"
+
+        nbframes = wave.getnframes()
+
+        if nbframes == 2147483647:
+            frames : bytearray = bytearray( wave.readframes( 2000 ) )
+
+            while True:
+                res = wave.readframes( 2000 )
+
+                if not len( res ):
+                    break
+
+                frames.extend( res )
+
+            framesize = wave.getnchannels() * wave.getsampwidth()
+
+            fluid_sample_set_sound_data( sample, bytes( frames ), int( len( frames ) / framesize ), 1, rootkey )
+        else:
+            fluid_sample_set_sound_data( sample, wave.readframes( wave.getnframes() ), nbframes, 1, rootkey )
+
+        return sample
+
+    def __init__ ( self ):
+        self.sfont : fluid_sfont_t = fluid_ramsfont_create_sfont()
+        self.sample_id : int = 0
+
+    def add_sample_zone ( self, bank : int, num : int, sample : c_void_p, lokey: int, hikey : int, generators : Dict[int, float] = {} ) -> int:
+        res = fluid_ramsfont_add_izone( self.sfont.contents.data, bank, num, sample, lokey, hikey )
+
+        if res == FLUID_OK:
+            for key, value in generators.items():
+                fluid_ramsfont_izone_set_gen( self.sfont.contents.data, bank, num, sample, key, value )
+
+        return res
+
+    def add_wave_zone ( self, bank : int, num : int, wave : Wave_read, lokey: int, hikey : int, generators : Dict[int, float] = {} ) -> Tuple[ c_void_p, int ]:
+        sample = RamSoundFont.create_sample( f"sample_{self.sample_id}", wave, lokey )
+
+        self.sample_id += 1
+
+        return ( sample, self.add_sample_zone( bank, num, sample, lokey, hikey, generators = generators ) )
+
+    def add_wave_zone_file ( self, bank : int, num : int, file : str, lokey: int, hikey : int, generators : Dict[int, float] = {} ) -> Tuple[ c_void_p, int ]:
+        wave = open( file, 'rb' )
+
+        return self.add_wave_zone( bank, num, wave, lokey, hikey, generators = generators )
+
+    def delete ( self ):
+        pass
 
 class Synth:
     """Synth represents a FluidSynth synthesizer"""
@@ -642,7 +888,7 @@ class Synth:
         self.setting('synth.gain', gain)
         self.setting('synth.sample-rate', float(samplerate))
         self.setting('synth.midi-channels', channels)
-        for opt,val in kwargs.items():
+        for opt,val in iteritems(kwargs):
             self.setting(opt, val)
         self.synth = new_fluid_synth(self.settings)
         self.audio_driver = None
@@ -650,12 +896,16 @@ class Synth:
         self.router = None
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
-        if isinstance(val, (str, bytes)):
-            fluid_settings_setstr(self.settings, opt.encode(), val.encode())
+        opt = opt.encode()
+        if isinstance(val, str):
+            fluid_settings_setstr(self.settings, opt, val.encode())
+        elif isinstance( val, bytes ):
+            fluid_settings_setstr(self.settings, opt, val)
         elif isinstance(val, int):
-            fluid_settings_setint(self.settings, opt.encode(), val)
+            fluid_settings_setint(self.settings, opt, val)
         elif isinstance(val, float):
-            fluid_settings_setnum(self.settings, opt.encode(), c_double(val))
+            fluid_settings_setnum(self.settings, opt, c_double(val))
+
     def get_setting(self, opt):
         """get current value of an arbitrary synth setting"""
         val = c_int()
@@ -714,6 +964,13 @@ class Synth:
     def sfunload(self, sfid, update_midi_preset=0):
         """Unload a SoundFont and free memory it used"""
         return fluid_synth_sfunload(self.synth, sfid, update_midi_preset)
+    def add_sfont( self, soundfont ):
+        if soundfont.sfont is not None:
+            return fluid_synth_add_sfont(self.synth, soundfont.sfont)
+
+        return None
+    def remove_sfont( self, soundfont ):
+        return fluid_synth_remove_sfont(self.synth, soundfont.sfont)
     def program_select(self, chan, sfid, bank, preset):
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
@@ -1091,6 +1348,72 @@ class Sequencer:
 
     def delete(self):
         delete_fluid_sequencer(self.sequencer)
+
+class FileRenderer:
+    def __init__ ( self, synth : Synth ):
+        self.synth : Synth = synth
+        self.renderer : c_void_p = new_fluid_file_renderer( synth.synth )
+
+        if not self.renderer:
+            raise BaseException( "Could not create a file renderer" )
+
+    def process_block ( self ):
+        return fluid_file_renderer_process_block( self.renderer )
+
+    def delete ( self ):
+        delete_fluid_file_renderer( self.renderer )
+
+    @staticmethod
+    def fast_loop_sequencer ( synth : Synth, sequencer : Sequencer, total_time : int ):
+        """
+        Renders a sequencer to a file as fast as possible, using the maximum CPU available, instead of doing it realtime
+
+        Total time is the number of milliseconds to render to the file
+        """
+        renderer = FileRenderer( synth )
+
+        period_size = synth.get_setting( "audio.period-size" )
+        sample_rate = synth.get_setting( "synth.sample-rate" )
+
+        # Number of msecs per period
+        # There are `sample_rate` samples per second, so rule of 3 simple:
+        # `sample_rate` --- 1000,
+        # `period_size` --- msecs_pp
+        msecs_pp = ( period_size * 1000 ) / sample_rate
+
+        elapsed_msecs : int = 0
+        leftovers : float = msecs_pp
+
+        if leftovers < 0:
+            elapsed_msecs += 1
+            sequencer.process( 1 )
+
+        while elapsed_msecs < total_time:
+            if leftovers > 1:
+                elapsed_msecs += int( leftovers )
+                leftovers = leftovers % 1
+
+            res = renderer.process_block()
+
+            if res == FLUID_FAILED:
+                break
+
+            leftovers += msecs_pp
+
+        renderer.delete()
+
+
+    # fluid_settings_t* settings, fluid_synth_t* synth, fluid_player_t* player
+    # @staticmethod
+    # def fast_render_loop_player( synth : Synth, player : Player ):
+    #     renderer = FileRenderer( synth )
+
+    #     # TODO
+    #     while player.get_status() == FLUID_PLAYER_PLAYING:
+    #         if renderer.process_block() != 0:
+    #             break
+
+    #     delete_fluid_file_renderer( renderer )
 
 def raw_audio_string(data):
     """Return a string of bytes to send to soundcard
