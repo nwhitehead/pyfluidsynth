@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup (name = 'pyFluidSynth',
-       version = '1.3.2',
+       version = '1.3.3',
        author = 'Nathan Whitehead',
        author_email = 'nwhitehe@gmail.com',
        url = 'https://github.com/nwhitehead/pyfluidsynth',
