@@ -4,7 +4,7 @@ jobs:
   ci:
     runs-on: macos-14
     steps:
-      - run: brew install portaudio  # macOS
+      - run: brew install fluid-synth portaudio  # macOS
       # - run: sudo apt install python3-pyaudio  # Ubuntu
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
