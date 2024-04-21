@@ -2,10 +2,17 @@ name: ci
 on: [pull_request, push]
 jobs:
   ci:
-    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-      - run: brew install fluid-synth portaudio  # macOS
-      # - run: sudo apt install python3-pyaudio  # Ubuntu
+      - if: runner.os == 'macOS'
+        run: brew install fluid-synth
+      - if: runner.os == 'Linux'
+        run: sudo apt-get install fluidsynth
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
