@@ -30,7 +30,10 @@ jobs:
       - run: pip install pyaudio
       - run: pip install --editable .
       - shell: python  # Windows: ImportError: Couldn't find the FluidSynth library.
-        run: import fluidsynth
+        run: |
+          import fluidsynth
+          print(fluidsynth)
+          print(dir(fluidsynth))
       # NOTE: The files in test/ are NOT unittests or pytests.
       # On macOS ARM64 the following tests will pass but each takes 8 minutes to run.
       # On macOS X64 all tests will pass quickly.
