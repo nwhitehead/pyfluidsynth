@@ -8,8 +8,9 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
       - run: pip install --upgrade pip
-      - run: pip install pytest ruff setuptools
-      - run: ruff check --exit-zero --extend-ignore=F401,F403,F405 --output-format=github --target-version=py38 .
+      - run: pip install pyaudio pytest ruff setuptools
+      - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
+                        --output-format=github --target-version=py38 .
       - run: pip install .
       - run: pytest . || true
       - run: pytest --doctest-modules . || true
