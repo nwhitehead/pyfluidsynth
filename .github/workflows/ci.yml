@@ -27,6 +27,6 @@ jobs:
       - run: pip install --editable .
       - run: pytest || true
         env:
-          DYLD_LIBRARY_PATH: ":$HOMEBREW_CELLAR/fluid-synth/2.3.5/lib/:$DYLD_LIBRARY_PATH"
+          DYLD_LIBRARY_PATH: "$HOMEBREW_CELLAR/fluid-synth/2.3.5/lib/:$DYLD_LIBRARY_PATH"
       - run: pytest test || true
       - run: pytest --doctest-modules || true
