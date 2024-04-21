@@ -12,16 +12,16 @@ jobs:
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install fluidsynth python3-pyaudio portaudio19-dev
+          sudo apt-get install fluidsynth python3-pyaudio portaudio19-dev libasound-dev
       - if: runner.os == 'macOS'
         run: |
           brew install fluid-synth
-          pip install --global-option='build_ext'
-                      --global-option="-I$(brew --prefix)/include"
-                      --global-option="-L$(brew --prefix)/lib"
+          pip install --global-option='build_ext' \
+                      --global-option="-I$(brew --prefix)/include" \
+                      --global-option="-L$(brew --prefix)/lib" \
                       pyaudio
       - if: runner.os == 'Windows'
-        run: choco install fluidsynth pyaudio
+        run: choco install fluidsynth
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
