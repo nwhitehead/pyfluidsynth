@@ -17,7 +17,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install fluidsynth python3-pyaudio portaudio19-dev libasound-dev
       - if: runner.os == 'macOS'
-        run: brew install fluid-synth
+        run: |
+          brew install fluid-synth
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
       - run: pip install --upgrade pip
