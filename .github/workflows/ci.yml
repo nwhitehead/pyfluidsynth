@@ -49,9 +49,9 @@ jobs:
           LD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$LD_LIBRARY_PATH"
           DYLD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$DYLD_LIBRARY_PATH"
         run: |
-          # echo $(brew --prefix fluid-synth)
-          # ls $(brew --prefix fluid-synth)
-          # echo HOMEBREW_CELLAR: $HOMEBREW_CELLAR
+          echo $(brew --prefix fluid-synth)
+          ls $(brew --prefix fluid-synth)
+          echo HOMEBREW_CELLAR: $HOMEBREW_CELLAR
           echo LD_LIBRARY_PATH: $LD_LIBRARY_PATH
           echo DYLD_LIBRARY_PATH: $DYLD_LIBRARY_PATH
           pytest || true
