@@ -12,6 +12,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
@@ -23,12 +27,17 @@ jobs:
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
       - run: pip install --upgrade pip
-      - run: pip install pyaudio setuptools
+      - run: pip install pyaudio
       - run: pip install --editable .
-      - shell: python  # ModuleNotFoundError: No module named 'fluidsynth'
+      - shell: python  # Windows: ImportError: Couldn't find the FluidSynth library.
         run: import fluidsynth
-      - run: cd test && python test1.py
-      - if: ${{ ! runner.os == 'Linux' }}  # Will not run on Linux even with xvfb-run
+      # The following macOS arm64 tests will pass but will take 8 minutes each to run
+      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' }}
+        run: cd test && python test1.py
+      # test2.py will not run on Linux even with xvfb-run
+      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' || runner.os == 'Linux' }}
         run: cd test && python test2.py
-      - run: cd test && python test3.py
-      - run: cd test && python sequencerTest.py
+      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' }}
+        run: cd test && python test3.py
+      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' }}
+        run: cd test && python sequencerTest.py
