@@ -6,7 +6,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:  # macos-13 in Intel, macos-14 is Apple Silicon ARM
-        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+        os: [macos-13, macos-14, ubuntu-latest]  # , windows-latest]  # TODO: Fix Windows and readd it
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -31,13 +31,22 @@ jobs:
       - run: pip install --editable .
       - shell: python  # Windows: ImportError: Couldn't find the FluidSynth library.
         run: import fluidsynth
-      # The following macOS arm64 tests will pass but will take 8 minutes each to run
-      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' }}
-        run: cd test && python test1.py
-      # test2.py will not run on Linux even with xvfb-run
-      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' || runner.os == 'Linux' }}
-        run: cd test && python test2.py
-      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' }}
-        run: cd test && python test3.py
-      - if: ${{ ! runner.os == 'macOS' && runner.arch == 'arm64' }}
-        run: cd test && python sequencerTest.py
+      # NOTE: The files in test/ are NOT unittests or pytests.
+      # On macOS ARM64 the following tests will pass but each takes 8 minutes to run.
+      # On macOS X64 all tests will pass quickly.
+      - if: runner.os == 'macOS' && runner.arch == 'X64'
+        run: |
+          cd test
+          python test1.py
+          python test2.py
+          python test3.py
+          python sequencerTest.py
+      # On Linux test2.py will fail even with xvfb-run but the other tests will pass quickly.
+      - if: runner.os == 'Linux'
+        run: |
+          cd test
+          python test1.py
+          # xvfb-run python test2.py
+          python test3.py
+          python sequencerTest.py
+
