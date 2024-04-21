@@ -1,0 +1,27 @@
+name: ci
+on: [pull_request, push]
+jobs:
+  ci:
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:  # macos-13 in Intel, macos-14 is Apple Silicon ARM
+        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: 3.x}
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install fluidsynth python3-pyaudio portaudio19-dev libasound-dev
+      - if: runner.os == 'macOS'
+        run: brew install fluid-synth
+      - if: runner.os == 'Windows'
+        run: choco install fluidsynth
+      - run: pip install --upgrade pip
+      - run: pip install pyaudio setuptools
+      - run: pip install --editable .
+      - shell: python  # ModuleNotFoundError: No module named 'fluidsynth'
+        run: import fluidsynth
