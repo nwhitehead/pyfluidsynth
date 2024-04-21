@@ -26,9 +26,7 @@ jobs:
       - shell: python  # ModuleNotFoundError: No module named 'fluidsynth'
         run: import fluidsynth
       - run: cd test && python test1.py
-      - if: runner.os == 'Linux'
-        run: cd test && xvfb-run python test2.py  # xvfb-run: For Linux headless audio
-      - if: ${{ ! runner.os != 'Linux' }}
+      - if: ${{ ! runner.os == 'Linux' }}  # Will not run on Linux even with xvfb-run
         run: cd test && python test2.py
       - run: cd test && python test3.py
       - run: cd test && python sequencerTest.py
