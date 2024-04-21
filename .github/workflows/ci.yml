@@ -30,14 +30,15 @@ jobs:
       - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
                         --output-format=github --target-version=py38 .
       - run: pip install --editable .
-      - run: |
-          echo $(brew --prefix fluid-synth)
-          ls $(brew --prefix fluid-synth)
-          echo HOMEBREW_CELLAR: $HOMEBREW_CELLAR
+      - env:
+          LD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$LD_LIBRARY_PATH"
+          DYLD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$DYLD_LIBRARY_PATH"
+        run: |
+          # echo $(brew --prefix fluid-synth)
+          # ls $(brew --prefix fluid-synth)
+          # echo HOMEBREW_CELLAR: $HOMEBREW_CELLAR
           echo LD_LIBRARY_PATH: $LD_LIBRARY_PATH
           echo DYLD_LIBRARY_PATH: $DYLD_LIBRARY_PATH
           pytest || true
-        # env:
-        #  DYLD_LIBRARY_PATH: "$HOMEBREW_CELLAR/fluid-synth/2.3.5/lib/:$DYLD_LIBRARY_PATH"
       - run: pytest test || true
       - run: pytest --doctest-modules || true
