@@ -9,12 +9,14 @@ jobs:
         os: [macos-13, macos-14, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - if: runner.os == 'macOS'
-        run: brew install fluid-synth
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install fluidsynth
+      - if: runner.os == 'macOS'
+        run: brew install fluid-synth
+      - if: runner.os == 'Windows'
+        run: choco install fluidsynth
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
@@ -22,7 +24,7 @@ jobs:
       - run: pip install pyaudio pytest ruff setuptools
       - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
                         --output-format=github --target-version=py38 .
-      #- run: pip install .
-      - run: python setup.py install
+      - run: pip install --editable .
+      - run: pytest || true
       - run: pytest test || true
-      - run: pytest --doctest-modules . || true
+      - run: pytest --doctest-modules || true
