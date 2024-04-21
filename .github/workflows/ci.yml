@@ -14,7 +14,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install fluidsynth python3-pyaudio
       - if: runner.os == 'macOS'
-        run: brew install fluid-synth
+        run: brew install fluid-synth && brew link fluid-synth && brew link portaudio
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
       - uses: actions/checkout@v4
