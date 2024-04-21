@@ -29,6 +29,18 @@ jobs:
       - run: pip install build pyaudio pytest ruff setuptools
       - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
                         --output-format=github --target-version=py38 .
+      - shell: python
+        run: |
+          import importlib
+          import pkgutil
+          
+          discovered_plugins = {
+              name: importlib.import_module(name)
+              for finder, name, ispkg
+              in pkgutil.iter_modules()
+              if name.startswith('flask_')
+          }
+          print(discovered_plugins)
       - run: python -m build
       - run: ls -R dist/
       # - run: pip install --editable dist/*.whl
