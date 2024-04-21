@@ -25,7 +25,7 @@ jobs:
       - run: pip install --editable .
       - shell: python  # ModuleNotFoundError: No module named 'fluidsynth'
         run: import fluidsynth
-      - run: python test/test1.py
-      - run: python test/test2.py
-      - run: python test/test3.py
-      - run: python test/sequencerTest.py
+      - run: cd test && python test1.py
+      - run: cd test && python test2.py
+      - run: cd test && python test3.py
+      - run: cd test && python sequencerTest.py
