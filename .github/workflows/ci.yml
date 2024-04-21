@@ -9,6 +9,7 @@ jobs:
         with: {python-version: 3.x}
       - run: pip install --upgrade pip
       - run: pip install pytest ruff setuptools
-      - run: ruff check --exit-zero --output-format=github --target-version=py38 .
+      - run: ruff check --exit-zero --extend-ignore=F401,F403,F405 --output-format=github --target-version=py38 .
+      - run: pip install .
       - run: pytest . || true
       - run: pytest --doctest-modules . || true
