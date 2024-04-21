@@ -46,18 +46,18 @@ jobs:
           }
           print(discovered_plugins)
       # echo "TAG=$(echo git describe --exact-match --tags $(git log -n1 --pretty='%h'))" >> $GITHUB_ENV
-      - run: echo "FLUIDSYNTH_LIB_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
-      - env:  # macOS no longer allows modification of LD_LIBRARY_PATH or DYLD_LIBRARY_PATH
-          LD_LIBRARY_PATH: "$FLUIDSYNTH_LIB_PATH:$LD_LIBRARY_PATH"
-          DYLD_LIBRARY_PATH: "$FLUIDSYNTH_LIB_PATH:$DYLD_LIBRARY_PATH"
-        run: |
-          echo $(brew --prefix)
-          echo $(brew --prefix fluid-synth)
-          echo $FLUIDSYNTH_LIB_PATH
+      - run: echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
+      #- env:  # macOS no longer allows modification of LD_LIBRARY_PATH or DYLD_LIBRARY_PATH
+      #    LD_LIBRARY_PATH: "$FLUIDSYNTH_LIB_PATH:$LD_LIBRARY_PATH"
+      #    DYLD_LIBRARY_PATH: "$FLUIDSYNTH_LIB_PATH:$DYLD_LIBRARY_PATH"
+      - run: |
+          # echo $(brew --prefix)
+          # echo $(brew --prefix fluid-synth)
+          # echo $FLUIDSYNTH_LIB_PATH
           # ls $(brew --prefix fluid-synth)
-          ls $FLUIDSYNTH_LIB_PATH
-          echo HOMEBREW_CELLAR: $HOMEBREW_CELLAR
-          echo LD_LIBRARY_PATH: $LD_LIBRARY_PATH
+          # ls $FLUIDSYNTH_LIB_PATH
+          # echo HOMEBREW_CELLAR: $HOMEBREW_CELLAR
+          # echo LD_LIBRARY_PATH: $LD_LIBRARY_PATH
           echo DYLD_LIBRARY_PATH: $DYLD_LIBRARY_PATH
           pytest || true
       - run: pytest --doctest-modules || true
