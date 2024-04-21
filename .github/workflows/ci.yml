@@ -16,24 +16,22 @@ jobs:
       - if: runner.os == 'macOS'
         run: |
           brew install fluid-synth
-          pip install --global-option='build_ext' \
-                      --global-option="-I$(brew --prefix)/include" \
-                      --global-option="-L$(brew --prefix)/lib" \
-                      pyaudio
+          # pip install --global-option='build_ext' \
+          #            --global-option="-I$(brew --prefix)/include" \
+          #            --global-option="-L$(brew --prefix)/lib" \
+          #            pyaudio
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
       - run: pip install --upgrade pip
-      - run: pip install pytest ruff setuptools
+      - run: pip install pyaudio pytest ruff setuptools
       - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
                         --output-format=github --target-version=py38 .
-      - if: "!runner.os == 'macOS'"
-        run: pip install pyaudio
       - run: pip install --editable .
       - run: pytest || true
-        env:
-          DYLD_LIBRARY_PATH: "$HOMEBREW_CELLAR/fluid-synth/2.3.5/lib/:$DYLD_LIBRARY_PATH"
+        # env:
+        #  DYLD_LIBRARY_PATH: "$HOMEBREW_CELLAR/fluid-synth/2.3.5/lib/:$DYLD_LIBRARY_PATH"
       - run: pytest test || true
       - run: pytest --doctest-modules || true
