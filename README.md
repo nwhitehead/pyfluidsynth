@@ -164,8 +164,8 @@ fl.delete()
 
 samps = fluidsynth.raw_audio_string(s)
 
-print len(samps)
-print 'Starting playback'
+print(len(samps))
+print('Starting playback')
 strm.write(samps)
 ```
 
