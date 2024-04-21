@@ -30,6 +30,7 @@ jobs:
       - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
                         --output-format=github --target-version=py38 .
       - run: python -m build
+      - run: ls -R dist/
       - run: pip install --editable .
       - env:
           LD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$LD_LIBRARY_PATH"
