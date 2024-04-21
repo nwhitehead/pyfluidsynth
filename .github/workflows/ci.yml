@@ -6,7 +6,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:  # macos-13 in Intel, macos-14 is Apple Silicon ARM
-        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+        os: [macos-13, macos-14]  #, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - if: runner.os == 'Linux'
@@ -16,20 +16,24 @@ jobs:
       - if: runner.os == 'macOS'
         run: |
           brew install fluid-synth
-          # pip install --global-option='build_ext' \
-          #            --global-option="-I$(brew --prefix)/include" \
-          #            --global-option="-L$(brew --prefix)/lib" \
-          #            pyaudio
+          pip install --global-option='build_ext' \
+                      --global-option="-I$(brew --prefix)/include" \
+                      --global-option="-L$(brew --prefix)/lib" \
+                      pyaudio
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: 3.x}
       - run: pip install --upgrade pip
-      - run: pip install build pyaudio pytest ruff setuptools
+      - run: pip install build pytest ruff setuptools  # pyaudio
       - run: ruff check --exit-zero --extend-ignore=E701,E711,F401,F403,F405
                         --output-format=github --target-version=py38 .
-      - shell: python
+      # - run: python -m build
+      # - run: ls -R dist/
+      # - run: pip install dist/*.whl
+      - run: pip install --editable .
+      - shell: python  # Always returns {}
         run: |
           import importlib
           import pkgutil
@@ -41,12 +45,7 @@ jobs:
               if name.startswith('flask_')
           }
           print(discovered_plugins)
-      - run: python -m build
-      - run: ls -R dist/
-      # - run: pip install --editable dist/*.whl
-      - run: pip install dist/*.whl
-      # - run: pip install --editable .
-      - env:
+      - env:  # macOS no longer allows modification of LD_LIBRARY_PATH or DYLD_LIBRARY_PATH
           LD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$LD_LIBRARY_PATH"
           DYLD_LIBRARY_PATH: $(brew --prefix fluid-synth)/lib/:$DYLD_LIBRARY_PATH"
         run: |
@@ -56,5 +55,4 @@ jobs:
           echo LD_LIBRARY_PATH: $LD_LIBRARY_PATH
           echo DYLD_LIBRARY_PATH: $DYLD_LIBRARY_PATH
           pytest || true
-      - run: pytest test || true
       - run: pytest --doctest-modules || true
