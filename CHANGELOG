@@ -1,10 +1,16 @@
+    Apr 21, 2024 - 1.3.4
+
+	* Update print, use tobytes instead of tostring -- Christian Clauss <cclauss@me.com>
+	* Support finding MacOS ARM64 fluidsynth library -- Christian Clauss <cclauss@me.com>
+	* GitHub actions support -- Christian Clauss <cclauss@me.com>
+	* Fix Windows search location for Chocolatey installs -- Nathan Whitehead <nwhitehe@gmail.com>
+
 ================================================================================
     Feb 18, 2024 - 1.3.3
 
     * Bump version and changelog -- Christian Romberg <distjubo@gmail.com>
     * Add fluid_player_get_status and fix some typing bugs -- Philipp Schmidt <Fruchtzwerg94@users.noreply.github.com>
     * Fix "Unknown integer parameter 'synth.sample-rate" (#37) -- Philipp Schmidt <Fruchtzwerg94@users.noreply.github.com>
-
 
 
 ================================================================================
@@ -33,8 +39,7 @@
     * Added sequencer support -- Christian Romberg <distjubo@gmail.com>
 
 
-
- ================================================================================
+================================================================================
     February 13, 2015
 
     * Mover repository to git in GitHub
