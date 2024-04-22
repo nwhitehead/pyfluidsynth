@@ -37,15 +37,27 @@ if hasattr(os, 'add_dll_directory'):
     # Workaround bug in find_library, it doesn't recognize add_dll_directory
     os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
 
-lib = find_library('fluidsynth') or \
-    find_library('libfluidsynth') or \
-    find_library('libfluidsynth-3') or \
-    find_library('libfluidsynth-2') or \
-    find_library('libfluidsynth-1') or \
-    find_library('libfluidsynth.dylib')
-
-if lib is None:
+def load_libfluidsynth(debug_print: bool = False) -> str:
+    """
+    macOS X64:
+    * 'fluidsynth' was loaded as /usr/local/opt/fluid-synth/lib/libfluidsynth.dylib.
+    macOS ARM64:
+    * 'fluidsynth' was loaded as /opt/homebrew/opt/fluid-synth/lib/libfluidsynth.dylib.
+    Ubuntu X86:
+    * 'fluidsynth' was loaded as libfluidsynth.so.3.
+    Windows X86:
+    * 'libfluidsynth-3' was loaded as C:\tools\fluidsynth\bin\libfluidsynth-3.dll.
+    """
+    libs = "fluidsynth libfluidsynth libfluidsynth-3 libfluidsynth-2 libfluidsynth-1"
+    for lib_name in libs.split():
+        lib = find_library(lib_name)
+        if lib:
+            if debug_print:
+                print(f"'{lib_name}' was loaded as {lib}.")
+            return lib
     raise ImportError("Couldn't find the FluidSynth library.")
+
+lib = load_libfluidsynth()
 
 # Dynamically link the FluidSynth library
 # Architecture (32-/64-bit) must match your Python version
