@@ -34,6 +34,8 @@ import os
 if hasattr(os, 'add_dll_directory'):
     os.add_dll_directory(os.getcwd())
     os.add_dll_directory('C:\\tools\\fluidsynth\\bin')
+    # Workaround bug in find_library, it doesn't recognize add_dll_directory
+    os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
 
 lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
