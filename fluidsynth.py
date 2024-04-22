@@ -5,7 +5,7 @@
 
     Python bindings for FluidSynth
 
-    Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com>
+    Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com> and others.
 
 
     Released under the LGPL
@@ -33,6 +33,9 @@ import os
 # https://docs.python.org/3/library/os.html#os.add_dll_directory
 if hasattr(os, 'add_dll_directory'):
     os.add_dll_directory(os.getcwd())
+    os.add_dll_directory('C:\\tools\\fluidsynth\\bin')
+    # Workaround bug in find_library, it doesn't recognize add_dll_directory
+    os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
 
 lib = find_library('fluidsynth') or \
     find_library('libfluidsynth') or \
