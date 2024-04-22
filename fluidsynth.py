@@ -1100,4 +1100,4 @@ def raw_audio_string(data):
 
     """
     import numpy
-    return (data.astype(numpy.int16)).tostring()
+    return (data.astype(numpy.int16)).tobytes()
