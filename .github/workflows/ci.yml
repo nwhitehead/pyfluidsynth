@@ -1,0 +1,55 @@
+name: ci
+on: [pull_request, push]
+jobs:
+  ci:
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:  # macos-13 in Intel, macos-14 is Apple Silicon ARM
+        os: [macos-13, macos-14, ubuntu-latest]  # , windows-latest]  # TODO: Fix Windows and readd it
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: 3.x}
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install fluidsynth python3-pyaudio portaudio19-dev libasound-dev
+      - if: runner.os == 'macOS'
+        run: |
+          brew install fluid-synth
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
+      - if: runner.os == 'Windows'
+        run: choco install fluidsynth
+      - run: pip install --upgrade pip
+      - run: pip install pyaudio
+      - run: pip install --editable .
+      - shell: python  # Windows: ImportError: Couldn't find the FluidSynth library.
+        run: |
+          import fluidsynth
+          print(fluidsynth)
+          print(dir(fluidsynth))
+      # NOTE: The files in test/ are NOT unittests or pytests.
+      # On macOS ARM64 the following tests will pass but each takes 8 minutes to run.
+      # On macOS X64 all tests will pass quickly.
+      - if: runner.os == 'macOS' && runner.arch == 'X64'
+        run: |
+          cd test
+          python test1.py
+          python test2.py
+          python test3.py
+          python sequencerTest.py
+      # On Linux test2.py will fail even with xvfb-run but the other tests will pass quickly.
+      - if: runner.os == 'Linux'
+        run: |
+          cd test
+          python test1.py
+          # xvfb-run python test2.py
+          python test3.py
+          python sequencerTest.py
+
