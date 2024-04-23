@@ -57,5 +57,3 @@ jobs:
           python test/test2.py
           python test/test3.py
           python test/sequencerTest.py
-
-
