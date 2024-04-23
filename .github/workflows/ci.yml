@@ -37,7 +37,7 @@ jobs:
       # NOTE: The files in test/ are NOT unittests or pytests.
       # On macOS ARM64 the following tests will pass but each takes 8 minutes to run.
       # On macOS X64 all tests will pass quickly.
-      - if: runner.os == 'macOS'  # && runner.arch == 'X64'
+      - if: runner.os == 'macOS' && runner.arch == 'X64'
         run: |
           python test/test1.py
           python test/test2.py
