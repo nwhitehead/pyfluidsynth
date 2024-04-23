@@ -29,7 +29,7 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install pyaudio
       - run: pip install --editable .
-      - shell: python  # Windows: ImportError: Couldn't find the FluidSynth library.
+      - shell: python
         run: |
           import fluidsynth
           print(fluidsynth)
@@ -39,17 +39,23 @@ jobs:
       # On macOS X64 all tests will pass quickly.
       - if: runner.os == 'macOS' && runner.arch == 'X64'
         run: |
-          cd test
-          python test1.py
-          python test2.py
-          python test3.py
-          python sequencerTest.py
+          python test/test1.py
+          python test/test2.py
+          python test/test3.py
+          python test/sequencerTest.py
       # On Linux test2.py will fail even with xvfb-run but the other tests will pass quickly.
       - if: runner.os == 'Linux'
         run: |
-          cd test
-          python test1.py
-          # xvfb-run python test2.py
-          python test3.py
-          python sequencerTest.py
+          python test/test1.py
+          # xvfb-run python test/test2.py
+          python test/test3.py
+          python test/sequencerTest.py
+      # On Windows all tests will pass quickly.
+      - if: runner.os == 'Windows'
+        run: |
+          python test/test1.py
+          python test/test2.py
+          python test/test3.py
+          python test/sequencerTest.py
+
 

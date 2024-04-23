@@ -1,7 +1,14 @@
-import time
 import numpy
 import pyaudio
 import fluidsynth
+
+def local_file_path(file_name: str) -> str:
+	"""
+	Return a file path to a file that is in the same directory as this file.
+	"""
+	from os.path import dirname, join
+
+	return join(dirname(__file__), file_name)
 
 pa = pyaudio.PyAudio()
 strm = pa.open(
@@ -12,29 +19,29 @@ strm = pa.open(
 
 s = []
 
-fl = fluidsynth.Synth()
+fs = fluidsynth.Synth()
 
 # Initial silence is 1 second
-s = numpy.append(s, fl.get_samples(44100 * 1))
+s = numpy.append(s, fs.get_samples(44100 * 1))
 
-sfid = fl.sfload("example.sf2")
-fl.program_select(0, sfid, 0, 0)
+sfid = fs.sfload(local_file_path("example.sf2"))
+fs.program_select(0, sfid, 0, 0)
 
-fl.noteon(0, 60, 30)
-fl.noteon(0, 67, 30)
-fl.noteon(0, 76, 30)
+fs.noteon(0, 60, 30)
+fs.noteon(0, 67, 30)
+fs.noteon(0, 76, 30)
 
 # Chord is held for 2 seconds
-s = numpy.append(s, fl.get_samples(44100 * 2))
+s = numpy.append(s, fs.get_samples(44100 * 2))
 
-fl.noteoff(0, 60)
-fl.noteoff(0, 67)
-fl.noteoff(0, 76)
+fs.noteoff(0, 60)
+fs.noteoff(0, 67)
+fs.noteoff(0, 76)
 
 # Decay of chord is held for 1 second
-s = numpy.append(s, fl.get_samples(44100 * 1))
+s = numpy.append(s, fs.get_samples(44100 * 1))
 
-fl.delete()
+fs.delete()
 
 samps = fluidsynth.raw_audio_string(s)
 
