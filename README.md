@@ -232,7 +232,7 @@ the functions incorrectly sometimes.
 
 ## Authors
 
-This project was originally coded by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS).
+This project was originally coded by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS.md).
 
 ## License
 
