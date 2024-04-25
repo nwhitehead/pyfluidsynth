@@ -2,46 +2,43 @@
 
 _Python bindings for FluidSynth_
 
-This module contains python bindings for FluidSynth.  FluidSynth is a
-software synthesizer for generating music.  It works like a MIDI
-synthesizer.  You load patches, set parameters, then send NOTEON and
-NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
-generally files with the extension SF2.  FluidSynth can either be used
-to play audio itself, or you can call a function that returns
-chunks of audio data and output the data to the soundcard yourself.
+This package contains python bindings for FluidSynth.  FluidSynth is a software
+synthesizer for generating music.  It works like a MIDI synthesizer.  You load
+patches, set parameters, then send NOTEON and NOTEOFF events to play notes.
+Instruments are defined in SoundFonts, generally files with the extension SF2.
+FluidSynth can either be used to play audio itself, or you can call a function
+that returns chunks of audio data and output the data to the soundcard yourself.
 FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 
 ## Requirements
 
-FluidSynth 2.0.0 (or later version)
-(earlier versions are not supported. While they probably work, some features will be unavailble)
-http://www.fluidsynth.org/
-* Windows/Android Binaries: https://github.com/FluidSynth/fluidsynth/releases
-* MacOS/Linux Distributions: https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions
-* Building from Source: https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake
+[FluidSynth](http://www.fluidsynth.org/) (2.0.0 or later)
+* [Windows/Android FluidSynth Releases](https://github.com/FluidSynth/fluidsynth/releases)
+* [MacOS/Linux Distributions](https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions)
+* [Building from Source](https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake)
 
-NumPy 1.0 or later (for some features)
-http://numpy.org/
+(optional) [NumPy](http://numpy.org/) 1.0 or later for some features
 
-
-## Download
-
-Download the latest version from GitHub here:
-https://github.com/nwhitehead/pyfluidsynth/archive/master.zip
-
+NOTE: If you don't need all the features of FluidSynth you may be interested in
+[tinysoundfont-pybind](https://github.com/nwhitehead/tinysoundfont-pybind) which
+is a self-contained Python package that includes
+[TinySoundFont](https://github.com/schellingb/TinySoundFont) for SoundFont
+playback and is permissively licensed.
 
 ## Installation
 
-pyFluidSynth is packaged as Python source using distutils.  To install,
-run the following command as root:
+To use the latest official release:
 
-```
-python setup.py install
-```
+    pip install pyfluidsynth
 
-For more information and options about using distutils, read:
-https://docs.python.org/2/distutils/
+
+## Pre-release Versions
+
+To use pre-release versions of this package, clone this repository, go to the
+repository directory, then do:
+
+    pip install .
 
 
 ## Example
@@ -232,7 +229,7 @@ the functions incorrectly sometimes.
 
 ## Authors
 
-This project was originally coded by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS.md).
+This project was originally created by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS.md).
 
 ## License
 
