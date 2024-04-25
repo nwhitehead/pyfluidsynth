@@ -1,6 +1,6 @@
 # pyFluidSynth
 
-<em>Python bindings for FluidSynth</em>
+_Python bindings for FluidSynth_
 
 This module contains python bindings for FluidSynth.  FluidSynth is a
 software synthesizer for generating music.  It works like a MIDI
@@ -12,7 +12,7 @@ chunks of audio data and output the data to the soundcard yourself.
 FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 
-## REQUIREMENTS
+## Requirements
 
 FluidSynth 2.0.0 (or later version)
 (earlier versions are not supported. While they probably work, some features will be unavailble)
@@ -25,13 +25,13 @@ NumPy 1.0 or later (for some features)
 http://numpy.org/
 
 
-## DOWNLOAD
+## Download
 
 Download the latest version from GitHub here:
 https://github.com/nwhitehead/pyfluidsynth/archive/master.zip
 
 
-## INSTALLATION
+## Installation
 
 pyFluidSynth is packaged as Python source using distutils.  To install,
 run the following command as root:
@@ -44,7 +44,7 @@ For more information and options about using distutils, read:
 https://docs.python.org/2/distutils/
 
 
-## EXAMPLE
+## Example
 
 Here is a program that plays a chord for a second.
 
@@ -97,7 +97,7 @@ noteoff(track, midinum)
 ```
 
 
-## MANAGING AUDIO
+## Managing Audio
 
 You can also manage audio IO yourself and just use FluidSynth to
 calculate the samples for the music.  You might do this, for example,
@@ -169,7 +169,7 @@ print('Starting playback')
 strm.write(samps)
 ```
 
-## USING THE SEQUENCER
+## Using the Sequencer
 
 You can create a sequencer as follows:
 ```python
@@ -222,7 +222,7 @@ Note that event and seq are low-level objects, not actual python objects.
 You can find a complete example (inspired by [this one from the fluidsynth library](http://www.fluidsynth.org/api/index.html#Sequencer)) in the test folder.
 
 
-## BUGS AND LIMITATIONS
+## Bugs and Limitations
 
 Not all functions in FluidSynth are bound.
 
@@ -230,15 +230,13 @@ Not much error checking, FluidSynth will segfault/crash if you call
 the functions incorrectly sometimes.
 
 
-## AUTHORS
+## Authors
 
-Original code by Nathan Whitehead `<nwhitehe@gmail.com>`.
-Contributions by Bart Spaans `<onderstekop@gmail.com>` and Christian Romberg `<distjubo@gmail.com>`.
+This project was originally coded by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS).
 
-
-## LICENSE
+## License
 
 Released under the LGPL v2.1 or any later
 version (this is the same as FluidSynth).
 
-Copyright 2008--2015, Nathan Whitehead
+Copyright 2008--2024, Nathan Whitehead and contributors.
