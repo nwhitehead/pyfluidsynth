@@ -1,50 +1,47 @@
 # pyFluidSynth
 
-<em>Python bindings for FluidSynth</em>
+_Python bindings for FluidSynth_
 
-This module contains python bindings for FluidSynth.  FluidSynth is a
-software synthesizer for generating music.  It works like a MIDI
-synthesizer.  You load patches, set parameters, then send NOTEON and
-NOTEOFF events to play notes.  Instruments are defined in SoundFonts,
-generally files with the extension SF2.  FluidSynth can either be used
-to play audio itself, or you can call a function that returns
-chunks of audio data and output the data to the soundcard yourself.
+This package contains python bindings for FluidSynth.  FluidSynth is a software
+synthesizer for generating music.  It works like a MIDI synthesizer.  You load
+patches, set parameters, then send NOTEON and NOTEOFF events to play notes.
+Instruments are defined in SoundFonts, generally files with the extension SF2.
+FluidSynth can either be used to play audio itself, or you can call a function
+that returns chunks of audio data and output the data to the soundcard yourself.
 FluidSynth works on all major platforms, so pyFluidSynth should also.
 
 
-## REQUIREMENTS
+## Requirements
 
-FluidSynth 2.0.0 (or later version)
-(earlier versions are not supported. While they probably work, some features will be unavailble)
-http://www.fluidsynth.org/
-* Windows/Android Binaries: https://github.com/FluidSynth/fluidsynth/releases
-* MacOS/Linux Distributions: https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions
-* Building from Source: https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake
+[FluidSynth](http://www.fluidsynth.org/) (2.0.0 or later)
+* [Windows/Android FluidSynth Releases](https://github.com/FluidSynth/fluidsynth/releases)
+* [MacOS/Linux Distributions](https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions)
+* [Building from Source](https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake)
 
-NumPy 1.0 or later (for some features)
-http://numpy.org/
+(optional) [NumPy](http://numpy.org/) 1.0 or later for some features
 
+NOTE: If you don't need all the features of FluidSynth you may be interested in
+[tinysoundfont-pybind](https://github.com/nwhitehead/tinysoundfont-pybind) which
+is a self-contained Python package that includes
+[TinySoundFont](https://github.com/schellingb/TinySoundFont) for SoundFont
+playback and is permissively licensed.
 
-## DOWNLOAD
+## Installation
 
-Download the latest version from GitHub here:
-https://github.com/nwhitehead/pyfluidsynth/archive/master.zip
+To use the latest official release:
 
-
-## INSTALLATION
-
-pyFluidSynth is packaged as Python source using distutils.  To install,
-run the following command as root:
-
-```
-python setup.py install
-```
-
-For more information and options about using distutils, read:
-https://docs.python.org/2/distutils/
+    pip install pyfluidsynth
 
 
-## EXAMPLE
+## Pre-release Versions
+
+To use pre-release versions of this package, clone this repository, go to the
+repository directory, then do:
+
+    pip install .
+
+
+## Example
 
 Here is a program that plays a chord for a second.
 
@@ -97,7 +94,7 @@ noteoff(track, midinum)
 ```
 
 
-## MANAGING AUDIO
+## Managing Audio
 
 You can also manage audio IO yourself and just use FluidSynth to
 calculate the samples for the music.  You might do this, for example,
@@ -169,7 +166,7 @@ print('Starting playback')
 strm.write(samps)
 ```
 
-## USING THE SEQUENCER
+## Using the Sequencer
 
 You can create a sequencer as follows:
 ```python
@@ -222,7 +219,7 @@ Note that event and seq are low-level objects, not actual python objects.
 You can find a complete example (inspired by [this one from the fluidsynth library](http://www.fluidsynth.org/api/index.html#Sequencer)) in the test folder.
 
 
-## BUGS AND LIMITATIONS
+## Bugs and Limitations
 
 Not all functions in FluidSynth are bound.
 
@@ -230,15 +227,13 @@ Not much error checking, FluidSynth will segfault/crash if you call
 the functions incorrectly sometimes.
 
 
-## AUTHORS
+## Authors
 
-Original code by Nathan Whitehead `<nwhitehe@gmail.com>`.
-Contributions by Bart Spaans `<onderstekop@gmail.com>` and Christian Romberg `<distjubo@gmail.com>`.
+This project was originally created by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS.md).
 
-
-## LICENSE
+## License
 
 Released under the LGPL v2.1 or any later
 version (this is the same as FluidSynth).
 
-Copyright 2008--2015, Nathan Whitehead
+Copyright 2008--2024, Nathan Whitehead and contributors.
