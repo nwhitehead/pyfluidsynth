@@ -22,7 +22,10 @@
 ================================================================================
 """
 
-from ctypes import *
+from ctypes import (
+    CDLL, CFUNCTYPE, POINTER, Structure, byref, c_void_p, create_string_buffer, c_char,
+    c_char_p, c_double, c_float, c_int, c_short, c_uint
+)
 from ctypes.util import find_library
 import os
 
@@ -711,7 +714,7 @@ class Synth:
             new_fluid_cmd_handler(self.synth, self.router)
         else:
             fluid_synth_set_midi_router(self.synth, self.router)
-        if midi_router == None: ## Use fluidsynth to create a MIDI event handler
+        if midi_router is None: ## Use fluidsynth to create a MIDI event handler
             self.midi_driver = new_fluid_midi_driver(self.settings, fluid_midi_router_handle_midi_event, self.router)
             self.custom_router_callback = None
         else:                   ## Supply an external MIDI event handler
@@ -880,7 +883,7 @@ class Synth:
         if fluid_synth_set_chorus_level is not None:
             return fluid_synth_set_chorus_level(self.synth, level)
         else:
-            return self.set_chorus(leve=level)
+            return self.set_chorus(level=level)
     def set_chorus_speed(self, speed):
         if fluid_synth_set_chorus_speed is not None:
             return fluid_synth_set_chorus_speed(self.synth, speed)
@@ -996,7 +999,7 @@ class Synth:
         """
         return fluid_synth_write_s16_stereo(self.synth, len)
     def tuning_dump(self, bank, prog, pitch):
-        return fluid_synth_tuning_dump(self.synth, bank, prog, name.encode(), length(name), pitch)
+        return fluid_synth_tuning_dump(self.synth, bank, prog, name.encode(), len(name), pitch)
 
     def midi_event_get_type(self, event):
         return fluid_midi_event_get_type(event)
@@ -1015,17 +1018,20 @@ class Synth:
 
     def play_midi_file(self, filename):
         self.player = new_fluid_player(self.synth)
-        if self.player == None: return FLUID_FAILED
-        if self.custom_router_callback != None:
+        if self.player is None:
+            return FLUID_FAILED
+        if self.custom_router_callback is not None:
             fluid_player_set_playback_callback(self.player, self.custom_router_callback, self.synth)
         status = fluid_player_add(self.player, filename.encode())
-        if status == FLUID_FAILED: return status
+        if status == FLUID_FAILED:
+            return status
         status = fluid_player_play(self.player)
         return status
 
     def play_midi_stop(self):
         status = fluid_player_stop(self.player)
-        if status == FLUID_FAILED: return status
+        if status == FLUID_FAILED:
+            return status
         status = fluid_player_seek(self.player, 0)
         delete_fluid_player(self.player)
         return status
@@ -1050,14 +1056,14 @@ class Sequencer:
     def register_fluidsynth(self, synth):
         response = fluid_sequencer_register_fluidsynth(self.sequencer, synth.synth)
         if response == FLUID_FAILED:
-            raise Error("Registering fluid synth failed")
+            raise Exception("Registering fluid synth failed")
         return response
 
     def register_client(self, name, callback, data=None):
         c_callback = CFUNCTYPE(None, c_uint, c_void_p, c_void_p, c_void_p)(callback)
         response = fluid_sequencer_register_client(self.sequencer, name.encode(), c_callback, data)
         if response == FLUID_FAILED:
-            raise Error("Registering client failed")
+            raise Exception("Registering client failed")
 
         # store in a list to prevent garbage collection
         self.client_callbacks.append(c_callback)
@@ -1097,7 +1103,7 @@ class Sequencer:
     def _schedule_event(self, evt, time, absolute=True):
         response = fluid_sequencer_send_at(self.sequencer, evt, time, absolute)
         if response == FLUID_FAILED:
-            raise Error("Scheduling event failed")
+            raise Exception("Scheduling event failed")
 
     def get_tick(self):
         return fluid_sequencer_get_tick(self.sequencer)
