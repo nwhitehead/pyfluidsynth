@@ -2,7 +2,6 @@
 
 import time
 import fluidsynth
-from ctypes import *
 
 seqduration = 1000
 
