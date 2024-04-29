@@ -29,9 +29,6 @@ from ctypes import (
 from ctypes.util import find_library
 import os
 
-# A short circuited or expression to find the FluidSynth library
-# (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
-
 # DLL search method changed in Python 3.8
 # https://docs.python.org/3/library/os.html#os.add_dll_directory
 if hasattr(os, 'add_dll_directory'):
@@ -40,8 +37,10 @@ if hasattr(os, 'add_dll_directory'):
     # Workaround bug in find_library, it doesn't recognize add_dll_directory
     os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
 
+# A function to find the FluidSynth library
+# (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
 def load_libfluidsynth(debug_print: bool = False) -> str:
-    """
+    r"""
     macOS X64:
     * 'fluidsynth' was loaded as /usr/local/opt/fluid-synth/lib/libfluidsynth.dylib.
     macOS ARM64:
@@ -80,7 +79,7 @@ def cfunc(name, result, *args):
         return None
 
 # Bump this up when changing the interface for users
-api_version = '1.3.1'
+api_version = '1.3.4'
 
 # Function prototypes for C versions of functions
 
@@ -337,9 +336,18 @@ fluid_synth_set_chorus_level = cfunc('fluid_synth_set_chorus_level', c_int,
                                     ('synth', c_void_p, 1),
                                     ('level', c_double, 1))
 
+fluid_synth_set_chorus_speed = cfunc('fluid_synth_set_chorus_speed', c_int,
+                                    ('synth', c_void_p, 1),
+                                    ('speed', c_double, 1))
+
+fluid_synth_set_chorus_depth = cfunc('fluid_synth_set_chorus_depth', c_int,
+                                    ('synth', c_void_p, 1),
+                                    ('depth_ms', c_double, 1))
+
 fluid_synth_set_chorus_type = cfunc('fluid_synth_set_chorus_type', c_int,
                                     ('synth', c_void_p, 1),
                                     ('type', c_int, 1))
+
 fluid_synth_get_reverb_roomsize = cfunc('fluid_synth_get_reverb_roomsize', c_double,
                                     ('synth', c_void_p, 1))
 
@@ -769,8 +777,7 @@ class Synth:
                 return None
             return fluid_preset_get_name(preset).decode('ascii')
         else:
-            (sfontid, banknum, presetnum, presetname) = self.channel_info(chan)
-            return presetname
+            return None
     def router_clear(self):
         if self.router is not None:
             fluid_midi_router_clear_rules(self.router)
@@ -821,16 +828,16 @@ class Synth:
         if fluid_synth_set_reverb is not None:
             return fluid_synth_set_reverb(self.synth, roomsize, damping, width, level)
         else:
-            set=0
+            flags=0
             if roomsize>=0:
-                set+=0b0001
+                flags+=0b0001
             if damping>=0:
-                set+=0b0010
+                flags+=0b0010
             if width>=0:
-                set+=0b0100
+                flags+=0b0100
             if level>=0:
-                set+=0b1000
-            return fluid_synth_set_reverb_full(self.synth, set, roomsize, damping, width, level)
+                flags+=0b1000
+            return fluid_synth_set_reverb_full(self.synth, flags, roomsize, damping, width, level)
     def set_chorus(self, nr=-1, level=-1.0, speed=-1.0, depth=-1.0, type=-1):
         """
         nr Chorus voice count (0-99, CPU time consumption proportional to this value)
@@ -889,11 +896,11 @@ class Synth:
             return fluid_synth_set_chorus_speed(self.synth, speed)
         else:
             return self.set_chorus(speed=speed)
-    def set_chorus_depth(self, depth):
+    def set_chorus_depth(self, depth_ms):
         if fluid_synth_set_chorus_depth is not None:
-            return fluid_synth_set_chorus_depth(self.synth, depth)
+            return fluid_synth_set_chorus_depth(self.synth, depth_ms)
         else:
-            return self.set_chorus(depth=depth)
+            return self.set_chorus(depth=depth_ms)
     def set_chorus_type(self, type):
         if fluid_synth_set_chorus_type is not None:
             return fluid_synth_set_chorus_type(self.synth, type)
@@ -945,10 +952,10 @@ class Synth:
         A pitch bend value of 0 is no pitch change from default.
         A value of -2048 is 1 semitone down.
         A value of 2048 is 1 semitone up.
-        Maximum values are -8192 to +8192 (transposing by 4 semitones).
+        Maximum values are -8192 to +8191 (transposing by 4 semitones).
 
         """
-        return fluid_synth_pitch_bend(self.synth, chan, val + 8192)
+        return fluid_synth_pitch_bend(self.synth, chan, max(0, min(val + 8192, 16383)))
     def cc(self, chan, ctrl, val):
         """Send control change value
 
@@ -998,8 +1005,15 @@ class Synth:
 
         """
         return fluid_synth_write_s16_stereo(self.synth, len)
-    def tuning_dump(self, bank, prog, pitch):
-        return fluid_synth_tuning_dump(self.synth, bank, prog, name.encode(), len(name), pitch)
+    def tuning_dump(self, bank, prog):
+        """Get tuning information for given bank and preset
+
+        Return value is an array of length 128 with tuning factors for each MIDI note.
+        Tuning factor of 0.0 in each position is standard tuning. Measured in cents.
+        """
+        pitch = (c_double * 128)()
+        fluid_synth_tuning_dump(self.synth, bank, prog, None, 0, pitch)
+        return pitch[:]
 
     def midi_event_get_type(self, event):
         return fluid_midi_event_get_type(event)
