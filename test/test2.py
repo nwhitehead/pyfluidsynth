@@ -3,18 +3,18 @@ import pyaudio
 import fluidsynth
 
 def local_file_path(file_name: str) -> str:
-	"""
-	Return a file path to a file that is in the same directory as this file.
-	"""
-	from os.path import dirname, join
+    """
+    Return a file path to a file that is in the same directory as this file.
+    """
+    from os.path import dirname, join
 
-	return join(dirname(__file__), file_name)
+    return join(dirname(__file__), file_name)
 
 pa = pyaudio.PyAudio()
 strm = pa.open(
     format = pyaudio.paInt16,
-    channels = 2, 
-    rate = 44100, 
+    channels = 2,
+    rate = 44100,
     output = True)
 
 s = []
