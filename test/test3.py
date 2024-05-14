@@ -2,6 +2,7 @@ import time
 
 import fluidsynth
 
+
 def local_file_path(file_name: str) -> str:
 	"""
 	Return a file path to a file that is in the same directory as this file.

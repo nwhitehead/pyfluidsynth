@@ -22,12 +22,24 @@
 ================================================================================
 """
 
+import os
 from ctypes import (
-    CDLL, CFUNCTYPE, POINTER, Structure, byref, c_void_p, create_string_buffer, c_char,
-    c_char_p, c_double, c_float, c_int, c_short, c_uint
+    CDLL,
+    CFUNCTYPE,
+    POINTER,
+    Structure,
+    byref,
+    c_char,
+    c_char_p,
+    c_double,
+    c_float,
+    c_int,
+    c_short,
+    c_uint,
+    c_void_p,
+    create_string_buffer,
 )
 from ctypes.util import find_library
-import os
 
 # DLL search method changed in Python 3.8
 # https://docs.python.org/3/library/os.html#os.add_dll_directory
@@ -93,10 +105,7 @@ fluid_version = cfunc('fluid_version', c_void_p,
 
 majver = c_int()
 fluid_version(majver, c_int(), c_int())
-if majver.value > 1:
-    FLUIDSETTING_EXISTS = FLUID_OK
-else:
-    FLUIDSETTING_EXISTS = 1
+FLUIDSETTING_EXISTS = FLUID_OK if majver.value > 1 else 1
 
 # fluid settings
 new_fluid_settings = cfunc('new_fluid_settings', c_void_p)
@@ -710,11 +719,11 @@ class Synth:
         see http://www.fluidsynth.org/api/fluidsettings.xml for allowed values and defaults by platform
         """
         driver = driver or self.get_setting('audio.driver')
-        device = device or self.get_setting('audio.%s.device' % driver)
+        device = device or self.get_setting(f'audio.{driver}.device')
         midi_driver = midi_driver or self.get_setting('midi.driver')
 
         self.setting('audio.driver', driver)
-        self.setting('audio.%s.device' % driver, device)
+        self.setting(f'audio.{driver}.device', device)
         self.audio_driver = new_fluid_audio_driver(self.settings, self.synth)
         self.setting('midi.driver', midi_driver)
         self.router = new_fluid_midi_router(self.settings, fluid_synth_handle_midi_event, self.synth)

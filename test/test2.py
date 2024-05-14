@@ -1,6 +1,8 @@
 import numpy
 import pyaudio
+
 import fluidsynth
+
 
 def local_file_path(file_name: str) -> str:
 	"""
