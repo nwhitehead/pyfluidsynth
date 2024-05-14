@@ -1,5 +1,7 @@
 import time
+
 import fluidsynth
+
 
 def local_file_path(file_name: str) -> str:
     """
