@@ -1,0 +1,74 @@
+[tool.ruff]
+line-length = 123
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+  "AIR",   # Airflow
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear
+  "BLE",   # flake8-blind-except
+  "C4",    # flake8-comprehensions
+  "C90",   # McCabe cyclomatic complexity
+  "COM",   # flake8-commas
+  "DJ",    # flake8-django
+  "DTZ",   # flake8-datetimez
+  "E",     # pycodestyle
+  "F",     # Pyflakes
+  "FA",    # flake8-future-annotations
+  "FIX",   # flake8-fixme
+  "FLY",   # flynt
+  "G",     # flake8-logging-format
+  "I",     # isort
+  "INP",   # flake8-no-pep420
+  "INT",   # flake8-gettext
+  "ISC",   # flake8-implicit-str-concat
+  "LOG",   # flake8-logging
+  "NPY",   # NumPy-specific rules
+  "PD",    # pandas-vet
+  "PERF",  # Perflint
+  "PGH",   # pygrep-hooks
+  "PIE",   # flake8-pie
+  "PT",    # flake8-pytest-style
+  "PYI",   # flake8-pyi
+  "RSE",   # flake8-raise
+  "S",     # flake8-bandit
+  "SIM",   # flake8-simplify
+  "SLF",   # flake8-self
+  "SLOT",  # flake8-slots
+  "T10",   # flake8-debugger
+  "TCH",   # flake8-type-checking
+  "TD",    # flake8-todos
+  "TID",   # flake8-tidy-imports
+  "TRIO",  # flake8-trio
+  "UP",    # pyupgrade
+  "YTT",   # flake8-2020
+  # "A",     # flake8-builtins
+  # "ANN",   # flake8-annotations
+  # "ARG",   # flake8-unused-arguments
+  # "CPY",   # flake8-copyright
+  # "D",     # pydocstyle
+  # "EM",    # flake8-errmsg
+  # "ERA",   # eradicate
+  # "EXE",   # flake8-executable
+  # "FBT",   # flake8-boolean-trap
+  # "FURB",  # refurb
+  # "ICN",   # flake8-import-conventions
+  # "N",     # pep8-naming
+  # "PL",    # Pylint
+  # "PTH",   # flake8-use-pathlib
+  # "Q",     # flake8-quotes
+  # "RET",   # flake8-return
+  # "RUF",   # Ruff-specific rules
+  # "T20",   # flake8-print
+  # "TRY",   # tryceratops
+  # "W",     # pycodestyle
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+  "E402",
+]
+"test/*" = [
+  "S101",
+]
