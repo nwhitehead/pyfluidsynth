@@ -91,7 +91,7 @@ def cfunc(name, result, *args):
         return None
 
 # Bump this up when changing the interface for users
-api_version = '1.3.4'
+api_version = '1.3.5'
 
 # Function prototypes for C versions of functions
 
@@ -684,6 +684,7 @@ class Synth:
         self.audio_driver = None
         self.midi_driver = None
         self.router = None
+        self.custom_router_callback = None
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
         if isinstance(val, (str, bytes)):
