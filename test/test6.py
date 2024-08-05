@@ -1,6 +1,5 @@
 import numpy
 import pyaudio
-import time
 
 import fluidsynth
 
