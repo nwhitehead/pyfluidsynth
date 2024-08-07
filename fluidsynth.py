@@ -72,17 +72,11 @@ def load_libfluidsynth(debug_print: bool = False) -> str:
 
     # On macOS on Apple silicon, non-Homebrew Python distributions fail to locate
     # homebrew-installed instances of FluidSynth. This workaround addresses this.
-    if lib is None:
-        import sys, subprocess
-        if sys.platform == "darwin":
-            try:
-                prefix = subprocess.check_output(["brew", "--prefix"]).decode("utf8").strip()
-                lib = os.path.join(prefix, "lib", "libfluidsynth.dylib")
-                if os.path.exists(lib):
-                    return lib
-            # Raised if brew was not located
-            except FileNotFoundError:
-                pass
+    if homebrew_prefix := os.getenv("HOMEBREW_PREFIX"):
+        lib = os.path.join(homebrew_prefix, "lib", "libfluidsynth.dylib")
+        if os.path.exists(lib):
+            return lib
+
     raise ImportError("Couldn't find the FluidSynth library.")
 
 lib = load_libfluidsynth()
