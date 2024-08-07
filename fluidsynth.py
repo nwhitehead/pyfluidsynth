@@ -69,6 +69,14 @@ def load_libfluidsynth(debug_print: bool = False) -> str:
             if debug_print:
                 print(f"'{lib_name}' was loaded as {lib}.")
             return lib
+
+    # On macOS on Apple silicon, non-Homebrew Python distributions fail to locate
+    # homebrew-installed instances of FluidSynth. This workaround addresses this.
+    if homebrew_prefix := os.getenv("HOMEBREW_PREFIX"):
+        lib = os.path.join(homebrew_prefix, "lib", "libfluidsynth.dylib")
+        if os.path.exists(lib):
+            return lib
+
     raise ImportError("Couldn't find the FluidSynth library.")
 
 lib = load_libfluidsynth()
