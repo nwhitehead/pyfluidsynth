@@ -7,18 +7,18 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install --user codespell[toml] ruff
       - run: codespell **/*.py **/*.txt --skip="venv/lib/python3*"
-      - run: ruff check --output-format=github --target-version=py38 .
+      - run: ruff check --output-format=github --target-version=py39 .
   ci:
     strategy:
       fail-fast: false
       max-parallel: 4
-      matrix:  # macos-13 in Intel, macos-14 is Apple Silicon ARM
-        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+      matrix:  # macos-13 in Intel, macos-latest is Apple Silicon ARM
+        os: [macos-13, macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: 3.13, allow-prereleases: true}
+        with: {python-version: 3.13}
       - name: Dump runner context
         env:
           RUNNER_CONTEXT: ${{ toJson(runner) }}
