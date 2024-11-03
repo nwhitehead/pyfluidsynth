@@ -96,6 +96,7 @@ jobs:
       - name: Upload dist directory as artifact
         uses: actions/upload-artifact@v4
         with:
+          name: dist
           path: dist
 
   pypi-publish:
@@ -112,6 +113,6 @@ jobs:
       - name: Download dist artifact
         uses: actions/download-artifact@v4
         with:
-          path: dist
+          name: dist
       - run: ls dist
       - uses: pypa/gh-action-pypi-publish@release/v1
