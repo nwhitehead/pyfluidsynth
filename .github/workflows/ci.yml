@@ -4,8 +4,8 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-  #release:
-  #  types: [created]  # Only publish on tagged releases
+  release:
+    types: [created]  # Only publish on tagged releases
 jobs:
   codespell_and_ruff:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
           import fluidsynth
           print(fluidsynth)
           print(dir(fluidsynth))
-      # NOTE: The files in test/ are NOT unittests or pytests.
+      # NOTE: The files in test/ are NOT unit tests or pytests.
       # On macOS ARM64 the following tests will pass but each takes 8 minutes to run.
       # On macOS X64 all tests will pass quickly.
       - if: runner.os == 'macOS' && runner.arch == 'X64'
@@ -103,7 +103,7 @@ jobs:
   pypi-publish:
     needs: [build]
     name: upload release to PyPI
-    # if: github.event_name == 'release' && github.event.action == 'created'  # Only on release creation
+    if: github.event_name == 'release' && github.event.action == 'created'  # Only on release creation
     runs-on: ubuntu-latest
     # Specifying a GitHub environment is optional, but strongly encouraged
     environment: release
