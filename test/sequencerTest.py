@@ -12,7 +12,7 @@ def schedule_next_callback():
     sequencer.timer(callbackdate, dest=mySeqID)
 
 def schedule_next_sequence():
-    global now
+    global now  # noqa: PLW0603
     # the sequence to play
     # the beat : 2 beats per sequence
     sequencer.note(int(now + seqduration * 1/2), 0, 60, duration=250, velocity=80, dest=synthSeqID)
@@ -38,7 +38,7 @@ def local_file_path(file_name: str) -> str:
     return join(dirname(__file__), file_name)
 
 if __name__=="__main__":
-    global sequencer, fs, mySeqID, synthSeqID, now
+    global sequencer, fs, mySeqID, synthSeqID, now  # noqa: PLW0604
     fs = fluidsynth.Synth()
     fs.start()
     # you might have to use other drivers:

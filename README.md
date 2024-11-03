@@ -2,13 +2,15 @@
 
 _Python bindings for FluidSynth_
 
-This package contains python bindings for FluidSynth.  FluidSynth is a software
+This package contains Python bindings for FluidSynth.  FluidSynth is a software
 synthesizer for generating music.  It works like a MIDI synthesizer.  You load
 patches, set parameters, then send NOTEON and NOTEOFF events to play notes.
 Instruments are defined in SoundFonts, generally files with the extension SF2.
 FluidSynth can either be used to play audio itself, or you can call a function
 that returns chunks of audio data and output the data to the soundcard yourself.
 FluidSynth works on all major platforms, so pyFluidSynth should also.
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nwhitehead/pyfluidsynth/ci.yml) | ![PyPI - Version](https://img.shields.io/pypi/v/pyFluidSynth) | ![PyPI - Python Versions](https://img.shields.io/pypi/pyversions/pyFluidSynth) | 
 
 
 ## Requirements
@@ -26,6 +28,7 @@ is a self-contained Python package that includes
 [TinySoundFont](https://github.com/schellingb/TinySoundFont) for SoundFont
 playback and is permissively licensed.
 
+
 ## Installation
 
 To use the latest official release:
@@ -38,7 +41,7 @@ To use the latest official release:
 To use pre-release versions of this package, clone this repository, go to the
 repository directory, then do:
 
-    pip install .
+    pip install --editable .
 
 
 ## Example
@@ -188,12 +191,12 @@ register it:
 fs = fluidsynth.Synth()
 # init and start the synthesizer as described above…
 
-synthID = seq.register_fluidsynth(fs)
+synth_id = seq.register_fluidsynth(fs)
 ```
-You have to keep the ID and use it as a `target` for the midi events
+You have to keep `synth_id` and use it as a `target` for the midi events
 you want to schedule. Now, you can sequence actual notes:
 ```python
-seq.note_on(time=500, absolute=False, channel=0, key=60, velocity=80, dest=synthID)
+seq.note_on(time=500, absolute=False, channel=0, key=60, velocity=80, dest=synth_id)
 ```
 If you use relative timing like above, the sequencer will
 schedule the event the specified time from the current position.
@@ -202,7 +205,7 @@ absolute track positions (in ticks). So the following code snippet
 will do the same as the one above:
 ```python
 current_time = seq.get_tick()
-seq.note_on(current_time + 500, 0, 60, 80, dest=synthID)
+seq.note_on(current_time + 500, 0, 60, 80, dest=synth_id)
 ```
 You can also register your own callback functions to be called at
 certain ticks:
@@ -210,11 +213,11 @@ certain ticks:
 def seq_callback(time, event, seq, data):
     print('callback called!')
 
-callbackID = sequencer.register_client("myCallback", seq_callback)
+callback_id = sequencer.register_client("myCallback", seq_callback)
 
-sequencer.timer(current_time + 2000, dest=callbackID)
+sequencer.timer(current_time + 2000, dest=callback_id)
 ```
-Note that event and seq are low-level objects, not actual python objects.
+Note that event and seq are low-level objects, not actual Python objects.
 
 You can find a complete example (inspired by [this one from the fluidsynth library](http://www.fluidsynth.org/api/index.html#Sequencer)) in the test folder.
 
@@ -230,6 +233,7 @@ the functions incorrectly sometimes.
 ## Authors
 
 This project was originally created by Nathan Whitehead `nwhitehe@gmail.com` but is the work of many. See [CONTRIBUTORS](./CONTRIBUTORS.md).
+
 
 ## License
 

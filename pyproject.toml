@@ -1,9 +1,35 @@
-[tool.ruff]
-line-length = 123
-target-version = "py38"
+[build-system]
+build-backend = "setuptools.build_meta"
 
-[tool.ruff.lint]
-select = [
+requires = [ "setuptools>=61.2" ]
+
+[project]
+name = "pyfluidsynth"
+version = "1.3.4"
+description = "Python bindings for FluidSynth, a MIDI synthesizer that uses SoundFont instruments"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [ { name = "Nathan Whitehead", email = "nwhitehe@gmail.com" } ]
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",  # Windows: https://github.com/nwhitehead/pyfluidsynth/issues/77
+]
+dependencies = [ "numpy" ]
+
+urls.Homepage = "https://github.com/nwhitehead/pyfluidsynth"
+
+[tool.setuptools]
+py-modules = [ "fluidsynth" ]
+include-package-data = false
+
+[tool.ruff]
+target-version = "py39"
+
+line-length = 123
+lint.select = [
   "AIR",   # Airflow
   "ASYNC", # flake8-async
   "B",     # flake8-bugbear
@@ -29,6 +55,7 @@ select = [
   "PERF",  # Perflint
   "PGH",   # pygrep-hooks
   "PIE",   # flake8-pie
+  "PL",    # Pylint
   "PT",    # flake8-pytest-style
   "PYI",   # flake8-pyi
   "RSE",   # flake8-raise
@@ -40,8 +67,8 @@ select = [
   "TCH",   # flake8-type-checking
   "TD",    # flake8-todos
   "TID",   # flake8-tidy-imports
-  "TRIO",  # flake8-trio
   "UP",    # pyupgrade
+  "W",     # pycodestyle
   "YTT",   # flake8-2020
   # "A",     # flake8-builtins
   # "ANN",   # flake8-annotations
@@ -55,20 +82,14 @@ select = [
   # "FURB",  # refurb
   # "ICN",   # flake8-import-conventions
   # "N",     # pep8-naming
-  # "PL",    # Pylint
   # "PTH",   # flake8-use-pathlib
   # "Q",     # flake8-quotes
   # "RET",   # flake8-return
   # "RUF",   # Ruff-specific rules
   # "T20",   # flake8-print
   # "TRY",   # tryceratops
-  # "W",     # pycodestyle
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = [
-  "E402",
-]
-"test/*" = [
-  "S101",
-]
+lint.per-file-ignores."__init__.py" = [ "E402" ]
+lint.per-file-ignores."test/*" = [ "S101" ]
+lint.pylint.allow-magic-value-types = [ "int", "str" ]
+lint.pylint.max-args = 8
