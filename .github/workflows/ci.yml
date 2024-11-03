@@ -93,6 +93,11 @@ jobs:
           python -m build
           python -m twine check --strict dist/*
 
+      - name: Upload dist directory as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: dist/
+
   pypi-publish:
     needs: [build]
     name: upload release to PyPI
@@ -104,4 +109,8 @@ jobs:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
     steps:
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
