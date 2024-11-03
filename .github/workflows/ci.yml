@@ -1,5 +1,11 @@
 name: ci
-on: [pull_request, push]
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  #release:
+  #  types: [created]  # Only publish on tagged releases
 jobs:
   codespell_and_ruff:
     runs-on: ubuntu-latest
@@ -7,7 +13,9 @@ jobs:
       - uses: actions/checkout@v4
       - run: pipx run 'codespell[toml]' **/*.py **/*.txt --skip="venv/lib/python3*"
       - run: pipx run ruff check --output-format=github --target-version=py39
+
   ci:
+    needs: [codespell_and_ruff]
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -45,11 +53,9 @@ jobs:
           python test/test2.py
           python test/test3.py
           python test/sequencerTest.py
-      # On Linux test2.py will fail even with xvfb-run but the other tests will pass quickly.
       - if: runner.os == 'Linux'
         run: |
           python test/test1.py
-          # xvfb-run python test/test2.py
           python test/test3.py
           python test/sequencerTest.py
       # On Windows all tests will pass quickly.
@@ -59,3 +65,43 @@ jobs:
           python test/test2.py
           python test/test3.py
           python test/sequencerTest.py
+
+  build:
+    needs: [ci]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write 
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install build twine
+
+      - name: Clean previous builds
+        run: |
+          rm -rf dist
+
+      - name: Build package
+        run: |
+          python -m build
+          python -m twine check --strict dist/*
+
+  pypi-publish:
+    needs: [build]
+    name: upload release to PyPI
+    # if: github.event_name == 'release' && github.event.action == 'created'  # Only on release creation
+    runs-on: ubuntu-latest
+    # Specifying a GitHub environment is optional, but strongly encouraged
+    environment: release
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
+    steps:
+      - uses: pypa/gh-action-pypi-publish@release/v1
