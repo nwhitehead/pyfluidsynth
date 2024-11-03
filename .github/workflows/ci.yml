@@ -19,8 +19,8 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 4
-      matrix:  # macos-13 in Intel, macos-14 is Apple Silicon ARM
-        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+      matrix:  # macos-13 in Intel, macos-latest is Apple Silicon ARM
+        os: [macos-13, macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -96,7 +96,7 @@ jobs:
       - name: Upload dist directory as artifact
         uses: actions/upload-artifact@v4
         with:
-          path: dist/
+          path: dist
 
   pypi-publish:
     needs: [build]
@@ -112,5 +112,6 @@ jobs:
       - name: Download dist artifact
         uses: actions/download-artifact@v4
         with:
-          path: dist/
+          path: dist
+      - run: ls dist
       - uses: pypa/gh-action-pypi-publish@release/v1
