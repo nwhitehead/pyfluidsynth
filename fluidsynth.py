@@ -618,6 +618,16 @@ fluid_midi_router_add_rule = cfunc('fluid_midi_router_add_rule', c_int,
                                     ('rule', c_void_p, 1),
                                     ('type', c_int, 1))
 
+# fluid file renderer
+new_fluid_file_renderer = cfunc('new_fluid_file_renderer', c_void_p,
+                                ('synth', c_void_p, 1))
+
+delete_fluid_file_renderer = cfunc('delete_fluid_file_renderer', None,
+                                   ('renderer', c_void_p, 1))
+
+fluid_file_renderer_process_block = cfunc('fluid_file_renderer_process_block', c_int,
+                                          ('render', c_void_p, 1))
+
 # fluidsynth 2.x
 new_fluid_cmd_handler=cfunc('new_fluid_cmd_handler', c_void_p,
                                ('synth', c_void_p, 1),
@@ -693,6 +703,8 @@ class Synth:
         self.midi_driver = None
         self.router = None
         self.custom_router_callback = None
+    def __del__(self):
+        self.delete()
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
         if isinstance(val, (str, bytes)):
@@ -1070,7 +1082,19 @@ class Synth:
 
     def player_set_tempo(self, tempo_type, tempo):
         return fluid_player_set_tempo(self.player, tempo_type, tempo)
-
+    
+    def midi2audio(self, midifile, audiofile = "output.wav"):
+        """Convert a midi file to an audio file"""
+        self.setting("audio.file.name", audiofile)
+        player = new_fluid_player(self.synth)
+        fluid_player_add(player, midifile.encode())
+        fluid_player_play(player)
+        renderer = new_fluid_file_renderer(self.synth)
+        while(fluid_player_get_status(player) == FLUID_PLAYER_PLAYING):
+            if(fluid_file_renderer_process_block(renderer) != FLUID_OK):
+                break
+        delete_fluid_file_renderer(renderer)
+        delete_fluid_player(player)
 
 
 class Sequencer:
