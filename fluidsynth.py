@@ -1082,7 +1082,7 @@ class Synth:
 
     def player_set_tempo(self, tempo_type, tempo):
         return fluid_player_set_tempo(self.player, tempo_type, tempo)
-    
+
     def midi2audio(self, midifile, audiofile = "output.wav"):
         """Convert a midi file to an audio file"""
         self.setting("audio.file.name", audiofile)
