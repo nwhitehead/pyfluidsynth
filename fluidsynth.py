@@ -1088,8 +1088,8 @@ class Synth:
         fluid_player_add(player, midifile.encode())
         fluid_player_play(player)
         renderer = new_fluid_file_renderer(self.synth)
-        while(fluid_player_get_status(player) == FLUID_PLAYER_PLAYING):
-            if(fluid_file_renderer_process_block(renderer) != FLUID_OK):
+        while fluid_player_get_status(player) == FLUID_PLAYER_PLAYING:
+            if fluid_file_renderer_process_block(renderer) != FLUID_OK:
                 break
         delete_fluid_file_renderer(renderer)
         delete_fluid_player(player)
