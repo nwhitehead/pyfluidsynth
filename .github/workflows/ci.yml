@@ -34,11 +34,11 @@ jobs:
         run: |
           brew install fluid-synth
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
-      - if: runner.os == 'Windows'
-        run: choco install fluidsynth
       - run: python -m pip install --upgrade pip
       - run: pip install pyaudio
       - run: pip install --editable .
+      - if: runner.os == 'Windows'
+        run: choco install fluidsynth
       - shell: python
         run: |
           import fluidsynth
