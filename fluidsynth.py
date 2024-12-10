@@ -5,7 +5,7 @@
 
     Python bindings for FluidSynth
 
-    Copyright 2008, Nathan Whitehead <nwhitehe@gmail.com> and others.
+    Copyright 2008--2024, Nathan Whitehead <nwhitehe@gmail.com> and others.
 
 
     Released under the LGPL
