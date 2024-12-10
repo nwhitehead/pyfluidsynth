@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v2
       - run: pipx run 'codespell[toml]' **/*.py **/*.txt --skip="venv/lib/python3*"
-      - run: pipx run ruff check --output-format=github --target-version=py39
 
   ci:
     needs: [codespell_and_ruff]
