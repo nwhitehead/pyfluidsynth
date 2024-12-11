@@ -703,8 +703,6 @@ class Synth:
         self.midi_driver = None
         self.router = None
         self.custom_router_callback = None
-    def __del__(self):
-        self.delete()
     def setting(self, opt, val):
         """change an arbitrary synth setting, type-smart"""
         if isinstance(val, (str, bytes)):

@@ -15,3 +15,5 @@ fs.midi2audio(local_file_path("1080-c01.mid"), local_file_path("1080-c01.wav"))
 # A Synth object can synthesize multiple files. For example:
 # fs.midi2audio(local_file_path("1080-c02.mid"), local_file_path("1080-c02.wav"))
 # fs.midi2audio(local_file_path("1080-c03.mid"), local_file_path("1080-c03.wav"))
+
+fs.delete()
