@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/ruff-action@v2
+      - uses: astral-sh/ruff-action@v3
       - run: pipx run 'codespell[toml]' **/*.py **/*.txt --skip="venv/lib/python3*"
 
   ci:
