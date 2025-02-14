@@ -557,6 +557,9 @@ new_fluid_midi_driver = cfunc('new_fluid_midi_driver', c_void_p,
                                ('handler', CFUNCTYPE(c_int, c_void_p, c_void_p), 1),
                                ('event_handler_data', c_void_p, 1))
 
+delete_fluid_midi_driver = cfunc('delete_fluid_midi_driver', None,
+                           ('driver', c_void_p, 1))
+
 
 # fluid midi router rule
 class fluid_midi_router_t(Structure):
@@ -761,6 +764,8 @@ class Synth:
     def delete(self):
         if self.audio_driver:
             delete_fluid_audio_driver(self.audio_driver)
+        if self.midi_driver:
+            delete_fluid_midi_driver(self.midi_driver)
         delete_fluid_synth(self.synth)
         delete_fluid_settings(self.settings)
     def sfload(self, filename, update_midi_preset=0):
