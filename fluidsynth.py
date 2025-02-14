@@ -496,6 +496,77 @@ fluid_midi_event_get_value = cfunc('fluid_midi_event_get_value', c_int,
 fluid_midi_event_get_velocity = cfunc('fluid_midi_event_get_velocity', c_int,
                                   ('evt', c_void_p, 1))
 
+# fluid modulator
+new_fluid_mod = cfunc("new_fluid_mod", c_void_p)
+
+delete_fluid_mod = cfunc("delete_fluid_mod", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_clone = cfunc(
+    "fluid_mod_clone", c_void_p, ("mod", c_void_p, 1), ("src", c_void_p, 1),
+)
+
+fluid_mod_get_amount = cfunc("fluid_mod_get_amount", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_get_dest = cfunc("fluid_mod_get_dest", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_get_flags1 = cfunc("fluid_mod_get_flags1", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_get_flags2 = cfunc("fluid_mod_get_flags2", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_get_source1 = cfunc("fluid_mod_get_source1", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_get_source2 = cfunc("fluid_mod_get_source2", c_void_p, ("mod", c_void_p, 1))
+
+fluid_mod_get_transform = cfunc(
+    "fluid_mod_get_transform", c_void_p, ("mod", c_void_p, 1),
+)
+
+fluid_mod_has_dest = cfunc(
+    "fluid_mod_has_dest", c_void_p, ("mod", c_void_p, 1), ("gen", c_uint, 1),
+)
+
+fluid_mod_has_source = cfunc(
+    "fluid_mod_has_dest",
+    c_void_p,
+    ("mod", c_void_p, 1),
+    ("cc", c_uint, 1),
+    ("ctrl", c_uint, 1),
+)
+
+fluid_mod_set_amount = cfunc(
+    "fluid_mod_set_amount", c_void_p, ("mod", c_void_p, 1), ("amount", c_double, 1),
+)
+
+fluid_mod_set_dest = cfunc(
+    "fluid_mod_set_dest", c_void_p, ("mod", c_void_p, 1), ("dst", c_int, 1),
+)
+
+fluid_mod_set_source1 = cfunc(
+    "fluid_mod_set_source1",
+    c_void_p,
+    ("mod", c_void_p, 1),
+    ("src", c_int, 1),
+    ("flags", c_int, 1),
+)
+
+fluid_mod_set_source2 = cfunc(
+    "fluid_mod_set_source2",
+    c_void_p,
+    ("mod", c_void_p, 1),
+    ("src", c_int, 1),
+    ("flags", c_int, 1),
+)
+
+fluid_mod_set_transform = cfunc(
+    "fluid_mod_set_transform", c_void_p, ("mod", c_void_p, 1), ("type", c_int, 1),
+)
+
+fluid_mod_sizeof = cfunc("fluid_mod_sizeof", c_void_p)
+
+fluid_mod_test_identity = cfunc(
+    "fluid_mod_test_identity", c_void_p, ("mod1", c_void_p, 1), ("mod2", c_void_p, 1),
+)
+
 # fluid_player_status returned by fluid_player_get_status()
 FLUID_PLAYER_READY = 0
 FLUID_PLAYER_PLAYING = 1
@@ -1099,6 +1170,112 @@ class Synth:
         delete_fluid_file_renderer(renderer)
         delete_fluid_player(player)
 
+class Modulator:
+    def __init__(self):
+        """Create new modulator object"""
+        self.mod = new_fluid_mod()
+
+    def clone(self, src):
+        response = fluid_mod_clone(self.mod, src)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation clone failed")
+        return response
+
+    def get_amount(self):
+        response = fluid_mod_get_amount(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation amount get failed")
+        return response
+
+    def get_dest(self):
+        response = fluid_mod_get_dest(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation destination get failed")
+        return response
+
+    def get_flags1(self):
+        response = fluid_mod_get_flags1(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation flags1 get failed")
+        return response
+
+    def get_flags2(self):
+        response = fluid_mod_get_flags2(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation flags2 get failed")
+        return response
+
+    def get_source1(self):
+        response = fluid_mod_get_source1(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation source1 get failed")
+        return response
+
+    def get_source2(self):
+        response = fluid_mod_get_source2(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation source2 get failed")
+        return response
+
+    def get_transform(self):
+        response = fluid_mod_get_transform(self.mod)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation transform get failed")
+        return response
+
+    def has_dest(self, gen):
+        response = fluid_mod_has_dest(self.mod, gen)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation has destination check failed")
+        return response
+
+    def has_source(self, cc, ctrl):
+        response = fluid_mod_has_source(self.mod, cc, ctrl)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation has source check failed")
+        return response
+
+    def set_amount(self, amount):
+        response = fluid_mod_set_amount(self.mod, amount)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation set amount failed")
+        return response
+
+    def set_dest(self, dest):
+        response = fluid_mod_set_dest(self.mod, dest)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation set dest failed")
+        return response
+
+    def set_source1(self, src, flags):
+        response = fluid_mod_set_source1(self.mod, src, flags)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation set source 1 failed")
+        return response
+
+    def set_source2(self, src, flags):
+        response = fluid_mod_set_source2(self.mod, src, flags)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation set source 2 failed")
+        return response
+
+    def set_transform(self, type):
+        response = fluid_mod_set_transform(self.mod, type)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation set transform failed")
+        return response
+
+    def sizeof(self):
+        response = fluid_mod_sizeof()
+        if response == FLUID_FAILED:
+            raise Exception("Modulation sizeof failed")
+        return response
+
+    def test_identity(self, mod2):
+        response = fluid_mod_sizeof(self.mod, mod2)
+        if response == FLUID_FAILED:
+            raise Exception("Modulation identity check failed")
+        return response
 
 class Sequencer:
     def __init__(self, time_scale=1000, use_system_timer=True):
