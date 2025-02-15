@@ -1170,6 +1170,32 @@ class Synth:
         delete_fluid_file_renderer(renderer)
         delete_fluid_player(player)
 
+# flag values
+FLUID_MOD_POSITIVE = 0
+FLUID_MOD_NEGATIVE = 1
+FLUID_MOD_UNIPOLAR = 0
+FLUID_MOD_BIPOLAR = 2
+FLUID_MOD_LINEAR = 0
+FLUID_MOD_CONCAVE = 4
+FLUID_MOD_CONVEX = 8
+FLUID_MOD_SWITCH = 12
+FLUID_MOD_GC = 0
+FLUID_MOD_CC = 16
+FLUID_MOD_SIN = 0x80
+
+# src values
+FLUID_MOD_NONE = 0
+FLUID_MOD_VELOCITY = 2
+FLUID_MOD_KEY = 3
+FLUID_MOD_KEYPRESSURE = 10
+FLUID_MOD_CHANNELPRESSURE = 13
+FLUID_MOD_PITCHWHEEL = 14
+FLUID_MOD_PITCHWHEELSENS = 16
+
+# Transforms
+FLUID_MOD_TRANSFORM_LINEAR = 0
+FLUID_MOD_TRANSFORM_ABS = 2
+
 class Modulator:
     def __init__(self):
         """Create new modulator object"""
