@@ -1,7 +1,6 @@
 import unittest
 
-import fluidsynth
-import soundFontDefinitions.definitions as d
+import fluidsynth as fs
 
 
 def local_file_path(file_name: str) -> str:
@@ -16,8 +15,8 @@ def local_file_path(file_name: str) -> str:
 class TestModulatorMethods(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.fs = fluidsynth.Synth()
-        cls.modulator = fluidsynth.Modulator()
+        cls.fs = fs.Synth()
+        cls.modulator = fs.Modulator()
 
         ## Your installation of FluidSynth may require a different driver.
         ## Use something like:
@@ -38,19 +37,19 @@ class TestModulatorMethods(unittest.TestCase):
 
     def test_flags(self):
         assert self.modulator.get_source1() is None
-        self.modulator.set_source1(d.FLUID_MOD_KEY, 9)
-        assert self.modulator.get_source1() == d.FLUID_MOD_KEY
-        assert self.modulator.get_flags1() == 9
+        self.modulator.set_source1(fs.FLUID_MOD_KEY, fs.FLUID_MOD_CONVEX)
+        assert self.modulator.get_source1() == fs.FLUID_MOD_KEY
+        assert self.modulator.get_flags1() == fs.FLUID_MOD_CONVEX
 
         assert self.modulator.get_source2() is None
-        self.modulator.set_source2(d.FLUID_MOD_VELOCITY, 4)
-        assert self.modulator.get_source2() == d.FLUID_MOD_VELOCITY
-        assert self.modulator.get_flags2() == 4
+        self.modulator.set_source2(fs.FLUID_MOD_VELOCITY, fs.FLUID_MOD_CONCAVE)
+        assert self.modulator.get_source2() == fs.FLUID_MOD_VELOCITY
+        assert self.modulator.get_flags2() == fs.FLUID_MOD_CONCAVE
 
     def test_transforms(self):
         assert self.modulator.get_transform() is None
-        self.modulator.set_transform(d.FLUID_MOD_TRANSFORM_ABS)
-        assert self.modulator.get_transform() == d.FLUID_MOD_TRANSFORM_ABS
+        self.modulator.set_transform(fs.FLUID_MOD_TRANSFORM_ABS)
+        assert self.modulator.get_transform() == fs.FLUID_MOD_TRANSFORM_ABS
 
 
 if __name__ == "__main__":
