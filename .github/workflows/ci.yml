@@ -24,8 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v5
         with:
           python-version: 3.13
           version: "latest"
@@ -75,23 +74,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install build twine
+          python-version: 3.13
+          version: "latest"
 
       - name: Clean previous builds
-        run: |
-          rm -rf dist
+        run: rm -rf dist
 
       - name: Build package
         run: |
-          python -m build
+          uv build
           python -m twine check --strict dist/*
           ls -la dist
 
@@ -119,4 +112,8 @@ jobs:
           path: dist
       - run: ls -la
       - run: ls -la dist || true
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.13
+          version: "latest"
+      - run: uv publish
