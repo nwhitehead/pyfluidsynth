@@ -15,9 +15,10 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",  # Windows: https://github.com/nwhitehead/pyfluidsynth/issues/77
+  "Programming Language :: Python :: 3.13",
 ]
-dependencies = [ "numpy" ]
+dependencies = [ "numpy", "pyaudio" ]
+requires-python = ">= 3.9"
 
 urls.Homepage = "https://github.com/nwhitehead/pyfluidsynth"
 
@@ -25,9 +26,10 @@ urls.Homepage = "https://github.com/nwhitehead/pyfluidsynth"
 py-modules = [ "fluidsynth" ]
 include-package-data = false
 
-[tool.ruff]
-target-version = "py39"
+[tool.uv]
+upgrade = true
 
+[tool.ruff]
 line-length = 123
 lint.select = [
   "AIR",   # Airflow

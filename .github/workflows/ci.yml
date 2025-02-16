@@ -24,21 +24,22 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: 3.13}
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.13
+          version: "latest"
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install fluidsynth python3-pyaudio portaudio19-dev libasound-dev
+          sudo apt-get install fluidsynth libasound-dev portaudio19-dev python3-pyaudio
       - if: runner.os == 'macOS'
         run: |
           brew install fluid-synth
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
-      - run: python -m pip install --upgrade pip
-      - run: pip install pyaudio
-      - run: pip install --editable .
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
+      - run: uv pip install --editable .
       - shell: python
         run: |
           import fluidsynth
