@@ -15,7 +15,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",  # Windows: https://github.com/nwhitehead/pyfluidsynth/issues/77
+  "Programming Language :: Python :: 3.13",
 ]
 dependencies = [ "numpy" ]
 
