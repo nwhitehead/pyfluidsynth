@@ -85,7 +85,7 @@ jobs:
       - name: Build package
         run: |
           uv build
-          python -m twine check --strict dist/*
+          uvx twine check --strict dist/*
           ls -la dist
 
       - name: Upload dist directory as artifact
