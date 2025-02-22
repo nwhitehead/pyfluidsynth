@@ -23,8 +23,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: 3.13}
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.13
+          version: "latest"
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
@@ -33,11 +35,9 @@ jobs:
         run: |
           brew install fluid-synth
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
-      - run: python -m pip install --upgrade pip
-      - run: pip install pyaudio
-      - run: pip install --editable .
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
+      - run: uv pip install --editable .
       - shell: python
         run: |
           import fluidsynth
@@ -73,24 +73,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install build twine
+          python-version: 3.13
+          version: "latest"
 
       - name: Clean previous builds
-        run: |
-          rm -rf dist
+        run: rm -rf dist
 
       - name: Build package
         run: |
-          python -m build
-          python -m twine check --strict dist/*
+          uv build
+          uvx twine check --strict dist/*
           ls -la dist
 
       - name: Upload dist directory as artifact
@@ -117,4 +111,8 @@ jobs:
           path: dist
       - run: ls -la
       - run: ls -la dist || true
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.13
+          version: "latest"
+      - run: uv publish
