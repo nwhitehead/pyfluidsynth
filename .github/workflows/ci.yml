@@ -37,9 +37,37 @@ jobs:
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
+      - if: runner.os == 'Windows'
+        run: ls C:\tools\fluidsynth\bin\libfluidsynth-3.dll
+      - if: runner.os == 'Windows'
+        run: |
+          dir C:\tools
+          dir C:\tools\fluidsynth
+          dir C:\tools\fluidsynth\bin
+          ls C:\tools\fluidsynth\bin\fluidsynth.exe
+          ls C:\tools\fluidsynth\bin\libfluidsynth-3.dll
+        #  fluidsynth.exe --version
+        #  ls /mnt/d/tools/fluidsynth/bin/fluidsynth.exe
+        #  ls /mnt/d/tools/fluidsynth/bin/libfluidsynth-3.dll
+        #  /mnt/d/tools/fluidsynth/bin/fluidsynth.exe --help
+        #  C:\tools\fluidsynth\bin\fluidsynth.exe --help
+        #  echo "PATH=$PATH"
+        #  C:\tools\fluidsynth\bin\fluidsynth.exe --version
       - run: uv pip install --editable .
       - shell: python
         run: |
+          from pathlib import Path
+
+          dll_path = Path("C:/tools/fluidsynth/bin/libfluidsynth-3.dll")
+          if dll_path.exists():
+              print(f"Found {dll_path}")
+          else:
+              print(f"Did not find {dll_path}")
+          dll_path = dll_path.resolve()
+          if dll_path.exists():
+              print(f"Found {dll_path}")
+          else:
+              print(f"Did not find {dll_path}")
           import fluidsynth
           print(fluidsynth)
           print(dir(fluidsynth))

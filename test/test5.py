@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "pyfluidsynth",
+# ]
+# ///
+
+# Runtime is 2:49.45
+
 import time
 
 import fluidsynth

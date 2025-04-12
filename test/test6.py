@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "numpy",
+#     "pyaudio",
+#     "pyfluidsynth",
+# ]
+# ///
+
 import numpy
 import pyaudio
 

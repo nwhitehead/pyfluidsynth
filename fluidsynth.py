@@ -37,6 +37,7 @@ from ctypes import (
     c_short,
     c_uint,
     c_void_p,
+    cdll,
     create_string_buffer,
 )
 from ctypes.util import find_library
@@ -45,8 +46,10 @@ from ctypes.util import find_library
 # https://docs.python.org/3/library/os.html#os.add_dll_directory
 if hasattr(os, 'add_dll_directory'):  # Python 3.8+ on Windows only
     os.add_dll_directory(os.getcwd())
+    # os.add_dll_directory('C:/tools/fluidsynth/bin')
     os.add_dll_directory('C:\\tools\\fluidsynth\\bin')
     # Workaround bug in find_library, it doesn't recognize add_dll_directory
+    # os.environ['PATH'] += ';C:/tools/fluidsynth/bin'
     os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
 
 # A function to find the FluidSynth library
@@ -83,7 +86,21 @@ lib = load_libfluidsynth()
 
 # Dynamically link the FluidSynth library
 # Architecture (32-/64-bit) must match your Python version
-_fl = CDLL(lib)
+try:
+    _fl = CDLL(lib)
+except FileNotFoundError:
+    try:
+        _fl = cdll.LoadLibrary(lib)
+    except FileNotFoundError as e:
+        from pathlib import Path
+
+        lib_path = Path(lib).resolve()
+        raise FileNotFoundError(
+            f"Could not load the FluidSynth library: {lib}. "
+            f"{lib_path = }, {lib_path.exists() = }. "
+            f"{e = }. "
+            "Make sure it is installed and accessible in your system's PATH.",
+        ) from e
 
 # Helper function for declaring function prototypes
 def cfunc(name, result, *args):
