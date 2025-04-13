@@ -1,3 +1,14 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "numpy",
+#     "pyaudio",
+#     "pyfluidsynth",
+# ]
+# ///
+
 import numpy
 import pyaudio
 

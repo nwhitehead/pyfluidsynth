@@ -1,3 +1,12 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "pyfluidsynth",
+# ]
+# ///
+
 import time
 
 import fluidsynth
