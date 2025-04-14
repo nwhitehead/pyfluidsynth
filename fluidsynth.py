@@ -51,23 +51,25 @@ if hasattr(os, 'add_dll_directory'):  # Python 3.8+ on Windows only
 
 # A function to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
-def load_libfluidsynth(debug_print: bool = False) -> str:
+def find_libfluidsynth(debug_print: bool = False) -> str:
     r"""
     macOS X64:
-    * 'fluidsynth' was loaded as /usr/local/opt/fluid-synth/lib/libfluidsynth.dylib.
+    * 'fluidsynth' was found at /usr/local/opt/fluid-synth/lib/libfluidsynth.dylib.
     macOS ARM64:
-    * 'fluidsynth' was loaded as /opt/homebrew/opt/fluid-synth/lib/libfluidsynth.dylib.
+    * 'fluidsynth' was found at /opt/homebrew/opt/fluid-synth/lib/libfluidsynth.dylib.
     Ubuntu X86:
-    * 'fluidsynth' was loaded as libfluidsynth.so.3.
+    * 'fluidsynth' was found at libfluidsynth.so.3.
     Windows X86:
-    * 'libfluidsynth-3' was loaded as C:\tools\fluidsynth\bin\libfluidsynth-3.dll.
+    * 'libfluidsynth-3' was found at C:\tools\fluidsynth\bin\libfluidsynth-3.dll. --or--
+    * 'fluidsynth-3' was found as C:\tools\fluidsynth\bin\fluidsynth-3.dll. >= v2.4.5
+        * https://github.com/FluidSynth/fluidsynth/issues/1543
     """
-    libs = "fluidsynth libfluidsynth libfluidsynth-3 libfluidsynth-2 libfluidsynth-1"
+    libs = "fluidsynth fluidsynth-3 libfluidsynth libfluidsynth-3 libfluidsynth-2 libfluidsynth-1"
     for lib_name in libs.split():
         lib = find_library(lib_name)
         if lib:
             if debug_print:
-                print(f"'{lib_name}' was loaded as {lib}.")
+                print(f"'{lib_name}' was found at {lib}.")
             return lib
 
     # On macOS on Apple silicon, non-Homebrew Python distributions fail to locate
@@ -79,7 +81,7 @@ def load_libfluidsynth(debug_print: bool = False) -> str:
 
     raise ImportError("Couldn't find the FluidSynth library.")
 
-lib = load_libfluidsynth()
+lib = find_libfluidsynth()
 
 # Dynamically link the FluidSynth library
 # Architecture (32-/64-bit) must match your Python version
