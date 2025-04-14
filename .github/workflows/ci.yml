@@ -35,10 +35,8 @@ jobs:
         run: |
           brew install fluid-synth
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
-      # TODO(cclauss): Remove version when fluidsynth#1510 is fixed.
-      # https://github.com/FluidSynth/fluidsynth/issues/1510
       - if: runner.os == 'Windows'
-        run: choco install fluidsynth --version 2.4.3
+        run: choco install fluidsynth
       - run: uv pip install --editable .
       - shell: python
         run: |
