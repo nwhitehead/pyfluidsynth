@@ -7,6 +7,8 @@
 # ]
 # ///
 
+# ruff: noqa: PLW0603
+
 import time
 
 import fluidsynth
