@@ -95,3 +95,8 @@ lint.per-file-ignores."__init__.py" = [ "E402" ]
 lint.per-file-ignores."test/*" = [ "S101" ]
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
 lint.pylint.max-args = 8
+
+[tool.pydoctor]
+intersphinx = ["https://docs.python.org/3/objects.inv"]
+docformat = "restructuredtext"
+verbose = 1
