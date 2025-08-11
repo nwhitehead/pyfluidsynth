@@ -91,6 +91,7 @@ lint.select = [
   # "T20",   # flake8-print
   # "TRY",   # tryceratops
 ]
+lint.ignore = [ "PLC0415" ]
 lint.per-file-ignores."__init__.py" = [ "E402" ]
 lint.per-file-ignores."test/*" = [ "S101" ]
 lint.pylint.allow-magic-value-types = [ "int", "str" ]
