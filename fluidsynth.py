@@ -45,9 +45,10 @@ from ctypes.util import find_library
 # https://docs.python.org/3/library/os.html#os.add_dll_directory
 if hasattr(os, 'add_dll_directory'):  # Python 3.8+ on Windows only
     os.add_dll_directory(os.getcwd())
-    os.add_dll_directory('C:\\tools\\fluidsynth\\bin')
-    # Workaround bug in find_library, it doesn't recognize add_dll_directory
-    os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
+    if os.path.isdir('C:\\tools\\fluidsynth\\bin'):
+        os.add_dll_directory('C:\\tools\\fluidsynth\\bin')
+        # Workaround bug in find_library, it doesn't recognize add_dll_directory
+        os.environ['PATH'] += ';C:\\tools\\fluidsynth\\bin'
 
 # A function to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
