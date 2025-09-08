@@ -632,6 +632,9 @@ new_fluid_midi_driver = cfunc('new_fluid_midi_driver', c_void_p,
                                ('event_handler_data', c_void_p, 1))
 
 delete_fluid_midi_driver = cfunc('delete_fluid_midi_driver', None,
+                                  ('driver', c_void_p, 1))
+
+delete_fluid_midi_driver = cfunc('delete_fluid_midi_driver', None,
                            ('driver', c_void_p, 1))
 
 
