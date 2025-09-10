@@ -43,7 +43,9 @@ jobs:
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
         run: |
-          import sys
+          import os, sys
+          print("OS:", os.name, sys.platform)
+          print(os.getenv("matrix"), os.getenv("runner"))
           print("python{}.{}.{} -m pip install fluidsynth".format(*sys.version_info))
           import fluidsynth
           print(fluidsynth)
