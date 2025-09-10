@@ -31,6 +31,7 @@ upgrade = true
 
 [tool.ruff]
 line-length = 123
+target-version = "py39"
 lint.select = [
   "AIR",   # Airflow
   "ASYNC", # flake8-async

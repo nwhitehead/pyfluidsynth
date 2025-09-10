@@ -52,7 +52,7 @@ if hasattr(os, 'add_dll_directory'):  # Python 3.8+ on Windows only
 
 # A function to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
-def find_libfluidsynth(debug_print: bool = False) -> str:
+def find_libfluidsynth(debug_print: bool = os.getenv("CI")) -> str:
     r"""
     macOS X64:
     * 'fluidsynth' was found at /usr/local/opt/fluid-synth/lib/libfluidsynth.dylib.
