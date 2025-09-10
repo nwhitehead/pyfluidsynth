@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:  # macos-13 in Intel, macos-latest is Apple Silicon ARM
-        os: [macos-13, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
+        os: [macos-13, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest, windows-11-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
