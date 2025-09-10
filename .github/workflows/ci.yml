@@ -23,12 +23,19 @@ jobs:
       matrix:  # macos-13 in Intel, macos-latest is Apple Silicon ARM
         os: [macos-13, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
         # `windows-11-arm` is blocked by CristiFati/pyaudio#15
+        python-version: [3.14]
+        exclude:
+          - os: windows-latest
+            python-version: 3.14
+        include:
+          - os: windows-latest
+            python-version: 3.13
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
-          python-version: 3.14
+          python-version: ${{ matrix.python-version }}
           allow-prereleases: true
       - uses: astral-sh/setup-uv@v6
         with:
