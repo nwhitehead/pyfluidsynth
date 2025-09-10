@@ -43,11 +43,10 @@ jobs:
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
         run: |
-          import os, sys
-          print("OS:", os.name, sys.platform)
-          print(os.getenv("matrix"), os.getenv("runner"))
-          print("python{}.{}.{} -m pip install fluidsynth".format(*sys.version_info))
           import fluidsynth
+          import os, sys
+          print(f"{os.environ = }")
+          print("python{}.{}.{} -m pip install fluidsynth".format(*sys.version_info))
           print(fluidsynth)
           print(dir(fluidsynth))
       # NOTE: The files in test/ are NOT unit tests or pytests.
