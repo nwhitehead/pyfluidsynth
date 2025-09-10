@@ -25,6 +25,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
       - uses: astral-sh/setup-uv@v6
         with:
           activate-environment: true
@@ -43,10 +46,9 @@ jobs:
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
         run: |
+          import os
+          print(f"import fluidsynth on {os.getenv('ImageOS')} on {os.getenv('RUNNER_ARCH')}")
           import fluidsynth
-          import os, sys
-          print(f"{os.environ = }")
-          print("python{}.{}.{} -m pip install fluidsynth".format(*sys.version_info))
           print(fluidsynth)
           print(dir(fluidsynth))
       # NOTE: The files in test/ are NOT unit tests or pytests.
