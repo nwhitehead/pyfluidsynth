@@ -41,7 +41,10 @@ jobs:
         run: choco install fluidsynth
       - run: uv pip install --editable .
       - shell: python
+        name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
         run: |
+          import sys
+          print("python{}.{}.{} -m pip install fluidsynth".format(*sys.version_info))
           import fluidsynth
           print(fluidsynth)
           print(dir(fluidsynth))
