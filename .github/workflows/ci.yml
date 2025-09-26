@@ -20,8 +20,8 @@ jobs:
     needs: [codespell_and_ruff]
     strategy:
       fail-fast: false
-      matrix:  # macos-13 in Intel, macos-latest is Apple Silicon ARM
-        os: [macos-13, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
+      matrix:  # macos-15-intel runs on Intel, macos-latest runs on Apple Silicon M1 ARM
+        os: [macos-15-intel, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
         # `windows-11-arm` is blocked by CristiFati/pyaudio#15
         python-version: [3.14]
         exclude:
