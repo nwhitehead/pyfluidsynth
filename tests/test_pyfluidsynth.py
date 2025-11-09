@@ -191,6 +191,19 @@ def test_pitch_bend_clamps() -> None:
         synth.delete()
 
 
+def test_get_active_voice_count() -> None:
+    """
+    Test that get_active_voice_count returns an integer.
+    """
+    synth = fluidsynth.Synth()
+    assert synth.get_active_voice_count() == 0
+    assert synth.noteon(0, 60, 30) == -1
+    assert synth.get_active_voice_count() == 2
+    assert synth.noteon(0, 60, 30) == -1
+    assert synth.get_active_voice_count() == 4
+    synth.delete()
+
+
 @pytest.mark.skipif(
     getattr(fluidsynth, "new_fluid_sequencer2", None) is None,
     reason="Sequencer API not available in this libfluidsynth",
@@ -219,4 +232,3 @@ def test_modulator_smoke() -> None:
     mod = fluidsynth.Modulator()
     # Just ensure calls don't raise; return values are backend-specific
     assert mod.sizeof() is not None
-
