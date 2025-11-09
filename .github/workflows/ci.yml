@@ -51,7 +51,9 @@ jobs:
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
+      - run: uv pip install pytest
       - run: uv pip install --editable .
+      - run: pytest
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
         run: |
