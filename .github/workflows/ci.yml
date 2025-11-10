@@ -29,8 +29,8 @@ jobs:
             python-version: '3.12'
           - os: ubuntu-latest
             python-version: '3.10'
-          # - os: windows-latest
-          #   python-version: '3.13'
+          - os: windows-latest
+            python-version: '3.13'
         exclude:
           - os: windows-latest
             python-version: '3.14'
@@ -60,6 +60,11 @@ jobs:
       - run: uv pip install pytest
       - run: uv pip install --editable .
       - run: pytest
+      - run: uv pip install pytest-run-parallel
+      - run: pytest --iterations=8 --parallel-threads=auto
+        if: runner.os != 'macOS'  # Segmentation faults on macOS
+        env:  # No issues on Py3.14 but there are on earlier versions
+          PYTEST_RUN_PARALLEL_VERBOSE: 1
       # Import fluidsynth and document OS-specific values
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
