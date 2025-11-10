@@ -23,17 +23,17 @@ jobs:
       matrix:  # macos-15-intel runs on Intel, macos-latest runs on Apple Silicon M1 ARM
         os: [macos-15-intel, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
         # `windows-11-arm` is blocked by CristiFati/pyaudio#15
-        python-version: [3.14]
+        python-version: ['3.14']
         exclude:
           - os: windows-latest
-            python-version: 3.14
+            python-version: '3.14'
         include:
           # - os: windows-latest
-          #   python-version: 3.13
+          #   python-version: '3.13'
           - os: ubuntu-latest
-            python-version: 3.12
+            python-version: '3.12'
           - os: ubuntu-latest
-            python-version: 3.10
+            python-version: '3.10'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
