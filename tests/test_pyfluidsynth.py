@@ -191,6 +191,24 @@ def test_pitch_bend_clamps() -> None:
         synth.delete()
 
 
+def test_get_active_voice_count() -> None:
+    """
+    Test that get_active_voice_count accumulates after successful noteon calls.
+    """
+    sf2 = _asset_path("example.sf2")
+    synth = fluidsynth.Synth()
+    try:
+        sfid = synth.sfload(str(sf2))
+        synth.program_select(0, sfid, 0, 0)
+        assert synth.get_active_voice_count() == 0
+        assert synth.noteon(0, 60, 30) == 0
+        assert synth.get_active_voice_count() == 2
+        assert synth.noteon(0, 60, 30) == 0
+        assert synth.get_active_voice_count() == 4
+    finally:
+        synth.delete()
+
+
 @pytest.mark.skipif(
     getattr(fluidsynth, "new_fluid_sequencer2", None) is None,
     reason="Sequencer API not available in this libfluidsynth",
@@ -219,4 +237,3 @@ def test_modulator_smoke() -> None:
     mod = fluidsynth.Modulator()
     # Just ensure calls don't raise; return values are backend-specific
     assert mod.sizeof() is not None
-

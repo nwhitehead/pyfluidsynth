@@ -251,6 +251,9 @@ fluid_synth_get_program = cfunc('fluid_synth_get_program', c_int,
                                 ('bank_num', POINTER(c_int), 1),
                                 ('preset_num', POINTER(c_int), 1))
 
+fluid_synth_get_active_voice_count = cfunc('fluid_synth_get_active_voice_count', c_int,
+                                           ('synth', c_void_p, 1))
+
 fluid_synth_bank_select = cfunc('fluid_synth_bank_select', c_int,
                                 ('synth', c_void_p, 1),
                                 ('chan', c_int, 1),
@@ -1082,6 +1085,9 @@ class Synth:
         i=c_int()
         fluid_synth_get_cc(self.synth, chan, num, byref(i))
         return i.value
+    def get_active_voice_count(self):
+        """Get the number of currently active voices"""
+        return fluid_synth_get_active_voice_count(self.synth)
     def program_change(self, chan, prg):
         """Change the program"""
         return fluid_synth_program_change(self.synth, chan, prg)
