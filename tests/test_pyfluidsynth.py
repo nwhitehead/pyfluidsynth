@@ -105,10 +105,9 @@ def test_program_select_and_note_on_off_and_cc() -> None:
         assert isinstance(rc_on, int)
         rc_off = synth.noteoff(0, 60)
         assert isinstance(rc_off, int)
-
         # cc roundtrip
         assert isinstance(synth.cc(0, 7, 100), int)
-        assert synth.get_cc(0, 7) in range(0, 128)
+        assert synth.get_cc(0, 7) in range(128)
 
         # bank/program changes and resets
         assert isinstance(synth.bank_select(0, 0), int)
