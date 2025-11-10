@@ -24,16 +24,16 @@ jobs:
         os: [macos-15-intel, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
         # `windows-11-arm` is blocked by CristiFati/pyaudio#15
         python-version: ['3.14']
-        exclude:
-          - os: windows-latest
-            python-version: '3.14'
         include:
-          # - os: windows-latest
-          #   python-version: '3.13'
           - os: ubuntu-latest
             python-version: '3.12'
           - os: ubuntu-latest
             python-version: '3.10'
+          # - os: windows-latest
+          #   python-version: '3.13'
+        exclude:
+          - os: windows-latest
+            python-version: '3.14'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
@@ -45,6 +45,7 @@ jobs:
         with:
           activate-environment: true
           version: latest
+      # OS-specific dependencies
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
@@ -55,9 +56,11 @@ jobs:
           echo "DYLD_LIBRARY_PATH=$(brew --prefix fluid-synth)/lib/" >> $GITHUB_ENV
       - if: runner.os == 'Windows'
         run: choco install fluidsynth
+      # Run pytests
       - run: uv pip install pytest
       - run: uv pip install --editable .
       - run: pytest
+      # Import fluidsynth and document OS-specific values
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
         run: |
@@ -66,6 +69,7 @@ jobs:
           import fluidsynth
           print(fluidsynth)
           print(dir(fluidsynth))
+      # Run OS-specific examples in the test directory
       # NOTE: The files in test/ are NOT unit tests or pytests.
       # On macOS ARM64 the following tests will pass but each takes 8 minutes to run.
       # On macOS X64 all tests will pass quickly.
