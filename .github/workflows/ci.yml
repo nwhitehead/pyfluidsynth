@@ -31,9 +31,13 @@ jobs:
             python-version: '3.10'
           - os: windows-latest
             python-version: '3.13'
+          - os: windows-latest
+            python-version: '3.13t'
         exclude:
           - os: windows-latest
             python-version: '3.14'
+          - os: windows-latest
+            python-version: '3.14t'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
