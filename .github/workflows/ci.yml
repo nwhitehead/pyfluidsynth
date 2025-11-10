@@ -62,7 +62,7 @@ jobs:
       - run: pytest
       - run: uv pip install pytest-run-parallel
       - run: pytest --iterations=8 --parallel-threads=auto
-        if: runner.os == 'Linux'  # Segmentation faults on macOS
+        if: runner.os != 'macOS'  # Segmentation faults on macOS
         env:  # No issues on Py3.14 but there are on earlier versions
           PYTEST_RUN_PARALLEL_VERBOSE: 1
       # Import fluidsynth and document OS-specific values
