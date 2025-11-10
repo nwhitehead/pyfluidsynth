@@ -193,15 +193,20 @@ def test_pitch_bend_clamps() -> None:
 
 def test_get_active_voice_count() -> None:
     """
-    Test that get_active_voice_count returns an integer.
+    Test that get_active_voice_count accumulates after successful noteon calls.
     """
+    sf2 = _asset_path("example.sf2")
     synth = fluidsynth.Synth()
-    assert synth.get_active_voice_count() == 0
-    assert synth.noteon(0, 60, 30) == -1
-    assert synth.get_active_voice_count() == 2
-    assert synth.noteon(0, 60, 30) == -1
-    assert synth.get_active_voice_count() == 4
-    synth.delete()
+    try:
+        sfid = synth.sfload(str(sf2))
+        synth.program_select(0, sfid, 0, 0)
+        assert synth.get_active_voice_count() == 0
+        assert synth.noteon(0, 60, 30) == 0
+        assert synth.get_active_voice_count() == 2
+        assert synth.noteon(0, 60, 30) == 0
+        assert synth.get_active_voice_count() == 4
+    finally:
+        synth.delete()
 
 
 @pytest.mark.skipif(
