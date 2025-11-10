@@ -16,6 +16,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [ "numpy", "pyaudio" ]
 requires-python = ">= 3.9"
@@ -28,6 +29,9 @@ include-package-data = false
 
 [tool.uv]
 upgrade = true
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
 
 [tool.ruff]
 line-length = 123
