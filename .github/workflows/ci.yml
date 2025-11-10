@@ -62,6 +62,8 @@ jobs:
       - run: pytest
       - run: uv pip install pytest-run-parallel
       - run: pytest --iterations=8 --parallel-threads=auto
+        env:
+          PYTEST_RUN_PARALLEL_VERBOSE: 1
       # Import fluidsynth and document OS-specific values
       - shell: python
         name: "import fluidsynth on ${{ matrix.os }} on ${{ runner.arch }}"
