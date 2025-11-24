@@ -10,7 +10,7 @@ jobs:
   codespell_and_ruff:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: astral-sh/ruff-action@v3
         with:
           version: latest
@@ -40,7 +40,7 @@ jobs:
             python-version: '3.14t'
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
@@ -108,7 +108,7 @@ jobs:
       id-token: write 
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@v7
         with:
           version: latest
