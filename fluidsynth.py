@@ -885,7 +885,7 @@ class Synth:
             preset=fluid_sfont_get_preset(sfont, bank, prenum)
             if not preset:
                 return None
-            return fluid_preset_get_name(preset).decode('ascii')
+            return fluid_preset_get_name(preset).decode('latin-1')
         else:
             return None
     def router_clear(self):
