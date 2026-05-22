@@ -15,7 +15,38 @@ jobs:
         with:
           version: latest
       - run: pipx run 'codespell[toml]' **/*.py **/*.txt --skip="venv/lib/python3*"
-
+  
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with: 
+          python-version: 3.12
+      - name: Install requirements
+        run: |
+          python -m pip install -U pip setuptools wheel
+          python -m pip install pydoctor
+      - name: Run pydoctor
+        run: |
+          # Do not consider exit code 2 as a real error
+          trap 'if [[ "$?" == "2" ]]; then exit 0; fi' EXIT
+          # Run pydoctor
+          pydoctor \
+            --project-url=https://github.com/$GITHUB_REPOSITORY \
+            --html-viewsource-base=https://github.com/$GITHUB_REPOSITORY/tree/$GITHUB_SHA \
+            --html-base-url=https://$GITHUB_REPOSITORY_OWNER.github.io/${GITHUB_REPOSITORY#*/} \
+            --html-output=./www \
+            fluidsynth.py
+      - if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./www
+          commit_message: "Generate API documentation"
+          
   ci:
     needs: [codespell_and_ruff]
     strategy:
