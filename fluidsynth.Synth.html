@@ -1,0 +1,5106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>fluidsynth.Synth</title>
+    <meta name="generator" content="pydoctor 25.10.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+    <link rel="canonical" href="https://nwhitehead.github.io/pyfluidsynth/fluidsynth.Synth.html" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/nwhitehead/pyfluidsynth" class="projecthome">fluidsynth</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="apidocs-help-button" title="Help" href="apidocs-help.html"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 10px;">
+          <p>For more information on the search, visit the <a href="apidocs-help.html#rst-search">help page</a>.</p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Class</span>
+        <code class="thisobject"><a href="fluidsynth.Synth.html" class="internal-link" title="This class"><wbr></wbr>Synth</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__init__" class="internal-link" title="fluidsynth.Synth.__init__">__init__</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#all_notes_off" class="internal-link" title="fluidsynth.Synth.all_notes_off">all<wbr></wbr>_notes<wbr></wbr>_off</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#all_sounds_off" class="internal-link" title="fluidsynth.Synth.all_sounds_off">all<wbr></wbr>_sounds<wbr></wbr>_off</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#bank_select" class="internal-link" title="fluidsynth.Synth.bank_select">bank<wbr></wbr>_select</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#cc" class="internal-link" title="fluidsynth.Synth.cc">cc</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#channel_info" class="internal-link" title="fluidsynth.Synth.channel_info">channel<wbr></wbr>_info</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#delete" class="internal-link" title="fluidsynth.Synth.delete">delete</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_active_voice_count" class="internal-link" title="fluidsynth.Synth.get_active_voice_count">get<wbr></wbr>_active<wbr></wbr>_voice<wbr></wbr>_count</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_cc" class="internal-link" title="fluidsynth.Synth.get_cc">get<wbr></wbr>_cc</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_chorus_depth" class="internal-link" title="fluidsynth.Synth.get_chorus_depth">get<wbr></wbr>_chorus<wbr></wbr>_depth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_chorus_level" class="internal-link" title="fluidsynth.Synth.get_chorus_level">get<wbr></wbr>_chorus<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_chorus_nr" class="internal-link" title="fluidsynth.Synth.get_chorus_nr">get<wbr></wbr>_chorus<wbr></wbr>_nr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_chorus_speed" class="internal-link" title="fluidsynth.Synth.get_chorus_speed">get<wbr></wbr>_chorus<wbr></wbr>_speed</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_chorus_type" class="internal-link" title="fluidsynth.Synth.get_chorus_type">get<wbr></wbr>_chorus<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_reverb_damp" class="internal-link" title="fluidsynth.Synth.get_reverb_damp">get<wbr></wbr>_reverb<wbr></wbr>_damp</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_reverb_level" class="internal-link" title="fluidsynth.Synth.get_reverb_level">get<wbr></wbr>_reverb<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_reverb_roomsize" class="internal-link" title="fluidsynth.Synth.get_reverb_roomsize">get<wbr></wbr>_reverb<wbr></wbr>_roomsize</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_reverb_width" class="internal-link" title="fluidsynth.Synth.get_reverb_width">get<wbr></wbr>_reverb<wbr></wbr>_width</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_samples" class="internal-link" title="fluidsynth.Synth.get_samples">get<wbr></wbr>_samples</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_setting" class="internal-link" title="fluidsynth.Synth.get_setting">get<wbr></wbr>_setting</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi2audio" class="internal-link" title="fluidsynth.Synth.midi2audio">midi2audio</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_channel" class="internal-link" title="fluidsynth.Synth.midi_event_get_channel">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_channel</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_control" class="internal-link" title="fluidsynth.Synth.midi_event_get_control">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_control</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_key" class="internal-link" title="fluidsynth.Synth.midi_event_get_key">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_key</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_program" class="internal-link" title="fluidsynth.Synth.midi_event_get_program">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_program</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_type" class="internal-link" title="fluidsynth.Synth.midi_event_get_type">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_value" class="internal-link" title="fluidsynth.Synth.midi_event_get_value">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_value</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_event_get_velocity" class="internal-link" title="fluidsynth.Synth.midi_event_get_velocity">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_velocity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#noteoff" class="internal-link" title="fluidsynth.Synth.noteoff">noteoff</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#noteon" class="internal-link" title="fluidsynth.Synth.noteon">noteon</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#pitch_bend" class="internal-link" title="fluidsynth.Synth.pitch_bend">pitch<wbr></wbr>_bend</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#play_midi_file" class="internal-link" title="fluidsynth.Synth.play_midi_file">play<wbr></wbr>_midi<wbr></wbr>_file</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#play_midi_stop" class="internal-link" title="fluidsynth.Synth.play_midi_stop">play<wbr></wbr>_midi<wbr></wbr>_stop</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#player_set_tempo" class="internal-link" title="fluidsynth.Synth.player_set_tempo">player<wbr></wbr>_set<wbr></wbr>_tempo</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#program_change" class="internal-link" title="fluidsynth.Synth.program_change">program<wbr></wbr>_change</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#program_info" class="internal-link" title="fluidsynth.Synth.program_info">program<wbr></wbr>_info</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#program_reset" class="internal-link" title="fluidsynth.Synth.program_reset">program<wbr></wbr>_reset</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#program_select" class="internal-link" title="fluidsynth.Synth.program_select">program<wbr></wbr>_select</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#program_unset" class="internal-link" title="fluidsynth.Synth.program_unset">program<wbr></wbr>_unset</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_begin" class="internal-link" title="fluidsynth.Synth.router_begin">router<wbr></wbr>_begin</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_chan" class="internal-link" title="fluidsynth.Synth.router_chan">router<wbr></wbr>_chan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_clear" class="internal-link" title="fluidsynth.Synth.router_clear">router<wbr></wbr>_clear</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_default" class="internal-link" title="fluidsynth.Synth.router_default">router<wbr></wbr>_default</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_end" class="internal-link" title="fluidsynth.Synth.router_end">router<wbr></wbr>_end</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_par1" class="internal-link" title="fluidsynth.Synth.router_par1">router<wbr></wbr>_par1</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router_par2" class="internal-link" title="fluidsynth.Synth.router_par2">router<wbr></wbr>_par2</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_chorus" class="internal-link" title="fluidsynth.Synth.set_chorus">set<wbr></wbr>_chorus</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_chorus_depth" class="internal-link" title="fluidsynth.Synth.set_chorus_depth">set<wbr></wbr>_chorus<wbr></wbr>_depth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_chorus_level" class="internal-link" title="fluidsynth.Synth.set_chorus_level">set<wbr></wbr>_chorus<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_chorus_nr" class="internal-link" title="fluidsynth.Synth.set_chorus_nr">set<wbr></wbr>_chorus<wbr></wbr>_nr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_chorus_speed" class="internal-link" title="fluidsynth.Synth.set_chorus_speed">set<wbr></wbr>_chorus<wbr></wbr>_speed</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_chorus_type" class="internal-link" title="fluidsynth.Synth.set_chorus_type">set<wbr></wbr>_chorus<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_reverb" class="internal-link" title="fluidsynth.Synth.set_reverb">set<wbr></wbr>_reverb</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_reverb_damp" class="internal-link" title="fluidsynth.Synth.set_reverb_damp">set<wbr></wbr>_reverb<wbr></wbr>_damp</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_reverb_level" class="internal-link" title="fluidsynth.Synth.set_reverb_level">set<wbr></wbr>_reverb<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_reverb_roomsize" class="internal-link" title="fluidsynth.Synth.set_reverb_roomsize">set<wbr></wbr>_reverb<wbr></wbr>_roomsize</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_reverb_width" class="internal-link" title="fluidsynth.Synth.set_reverb_width">set<wbr></wbr>_reverb<wbr></wbr>_width</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setting" class="internal-link" title="fluidsynth.Synth.setting">setting</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sfload" class="internal-link" title="fluidsynth.Synth.sfload">sfload</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sfont_select" class="internal-link" title="fluidsynth.Synth.sfont_select">sfont<wbr></wbr>_select</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sfpreset_name" class="internal-link" title="fluidsynth.Synth.sfpreset_name">sfpreset<wbr></wbr>_name</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sfunload" class="internal-link" title="fluidsynth.Synth.sfunload">sfunload</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#start" class="internal-link" title="fluidsynth.Synth.start">start</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#system_reset" class="internal-link" title="fluidsynth.Synth.system_reset">system<wbr></wbr>_reset</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#tuning_dump" class="internal-link" title="fluidsynth.Synth.tuning_dump">tuning<wbr></wbr>_dump</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#audio_driver" class="internal-link" title="fluidsynth.Synth.audio_driver">audio<wbr></wbr>_driver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#custom_router_callback" class="internal-link" title="fluidsynth.Synth.custom_router_callback">custom<wbr></wbr>_router<wbr></wbr>_callback</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#midi_driver" class="internal-link" title="fluidsynth.Synth.midi_driver">midi<wbr></wbr>_driver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#player" class="internal-link" title="fluidsynth.Synth.player">player</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#router" class="internal-link" title="fluidsynth.Synth.router">router</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#settings" class="internal-link" title="fluidsynth.Synth.settings">settings</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#synth" class="internal-link" title="fluidsynth.Synth.synth">synth</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Module</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this class">fluidsynth</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        <div class="childrenKindTitle">Classes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="fluidsynth.fluid_midi_router_t.html" class="internal-link" title="fluidsynth.fluid_midi_router_t">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_t</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="fluidsynth.fluid_synth_channel_info_t.html" class="internal-link" title="fluidsynth.fluid_synth_channel_info_t">fluid<wbr></wbr>_synth<wbr></wbr>_channel<wbr></wbr>_info<wbr></wbr>_t</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="fluidsynth.Modulator.html" class="internal-link" title="fluidsynth.Modulator"><wbr></wbr>Modulator</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="fluidsynth.Sequencer.html" class="internal-link" title="fluidsynth.Sequencer"><wbr></wbr>Sequencer</a></code>
+            </div>
+        
+
+    </li><li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="fluidsynth.Synth.html" class="internal-link" title="fluidsynth.Synth"><wbr></wbr>Synth</a></code>
+            </div>
+        
+
+    </li>
+</ul>
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#cfunc" class="internal-link" title="fluidsynth.cfunc">cfunc</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#find_libfluidsynth" class="internal-link" title="fluidsynth.find_libfluidsynth">find<wbr></wbr>_libfluidsynth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_write_s16_stereo" class="internal-link" title="fluidsynth.fluid_synth_write_s16_stereo">fluid<wbr></wbr>_synth<wbr></wbr>_write<wbr></wbr>_s16<wbr></wbr>_stereo</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#raw_audio_string" class="internal-link" title="fluidsynth.raw_audio_string">raw<wbr></wbr>_audio<wbr></wbr>_string</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Variables</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_FAILED" class="internal-link" title="fluidsynth.FLUID_FAILED">FLUID<wbr></wbr>_FAILED</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_BIPOLAR" class="internal-link" title="fluidsynth.FLUID_MOD_BIPOLAR">FLUID<wbr></wbr>_MOD<wbr></wbr>_BIPOLAR</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_CC" class="internal-link" title="fluidsynth.FLUID_MOD_CC">FLUID<wbr></wbr>_MOD<wbr></wbr>_CC</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_CHANNELPRESSURE" class="internal-link" title="fluidsynth.FLUID_MOD_CHANNELPRESSURE">FLUID<wbr></wbr>_MOD<wbr></wbr>_CHANNELPRESSURE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_CONCAVE" class="internal-link" title="fluidsynth.FLUID_MOD_CONCAVE">FLUID<wbr></wbr>_MOD<wbr></wbr>_CONCAVE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_CONVEX" class="internal-link" title="fluidsynth.FLUID_MOD_CONVEX">FLUID<wbr></wbr>_MOD<wbr></wbr>_CONVEX</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_GC" class="internal-link" title="fluidsynth.FLUID_MOD_GC">FLUID<wbr></wbr>_MOD<wbr></wbr>_GC</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_KEY" class="internal-link" title="fluidsynth.FLUID_MOD_KEY">FLUID<wbr></wbr>_MOD<wbr></wbr>_KEY</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_KEYPRESSURE" class="internal-link" title="fluidsynth.FLUID_MOD_KEYPRESSURE">FLUID<wbr></wbr>_MOD<wbr></wbr>_KEYPRESSURE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_LINEAR" class="internal-link" title="fluidsynth.FLUID_MOD_LINEAR">FLUID<wbr></wbr>_MOD<wbr></wbr>_LINEAR</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_NEGATIVE" class="internal-link" title="fluidsynth.FLUID_MOD_NEGATIVE">FLUID<wbr></wbr>_MOD<wbr></wbr>_NEGATIVE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_NONE" class="internal-link" title="fluidsynth.FLUID_MOD_NONE">FLUID<wbr></wbr>_MOD<wbr></wbr>_NONE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_PITCHWHEEL" class="internal-link" title="fluidsynth.FLUID_MOD_PITCHWHEEL">FLUID<wbr></wbr>_MOD<wbr></wbr>_PITCHWHEEL</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_PITCHWHEELSENS" class="internal-link" title="fluidsynth.FLUID_MOD_PITCHWHEELSENS">FLUID<wbr></wbr>_MOD<wbr></wbr>_PITCHWHEELSENS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_POSITIVE" class="internal-link" title="fluidsynth.FLUID_MOD_POSITIVE">FLUID<wbr></wbr>_MOD<wbr></wbr>_POSITIVE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_SIN" class="internal-link" title="fluidsynth.FLUID_MOD_SIN">FLUID<wbr></wbr>_MOD<wbr></wbr>_SIN</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_SWITCH" class="internal-link" title="fluidsynth.FLUID_MOD_SWITCH">FLUID<wbr></wbr>_MOD<wbr></wbr>_SWITCH</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_TRANSFORM_ABS" class="internal-link" title="fluidsynth.FLUID_MOD_TRANSFORM_ABS">FLUID<wbr></wbr>_MOD<wbr></wbr>_TRANSFORM<wbr></wbr>_ABS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_TRANSFORM_LINEAR" class="internal-link" title="fluidsynth.FLUID_MOD_TRANSFORM_LINEAR">FLUID<wbr></wbr>_MOD<wbr></wbr>_TRANSFORM<wbr></wbr>_LINEAR</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_UNIPOLAR" class="internal-link" title="fluidsynth.FLUID_MOD_UNIPOLAR">FLUID<wbr></wbr>_MOD<wbr></wbr>_UNIPOLAR</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_MOD_VELOCITY" class="internal-link" title="fluidsynth.FLUID_MOD_VELOCITY">FLUID<wbr></wbr>_MOD<wbr></wbr>_VELOCITY</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_OK" class="internal-link" title="fluidsynth.FLUID_OK">FLUID<wbr></wbr>_OK</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_DONE" class="internal-link" title="fluidsynth.FLUID_PLAYER_DONE">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_DONE</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_PLAYING" class="internal-link" title="fluidsynth.FLUID_PLAYER_PLAYING">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_PLAYING</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_READY" class="internal-link" title="fluidsynth.FLUID_PLAYER_READY">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_READY</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_STOPPING" class="internal-link" title="fluidsynth.FLUID_PLAYER_STOPPING">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_STOPPING</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_TEMPO_EXTERNAL_BPM" class="internal-link" title="fluidsynth.FLUID_PLAYER_TEMPO_EXTERNAL_BPM">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_TEMPO<wbr></wbr>_EXTERNAL<wbr></wbr>_BPM</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_TEMPO_EXTERNAL_MIDI" class="internal-link" title="fluidsynth.FLUID_PLAYER_TEMPO_EXTERNAL_MIDI">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_TEMPO<wbr></wbr>_EXTERNAL<wbr></wbr>_MIDI</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUID_PLAYER_TEMPO_INTERNAL" class="internal-link" title="fluidsynth.FLUID_PLAYER_TEMPO_INTERNAL">FLUID<wbr></wbr>_PLAYER<wbr></wbr>_TEMPO<wbr></wbr>_INTERNAL</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#FLUIDSETTING_EXISTS" class="internal-link" title="fluidsynth.FLUIDSETTING_EXISTS">FLUIDSETTING<wbr></wbr>_EXISTS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#api_version" class="internal-link" title="fluidsynth.api_version">api<wbr></wbr>_version</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_audio_driver" class="internal-link" title="fluidsynth.delete_fluid_audio_driver">delete<wbr></wbr>_fluid<wbr></wbr>_audio<wbr></wbr>_driver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_event" class="internal-link" title="fluidsynth.delete_fluid_event">delete<wbr></wbr>_fluid<wbr></wbr>_event</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_file_renderer" class="internal-link" title="fluidsynth.delete_fluid_file_renderer">delete<wbr></wbr>_fluid<wbr></wbr>_file<wbr></wbr>_renderer</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_midi_driver" class="internal-link" title="fluidsynth.delete_fluid_midi_driver">delete<wbr></wbr>_fluid<wbr></wbr>_midi<wbr></wbr>_driver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_midi_router_rule" class="internal-link" title="fluidsynth.delete_fluid_midi_router_rule">delete<wbr></wbr>_fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_mod" class="internal-link" title="fluidsynth.delete_fluid_mod">delete<wbr></wbr>_fluid<wbr></wbr>_mod</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_player" class="internal-link" title="fluidsynth.delete_fluid_player">delete<wbr></wbr>_fluid<wbr></wbr>_player</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_sequencer" class="internal-link" title="fluidsynth.delete_fluid_sequencer">delete<wbr></wbr>_fluid<wbr></wbr>_sequencer</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_settings" class="internal-link" title="fluidsynth.delete_fluid_settings">delete<wbr></wbr>_fluid<wbr></wbr>_settings</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#delete_fluid_synth" class="internal-link" title="fluidsynth.delete_fluid_synth">delete<wbr></wbr>_fluid<wbr></wbr>_synth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_event_note" class="internal-link" title="fluidsynth.fluid_event_note">fluid<wbr></wbr>_event<wbr></wbr>_note</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_event_noteoff" class="internal-link" title="fluidsynth.fluid_event_noteoff">fluid<wbr></wbr>_event<wbr></wbr>_noteoff</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_event_noteon" class="internal-link" title="fluidsynth.fluid_event_noteon">fluid<wbr></wbr>_event<wbr></wbr>_noteon</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_event_set_dest" class="internal-link" title="fluidsynth.fluid_event_set_dest">fluid<wbr></wbr>_event<wbr></wbr>_set<wbr></wbr>_dest</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_event_set_source" class="internal-link" title="fluidsynth.fluid_event_set_source">fluid<wbr></wbr>_event<wbr></wbr>_set<wbr></wbr>_source</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_event_timer" class="internal-link" title="fluidsynth.fluid_event_timer">fluid<wbr></wbr>_event<wbr></wbr>_timer</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_file_renderer_process_block" class="internal-link" title="fluidsynth.fluid_file_renderer_process_block">fluid<wbr></wbr>_file<wbr></wbr>_renderer<wbr></wbr>_process<wbr></wbr>_block</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_channel" class="internal-link" title="fluidsynth.fluid_midi_event_get_channel">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_channel</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_control" class="internal-link" title="fluidsynth.fluid_midi_event_get_control">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_control</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_key" class="internal-link" title="fluidsynth.fluid_midi_event_get_key">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_key</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_program" class="internal-link" title="fluidsynth.fluid_midi_event_get_program">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_program</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_type" class="internal-link" title="fluidsynth.fluid_midi_event_get_type">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_value" class="internal-link" title="fluidsynth.fluid_midi_event_get_value">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_value</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_event_get_velocity" class="internal-link" title="fluidsynth.fluid_midi_event_get_velocity">fluid<wbr></wbr>_midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_velocity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_add_rule" class="internal-link" title="fluidsynth.fluid_midi_router_add_rule">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_add<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_clear_rules" class="internal-link" title="fluidsynth.fluid_midi_router_clear_rules">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_clear<wbr></wbr>_rules</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_handle_midi_event" class="internal-link" title="fluidsynth.fluid_midi_router_handle_midi_event">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_handle<wbr></wbr>_midi<wbr></wbr>_event</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_rule_set_chan" class="internal-link" title="fluidsynth.fluid_midi_router_rule_set_chan">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_rule<wbr></wbr>_set<wbr></wbr>_chan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_rule_set_param1" class="internal-link" title="fluidsynth.fluid_midi_router_rule_set_param1">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_rule<wbr></wbr>_set<wbr></wbr>_param1</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_rule_set_param2" class="internal-link" title="fluidsynth.fluid_midi_router_rule_set_param2">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_rule<wbr></wbr>_set<wbr></wbr>_param2</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_midi_router_set_default_rules" class="internal-link" title="fluidsynth.fluid_midi_router_set_default_rules">fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_set<wbr></wbr>_default<wbr></wbr>_rules</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_clone" class="internal-link" title="fluidsynth.fluid_mod_clone">fluid<wbr></wbr>_mod<wbr></wbr>_clone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_amount" class="internal-link" title="fluidsynth.fluid_mod_get_amount">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_amount</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_dest" class="internal-link" title="fluidsynth.fluid_mod_get_dest">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_dest</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_flags1" class="internal-link" title="fluidsynth.fluid_mod_get_flags1">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_flags1</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_flags2" class="internal-link" title="fluidsynth.fluid_mod_get_flags2">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_flags2</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_source1" class="internal-link" title="fluidsynth.fluid_mod_get_source1">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_source1</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_source2" class="internal-link" title="fluidsynth.fluid_mod_get_source2">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_source2</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_get_transform" class="internal-link" title="fluidsynth.fluid_mod_get_transform">fluid<wbr></wbr>_mod<wbr></wbr>_get<wbr></wbr>_transform</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_has_dest" class="internal-link" title="fluidsynth.fluid_mod_has_dest">fluid<wbr></wbr>_mod<wbr></wbr>_has<wbr></wbr>_dest</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_has_source" class="internal-link" title="fluidsynth.fluid_mod_has_source">fluid<wbr></wbr>_mod<wbr></wbr>_has<wbr></wbr>_source</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_set_amount" class="internal-link" title="fluidsynth.fluid_mod_set_amount">fluid<wbr></wbr>_mod<wbr></wbr>_set<wbr></wbr>_amount</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_set_dest" class="internal-link" title="fluidsynth.fluid_mod_set_dest">fluid<wbr></wbr>_mod<wbr></wbr>_set<wbr></wbr>_dest</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_set_source1" class="internal-link" title="fluidsynth.fluid_mod_set_source1">fluid<wbr></wbr>_mod<wbr></wbr>_set<wbr></wbr>_source1</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_set_source2" class="internal-link" title="fluidsynth.fluid_mod_set_source2">fluid<wbr></wbr>_mod<wbr></wbr>_set<wbr></wbr>_source2</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_set_transform" class="internal-link" title="fluidsynth.fluid_mod_set_transform">fluid<wbr></wbr>_mod<wbr></wbr>_set<wbr></wbr>_transform</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_sizeof" class="internal-link" title="fluidsynth.fluid_mod_sizeof">fluid<wbr></wbr>_mod<wbr></wbr>_sizeof</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_mod_test_identity" class="internal-link" title="fluidsynth.fluid_mod_test_identity">fluid<wbr></wbr>_mod<wbr></wbr>_test<wbr></wbr>_identity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_add" class="internal-link" title="fluidsynth.fluid_player_add">fluid<wbr></wbr>_player<wbr></wbr>_add</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_get_status" class="internal-link" title="fluidsynth.fluid_player_get_status">fluid<wbr></wbr>_player<wbr></wbr>_get<wbr></wbr>_status</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_join" class="internal-link" title="fluidsynth.fluid_player_join">fluid<wbr></wbr>_player<wbr></wbr>_join</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_play" class="internal-link" title="fluidsynth.fluid_player_play">fluid<wbr></wbr>_player<wbr></wbr>_play</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_seek" class="internal-link" title="fluidsynth.fluid_player_seek">fluid<wbr></wbr>_player<wbr></wbr>_seek</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_set_playback_callback" class="internal-link" title="fluidsynth.fluid_player_set_playback_callback">fluid<wbr></wbr>_player<wbr></wbr>_set<wbr></wbr>_playback<wbr></wbr>_callback</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_set_tempo" class="internal-link" title="fluidsynth.fluid_player_set_tempo">fluid<wbr></wbr>_player<wbr></wbr>_set<wbr></wbr>_tempo</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_player_stop" class="internal-link" title="fluidsynth.fluid_player_stop">fluid<wbr></wbr>_player<wbr></wbr>_stop</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_preset_get_name" class="internal-link" title="fluidsynth.fluid_preset_get_name">fluid<wbr></wbr>_preset<wbr></wbr>_get<wbr></wbr>_name</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_get_tick" class="internal-link" title="fluidsynth.fluid_sequencer_get_tick">fluid<wbr></wbr>_sequencer<wbr></wbr>_get<wbr></wbr>_tick</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_get_time_scale" class="internal-link" title="fluidsynth.fluid_sequencer_get_time_scale">fluid<wbr></wbr>_sequencer<wbr></wbr>_get<wbr></wbr>_time<wbr></wbr>_scale</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_process" class="internal-link" title="fluidsynth.fluid_sequencer_process">fluid<wbr></wbr>_sequencer<wbr></wbr>_process</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_register_client" class="internal-link" title="fluidsynth.fluid_sequencer_register_client">fluid<wbr></wbr>_sequencer<wbr></wbr>_register<wbr></wbr>_client</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_register_fluidsynth" class="internal-link" title="fluidsynth.fluid_sequencer_register_fluidsynth">fluid<wbr></wbr>_sequencer<wbr></wbr>_register<wbr></wbr>_fluidsynth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_send_at" class="internal-link" title="fluidsynth.fluid_sequencer_send_at">fluid<wbr></wbr>_sequencer<wbr></wbr>_send<wbr></wbr>_at</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sequencer_set_time_scale" class="internal-link" title="fluidsynth.fluid_sequencer_set_time_scale">fluid<wbr></wbr>_sequencer<wbr></wbr>_set<wbr></wbr>_time<wbr></wbr>_scale</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_settings_copystr" class="internal-link" title="fluidsynth.fluid_settings_copystr">fluid<wbr></wbr>_settings<wbr></wbr>_copystr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_settings_getint" class="internal-link" title="fluidsynth.fluid_settings_getint">fluid<wbr></wbr>_settings<wbr></wbr>_getint</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_settings_getnum" class="internal-link" title="fluidsynth.fluid_settings_getnum">fluid<wbr></wbr>_settings<wbr></wbr>_getnum</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_settings_setint" class="internal-link" title="fluidsynth.fluid_settings_setint">fluid<wbr></wbr>_settings<wbr></wbr>_setint</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_settings_setnum" class="internal-link" title="fluidsynth.fluid_settings_setnum">fluid<wbr></wbr>_settings<wbr></wbr>_setnum</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_settings_setstr" class="internal-link" title="fluidsynth.fluid_settings_setstr">fluid<wbr></wbr>_settings<wbr></wbr>_setstr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_sfont_get_preset" class="internal-link" title="fluidsynth.fluid_sfont_get_preset">fluid<wbr></wbr>_sfont<wbr></wbr>_get<wbr></wbr>_preset</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_activate_key_tuning" class="internal-link" title="fluidsynth.fluid_synth_activate_key_tuning">fluid<wbr></wbr>_synth<wbr></wbr>_activate<wbr></wbr>_key<wbr></wbr>_tuning</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_activate_tuning" class="internal-link" title="fluidsynth.fluid_synth_activate_tuning">fluid<wbr></wbr>_synth<wbr></wbr>_activate<wbr></wbr>_tuning</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_all_notes_off" class="internal-link" title="fluidsynth.fluid_synth_all_notes_off">fluid<wbr></wbr>_synth<wbr></wbr>_all<wbr></wbr>_notes<wbr></wbr>_off</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_all_sounds_off" class="internal-link" title="fluidsynth.fluid_synth_all_sounds_off">fluid<wbr></wbr>_synth<wbr></wbr>_all<wbr></wbr>_sounds<wbr></wbr>_off</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_bank_select" class="internal-link" title="fluidsynth.fluid_synth_bank_select">fluid<wbr></wbr>_synth<wbr></wbr>_bank<wbr></wbr>_select</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_cc" class="internal-link" title="fluidsynth.fluid_synth_cc">fluid<wbr></wbr>_synth<wbr></wbr>_cc</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_deactivate_tuning" class="internal-link" title="fluidsynth.fluid_synth_deactivate_tuning">fluid<wbr></wbr>_synth<wbr></wbr>_deactivate<wbr></wbr>_tuning</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_active_voice_count" class="internal-link" title="fluidsynth.fluid_synth_get_active_voice_count">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_active<wbr></wbr>_voice<wbr></wbr>_count</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_cc" class="internal-link" title="fluidsynth.fluid_synth_get_cc">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_cc</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_channel_info" class="internal-link" title="fluidsynth.fluid_synth_get_channel_info">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_channel<wbr></wbr>_info</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_depth" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_depth">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_chorus<wbr></wbr>_depth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_depth_ms" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_depth_ms">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_chorus<wbr></wbr>_depth<wbr></wbr>_ms</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_level" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_level">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_chorus<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_nr" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_nr">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_chorus<wbr></wbr>_nr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_speed" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_speed">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_chorus<wbr></wbr>_speed</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_speed_Hz" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_speed_Hz">fluid_synth_get_chorus_speed_<wbr></wbr>Hz</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_chorus_type" class="internal-link" title="fluidsynth.fluid_synth_get_chorus_type">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_chorus<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_program" class="internal-link" title="fluidsynth.fluid_synth_get_program">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_program</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_reverb_damp" class="internal-link" title="fluidsynth.fluid_synth_get_reverb_damp">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_reverb<wbr></wbr>_damp</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_reverb_level" class="internal-link" title="fluidsynth.fluid_synth_get_reverb_level">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_reverb<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_reverb_roomsize" class="internal-link" title="fluidsynth.fluid_synth_get_reverb_roomsize">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_reverb<wbr></wbr>_roomsize</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_reverb_width" class="internal-link" title="fluidsynth.fluid_synth_get_reverb_width">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_reverb<wbr></wbr>_width</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_get_sfont_by_id" class="internal-link" title="fluidsynth.fluid_synth_get_sfont_by_id">fluid<wbr></wbr>_synth<wbr></wbr>_get<wbr></wbr>_sfont<wbr></wbr>_by<wbr></wbr>_id</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_handle_midi_event" class="internal-link" title="fluidsynth.fluid_synth_handle_midi_event">fluid<wbr></wbr>_synth<wbr></wbr>_handle<wbr></wbr>_midi<wbr></wbr>_event</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_noteoff" class="internal-link" title="fluidsynth.fluid_synth_noteoff">fluid<wbr></wbr>_synth<wbr></wbr>_noteoff</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_noteon" class="internal-link" title="fluidsynth.fluid_synth_noteon">fluid<wbr></wbr>_synth<wbr></wbr>_noteon</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_pitch_bend" class="internal-link" title="fluidsynth.fluid_synth_pitch_bend">fluid<wbr></wbr>_synth<wbr></wbr>_pitch<wbr></wbr>_bend</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_program_change" class="internal-link" title="fluidsynth.fluid_synth_program_change">fluid<wbr></wbr>_synth<wbr></wbr>_program<wbr></wbr>_change</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_program_reset" class="internal-link" title="fluidsynth.fluid_synth_program_reset">fluid<wbr></wbr>_synth<wbr></wbr>_program<wbr></wbr>_reset</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_program_select" class="internal-link" title="fluidsynth.fluid_synth_program_select">fluid<wbr></wbr>_synth<wbr></wbr>_program<wbr></wbr>_select</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus" class="internal-link" title="fluidsynth.fluid_synth_set_chorus">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus_depth" class="internal-link" title="fluidsynth.fluid_synth_set_chorus_depth">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus<wbr></wbr>_depth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus_full" class="internal-link" title="fluidsynth.fluid_synth_set_chorus_full">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus<wbr></wbr>_full</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus_level" class="internal-link" title="fluidsynth.fluid_synth_set_chorus_level">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus_nr" class="internal-link" title="fluidsynth.fluid_synth_set_chorus_nr">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus<wbr></wbr>_nr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus_speed" class="internal-link" title="fluidsynth.fluid_synth_set_chorus_speed">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus<wbr></wbr>_speed</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_chorus_type" class="internal-link" title="fluidsynth.fluid_synth_set_chorus_type">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_chorus<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_midi_router" class="internal-link" title="fluidsynth.fluid_synth_set_midi_router">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_midi<wbr></wbr>_router</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_reverb" class="internal-link" title="fluidsynth.fluid_synth_set_reverb">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_reverb</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_reverb_damp" class="internal-link" title="fluidsynth.fluid_synth_set_reverb_damp">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_reverb<wbr></wbr>_damp</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_reverb_full" class="internal-link" title="fluidsynth.fluid_synth_set_reverb_full">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_reverb<wbr></wbr>_full</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_reverb_level" class="internal-link" title="fluidsynth.fluid_synth_set_reverb_level">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_reverb<wbr></wbr>_level</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_reverb_roomsize" class="internal-link" title="fluidsynth.fluid_synth_set_reverb_roomsize">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_reverb<wbr></wbr>_roomsize</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_set_reverb_width" class="internal-link" title="fluidsynth.fluid_synth_set_reverb_width">fluid<wbr></wbr>_synth<wbr></wbr>_set<wbr></wbr>_reverb<wbr></wbr>_width</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_sfload" class="internal-link" title="fluidsynth.fluid_synth_sfload">fluid<wbr></wbr>_synth<wbr></wbr>_sfload</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_sfont_select" class="internal-link" title="fluidsynth.fluid_synth_sfont_select">fluid<wbr></wbr>_synth<wbr></wbr>_sfont<wbr></wbr>_select</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_sfunload" class="internal-link" title="fluidsynth.fluid_synth_sfunload">fluid<wbr></wbr>_synth<wbr></wbr>_sfunload</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_system_reset" class="internal-link" title="fluidsynth.fluid_synth_system_reset">fluid<wbr></wbr>_synth<wbr></wbr>_system<wbr></wbr>_reset</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_tuning_dump" class="internal-link" title="fluidsynth.fluid_synth_tuning_dump">fluid<wbr></wbr>_synth<wbr></wbr>_tuning<wbr></wbr>_dump</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_unset_program" class="internal-link" title="fluidsynth.fluid_synth_unset_program">fluid<wbr></wbr>_synth<wbr></wbr>_unset<wbr></wbr>_program</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_synth_write_s16" class="internal-link" title="fluidsynth.fluid_synth_write_s16">fluid<wbr></wbr>_synth<wbr></wbr>_write<wbr></wbr>_s16</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#fluid_version" class="internal-link" title="fluidsynth.fluid_version">fluid<wbr></wbr>_version</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#lib" class="internal-link" title="fluidsynth.lib">lib</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#majver" class="internal-link" title="fluidsynth.majver">majver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_audio_driver" class="internal-link" title="fluidsynth.new_fluid_audio_driver">new<wbr></wbr>_fluid<wbr></wbr>_audio<wbr></wbr>_driver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_cmd_handler" class="internal-link" title="fluidsynth.new_fluid_cmd_handler">new<wbr></wbr>_fluid<wbr></wbr>_cmd<wbr></wbr>_handler</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_event" class="internal-link" title="fluidsynth.new_fluid_event">new<wbr></wbr>_fluid<wbr></wbr>_event</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_file_renderer" class="internal-link" title="fluidsynth.new_fluid_file_renderer">new<wbr></wbr>_fluid<wbr></wbr>_file<wbr></wbr>_renderer</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_midi_driver" class="internal-link" title="fluidsynth.new_fluid_midi_driver">new<wbr></wbr>_fluid<wbr></wbr>_midi<wbr></wbr>_driver</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_midi_router" class="internal-link" title="fluidsynth.new_fluid_midi_router">new<wbr></wbr>_fluid<wbr></wbr>_midi<wbr></wbr>_router</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_midi_router_rule" class="internal-link" title="fluidsynth.new_fluid_midi_router_rule">new<wbr></wbr>_fluid<wbr></wbr>_midi<wbr></wbr>_router<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_mod" class="internal-link" title="fluidsynth.new_fluid_mod">new<wbr></wbr>_fluid<wbr></wbr>_mod</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_player" class="internal-link" title="fluidsynth.new_fluid_player">new<wbr></wbr>_fluid<wbr></wbr>_player</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_sequencer2" class="internal-link" title="fluidsynth.new_fluid_sequencer2">new<wbr></wbr>_fluid<wbr></wbr>_sequencer2</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_settings" class="internal-link" title="fluidsynth.new_fluid_settings">new<wbr></wbr>_fluid<wbr></wbr>_settings</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#new_fluid_synth" class="internal-link" title="fluidsynth.new_fluid_synth">new<wbr></wbr>_fluid<wbr></wbr>_synth</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="index.html#_fl" class="internal-link" title="fluidsynth._fl">_fl</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapse-sidebar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <main class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="class"><code><code><a href="index.html" class="internal-link">fluidsynth</a></code><wbr></wbr>.<code><a href="fluidsynth.Synth.html" class="internal-link" title="fluidsynth.Synth">Synth</a></code></code></h1>
+          <div id="show-private">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          class documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">Synth</span>: <a href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L764" class="sourceLink">(source)</a></code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="fluidsynth.Synth.__init__">Synth(gain, samplerate, channels, **kwargs)</a></code></p><p><a href="classIndex.html#fluidsynth.Synth">View In Hierarchy</a></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>Synth represents a FluidSynth synthesizer</p></div>
+        </div>
+
+        <div id="split-tables">
+          <table class="children sortable" id="id4">
+  
+  
+  <tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#__init__" class="internal-link" title="fluidsynth.Synth.__init__">__init__</a></code></td>
+    <td>Create new synthesizer object to control sound generation</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#all_notes_off" class="internal-link" title="fluidsynth.Synth.all_notes_off">all<wbr></wbr>_notes<wbr></wbr>_off</a></code></td>
+    <td>Turn off all notes on a channel (release all keys)</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#all_sounds_off" class="internal-link" title="fluidsynth.Synth.all_sounds_off">all<wbr></wbr>_sounds<wbr></wbr>_off</a></code></td>
+    <td>Turn off all sounds on a channel (equivalent to mute)</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#bank_select" class="internal-link" title="fluidsynth.Synth.bank_select">bank<wbr></wbr>_select</a></code></td>
+    <td>Choose a bank</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#cc" class="internal-link" title="fluidsynth.Synth.cc">cc</a></code></td>
+    <td>Send control change value</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#channel_info" class="internal-link" title="fluidsynth.Synth.channel_info">channel<wbr></wbr>_info</a></code></td>
+    <td>get soundfont, bank, prog, preset name of channel</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#delete" class="internal-link" title="fluidsynth.Synth.delete">delete</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_active_voice_count" class="internal-link" title="fluidsynth.Synth.get_active_voice_count">get<wbr></wbr>_active<wbr></wbr>_voice<wbr></wbr>_count</a></code></td>
+    <td>Get the number of currently active voices</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_cc" class="internal-link" title="fluidsynth.Synth.get_cc">get<wbr></wbr>_cc</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_chorus_depth" class="internal-link" title="fluidsynth.Synth.get_chorus_depth">get<wbr></wbr>_chorus<wbr></wbr>_depth</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_chorus_level" class="internal-link" title="fluidsynth.Synth.get_chorus_level">get<wbr></wbr>_chorus<wbr></wbr>_level</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_chorus_nr" class="internal-link" title="fluidsynth.Synth.get_chorus_nr">get<wbr></wbr>_chorus<wbr></wbr>_nr</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_chorus_speed" class="internal-link" title="fluidsynth.Synth.get_chorus_speed">get<wbr></wbr>_chorus<wbr></wbr>_speed</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_chorus_type" class="internal-link" title="fluidsynth.Synth.get_chorus_type">get<wbr></wbr>_chorus<wbr></wbr>_type</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_reverb_damp" class="internal-link" title="fluidsynth.Synth.get_reverb_damp">get<wbr></wbr>_reverb<wbr></wbr>_damp</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_reverb_level" class="internal-link" title="fluidsynth.Synth.get_reverb_level">get<wbr></wbr>_reverb<wbr></wbr>_level</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_reverb_roomsize" class="internal-link" title="fluidsynth.Synth.get_reverb_roomsize">get<wbr></wbr>_reverb<wbr></wbr>_roomsize</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_reverb_width" class="internal-link" title="fluidsynth.Synth.get_reverb_width">get<wbr></wbr>_reverb<wbr></wbr>_width</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_samples" class="internal-link" title="fluidsynth.Synth.get_samples">get<wbr></wbr>_samples</a></code></td>
+    <td>Generate audio samples</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_setting" class="internal-link" title="fluidsynth.Synth.get_setting">get<wbr></wbr>_setting</a></code></td>
+    <td>get current value of an arbitrary synth setting</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi2audio" class="internal-link" title="fluidsynth.Synth.midi2audio">midi2audio</a></code></td>
+    <td>Convert a midi file to an audio file</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_channel" class="internal-link" title="fluidsynth.Synth.midi_event_get_channel">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_channel</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_control" class="internal-link" title="fluidsynth.Synth.midi_event_get_control">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_control</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_key" class="internal-link" title="fluidsynth.Synth.midi_event_get_key">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_key</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_program" class="internal-link" title="fluidsynth.Synth.midi_event_get_program">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_program</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_type" class="internal-link" title="fluidsynth.Synth.midi_event_get_type">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_type</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_value" class="internal-link" title="fluidsynth.Synth.midi_event_get_value">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_value</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#midi_event_get_velocity" class="internal-link" title="fluidsynth.Synth.midi_event_get_velocity">midi<wbr></wbr>_event<wbr></wbr>_get<wbr></wbr>_velocity</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#noteoff" class="internal-link" title="fluidsynth.Synth.noteoff">noteoff</a></code></td>
+    <td>Stop a note</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#noteon" class="internal-link" title="fluidsynth.Synth.noteon">noteon</a></code></td>
+    <td>Play a note</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#pitch_bend" class="internal-link" title="fluidsynth.Synth.pitch_bend">pitch<wbr></wbr>_bend</a></code></td>
+    <td>Adjust pitch of a playing channel by small amounts</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#play_midi_file" class="internal-link" title="fluidsynth.Synth.play_midi_file">play<wbr></wbr>_midi<wbr></wbr>_file</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#play_midi_stop" class="internal-link" title="fluidsynth.Synth.play_midi_stop">play<wbr></wbr>_midi<wbr></wbr>_stop</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#player_set_tempo" class="internal-link" title="fluidsynth.Synth.player_set_tempo">player<wbr></wbr>_set<wbr></wbr>_tempo</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#program_change" class="internal-link" title="fluidsynth.Synth.program_change">program<wbr></wbr>_change</a></code></td>
+    <td>Change the program</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#program_info" class="internal-link" title="fluidsynth.Synth.program_info">program<wbr></wbr>_info</a></code></td>
+    <td>get active soundfont, bank, prog on a channel</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#program_reset" class="internal-link" title="fluidsynth.Synth.program_reset">program<wbr></wbr>_reset</a></code></td>
+    <td>Reset the programs on all channels</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#program_select" class="internal-link" title="fluidsynth.Synth.program_select">program<wbr></wbr>_select</a></code></td>
+    <td>Select a program</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#program_unset" class="internal-link" title="fluidsynth.Synth.program_unset">program<wbr></wbr>_unset</a></code></td>
+    <td>Set the preset of a MIDI channel to an unassigned state</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_begin" class="internal-link" title="fluidsynth.Synth.router_begin">router<wbr></wbr>_begin</a></code></td>
+    <td>types are [note|cc|prog|pbend|cpress|kpress]</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_chan" class="internal-link" title="fluidsynth.Synth.router_chan">router<wbr></wbr>_chan</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_clear" class="internal-link" title="fluidsynth.Synth.router_clear">router<wbr></wbr>_clear</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_default" class="internal-link" title="fluidsynth.Synth.router_default">router<wbr></wbr>_default</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_end" class="internal-link" title="fluidsynth.Synth.router_end">router<wbr></wbr>_end</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_par1" class="internal-link" title="fluidsynth.Synth.router_par1">router<wbr></wbr>_par1</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#router_par2" class="internal-link" title="fluidsynth.Synth.router_par2">router<wbr></wbr>_par2</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_chorus" class="internal-link" title="fluidsynth.Synth.set_chorus">set<wbr></wbr>_chorus</a></code></td>
+    <td>nr Chorus voice count (0-99, CPU time consumption proportional to this value) level Chorus level (0.0-10.0) speed Chorus speed in Hz (0.29-5.0) depth_ms Chorus depth (max value depends on synth sample rate, 0...</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_chorus_depth" class="internal-link" title="fluidsynth.Synth.set_chorus_depth">set<wbr></wbr>_chorus<wbr></wbr>_depth</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_chorus_level" class="internal-link" title="fluidsynth.Synth.set_chorus_level">set<wbr></wbr>_chorus<wbr></wbr>_level</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_chorus_nr" class="internal-link" title="fluidsynth.Synth.set_chorus_nr">set<wbr></wbr>_chorus<wbr></wbr>_nr</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_chorus_speed" class="internal-link" title="fluidsynth.Synth.set_chorus_speed">set<wbr></wbr>_chorus<wbr></wbr>_speed</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_chorus_type" class="internal-link" title="fluidsynth.Synth.set_chorus_type">set<wbr></wbr>_chorus<wbr></wbr>_type</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_reverb" class="internal-link" title="fluidsynth.Synth.set_reverb">set<wbr></wbr>_reverb</a></code></td>
+    <td>roomsize Reverb room size value (0.0-1.0) damping Reverb damping value (0.0-1.0) width Reverb width value (0.0-100.0) level Reverb level value (0.0-1.0)</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_reverb_damp" class="internal-link" title="fluidsynth.Synth.set_reverb_damp">set<wbr></wbr>_reverb<wbr></wbr>_damp</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_reverb_level" class="internal-link" title="fluidsynth.Synth.set_reverb_level">set<wbr></wbr>_reverb<wbr></wbr>_level</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_reverb_roomsize" class="internal-link" title="fluidsynth.Synth.set_reverb_roomsize">set<wbr></wbr>_reverb<wbr></wbr>_roomsize</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#set_reverb_width" class="internal-link" title="fluidsynth.Synth.set_reverb_width">set<wbr></wbr>_reverb<wbr></wbr>_width</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setting" class="internal-link" title="fluidsynth.Synth.setting">setting</a></code></td>
+    <td>change an arbitrary synth setting, type-smart</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#sfload" class="internal-link" title="fluidsynth.Synth.sfload">sfload</a></code></td>
+    <td>Load SoundFont and return its ID</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#sfont_select" class="internal-link" title="fluidsynth.Synth.sfont_select">sfont<wbr></wbr>_select</a></code></td>
+    <td>Choose a SoundFont</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#sfpreset_name" class="internal-link" title="fluidsynth.Synth.sfpreset_name">sfpreset<wbr></wbr>_name</a></code></td>
+    <td>Return name of a soundfont preset</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#sfunload" class="internal-link" title="fluidsynth.Synth.sfunload">sfunload</a></code></td>
+    <td>Unload a SoundFont and free memory it used</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#start" class="internal-link" title="fluidsynth.Synth.start">start</a></code></td>
+    <td>Start audio output driver in separate background thread</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#system_reset" class="internal-link" title="fluidsynth.Synth.system_reset">system<wbr></wbr>_reset</a></code></td>
+    <td>Stop all notes and reset all programs</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#tuning_dump" class="internal-link" title="fluidsynth.Synth.tuning_dump">tuning<wbr></wbr>_dump</a></code></td>
+    <td>Get tuning information for given bank and preset</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#audio_driver" class="internal-link" title="fluidsynth.Synth.audio_driver">audio<wbr></wbr>_driver</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#custom_router_callback" class="internal-link" title="fluidsynth.Synth.custom_router_callback">custom<wbr></wbr>_router<wbr></wbr>_callback</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#midi_driver" class="internal-link" title="fluidsynth.Synth.midi_driver">midi<wbr></wbr>_driver</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#player" class="internal-link" title="fluidsynth.Synth.player">player</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#router" class="internal-link" title="fluidsynth.Synth.router">router</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#settings" class="internal-link" title="fluidsynth.Synth.settings">settings</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#synth" class="internal-link" title="fluidsynth.Synth.synth">synth</a></code></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
+  </tr>
+</table>
+          
+
+            
+        </div>
+
+        <div id="child-list">
+          <div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">__init__</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">gain=0.2, </span><span class="rst-sig-param">samplerate=44100, </span><span class="rst-sig-param">channels=256, </span><span class="rst-sig-param">**kwargs</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L766">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__init__" title="fluidsynth.Synth.__init__">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create new synthesizer object to control sound generation</p>
+<p>Optional keyword arguments:
+gain : scale factor for audio output, default is 0.2
+lower values are quieter, allow more simultaneous notes
+samplerate : output samplerate in Hz, default is 44100 Hz
+added capability for passing arbitrary fluid settings using args</p>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.all_notes_off">
+    
+  </a>
+  <a name="all_notes_off">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">all_notes_off</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1097">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#all_notes_off" title="fluidsynth.Synth.all_notes_off">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Turn off all notes on a channel (release all keys)</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.all_sounds_off">
+    
+  </a>
+  <a name="all_sounds_off">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">all_sounds_off</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1100">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#all_sounds_off" title="fluidsynth.Synth.all_sounds_off">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Turn off all sounds on a channel (equivalent to mute)</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.bank_select">
+    
+  </a>
+  <a name="bank_select">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">bank_select</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">bank</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1094">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#bank_select" title="fluidsynth.Synth.bank_select">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Choose a bank</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.cc">
+    
+  </a>
+  <a name="cc">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">cc</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">ctrl, </span><span class="rst-sig-param">val</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1069">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#cc" title="fluidsynth.Synth.cc">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Send control change value</p>
+<p>The controls that are recognized are dependent on the
+SoundFont.  Values are always 0 to 127.  Typical controls
+include:</p>
+<blockquote>
+1 : vibrato
+7 : volume
+10 : pan (left to right)
+11 : expression (soft to loud)
+64 : sustain
+91 : reverb
+93 : chorus</blockquote>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.channel_info">
+    
+  </a>
+  <a name="channel_info">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">channel_info</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L860">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#channel_info" title="fluidsynth.Synth.channel_info">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>get soundfont, bank, prog, preset name of channel</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.delete">
+    
+  </a>
+  <a name="delete">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">delete</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L841">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete" title="fluidsynth.Synth.delete">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_active_voice_count">
+    
+  </a>
+  <a name="get_active_voice_count">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_active_voice_count</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1088">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_active_voice_count" title="fluidsynth.Synth.get_active_voice_count">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get the number of currently active voices</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_cc">
+    
+  </a>
+  <a name="get_cc">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_cc</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">num</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1084">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_cc" title="fluidsynth.Synth.get_cc">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_chorus_depth">
+    
+  </a>
+  <a name="get_chorus_depth">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_chorus_depth</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1036">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_chorus_depth" title="fluidsynth.Synth.get_chorus_depth">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_chorus_level">
+    
+  </a>
+  <a name="get_chorus_level">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_chorus_level</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1029">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_chorus_level" title="fluidsynth.Synth.get_chorus_level">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_chorus_nr">
+    
+  </a>
+  <a name="get_chorus_nr">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_chorus_nr</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1027">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_chorus_nr" title="fluidsynth.Synth.get_chorus_nr">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_chorus_speed">
+    
+  </a>
+  <a name="get_chorus_speed">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_chorus_speed</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1031">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_chorus_speed" title="fluidsynth.Synth.get_chorus_speed">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_chorus_type">
+    
+  </a>
+  <a name="get_chorus_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_chorus_type</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1041">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_chorus_type" title="fluidsynth.Synth.get_chorus_type">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_reverb_damp">
+    
+  </a>
+  <a name="get_reverb_damp">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_reverb_damp</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1021">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_reverb_damp" title="fluidsynth.Synth.get_reverb_damp">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_reverb_level">
+    
+  </a>
+  <a name="get_reverb_level">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_reverb_level</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1023">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_reverb_level" title="fluidsynth.Synth.get_reverb_level">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_reverb_roomsize">
+    
+  </a>
+  <a name="get_reverb_roomsize">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_reverb_roomsize</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1019">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_reverb_roomsize" title="fluidsynth.Synth.get_reverb_roomsize">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_reverb_width">
+    
+  </a>
+  <a name="get_reverb_width">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_reverb_width</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1025">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_reverb_width" title="fluidsynth.Synth.get_reverb_width">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_samples">
+    
+  </a>
+  <a name="get_samples">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_samples</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">len=1024</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1112">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_samples" title="fluidsynth.Synth.get_samples">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate audio samples</p>
+<p>The return value will be a NumPy array containing the given
+length of audio samples.  If the synth is set to stereo output
+(the default) the array will be size 2 * len.</p>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.get_setting">
+    
+  </a>
+  <a name="get_setting">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_setting</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">opt</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L794">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_setting" title="fluidsynth.Synth.get_setting">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>get current value of an arbitrary synth setting</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi2audio">
+    
+  </a>
+  <a name="midi2audio">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi2audio</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">midifile, </span><span class="rst-sig-param">audiofile=<span class="rst-variable-quote">'</span><span class="rst-variable-string">output.wav</span><span class="rst-variable-quote">'</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1169">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi2audio" title="fluidsynth.Synth.midi2audio">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Convert a midi file to an audio file</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_channel">
+    
+  </a>
+  <a name="midi_event_get_channel">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_channel</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1137">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_channel" title="fluidsynth.Synth.midi_event_get_channel">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_control">
+    
+  </a>
+  <a name="midi_event_get_control">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_control</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1139">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_control" title="fluidsynth.Synth.midi_event_get_control">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_key">
+    
+  </a>
+  <a name="midi_event_get_key">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_key</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1135">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_key" title="fluidsynth.Synth.midi_event_get_key">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_program">
+    
+  </a>
+  <a name="midi_event_get_program">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_program</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1141">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_program" title="fluidsynth.Synth.midi_event_get_program">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_type">
+    
+  </a>
+  <a name="midi_event_get_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_type</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1131">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_type" title="fluidsynth.Synth.midi_event_get_type">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_value">
+    
+  </a>
+  <a name="midi_event_get_value">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_value</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1143">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_value" title="fluidsynth.Synth.midi_event_get_value">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.midi_event_get_velocity">
+    
+  </a>
+  <a name="midi_event_get_velocity">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">midi_event_get_velocity</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">event</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1133">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_event_get_velocity" title="fluidsynth.Synth.midi_event_get_velocity">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.noteoff">
+    
+  </a>
+  <a name="noteoff">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">noteoff</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">key</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1052">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#noteoff" title="fluidsynth.Synth.noteoff">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Stop a note</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.noteon">
+    
+  </a>
+  <a name="noteon">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">noteon</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">key, </span><span class="rst-sig-param">vel</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1043">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#noteon" title="fluidsynth.Synth.noteon">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Play a note</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.pitch_bend">
+    
+  </a>
+  <a name="pitch_bend">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">pitch_bend</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">val</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1059">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#pitch_bend" title="fluidsynth.Synth.pitch_bend">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Adjust pitch of a playing channel by small amounts</p>
+<p>A pitch bend value of 0 is no pitch change from default.
+A value of -2048 is 1 semitone down.
+A value of 2048 is 1 semitone up.
+Maximum values are -8192 to +8191 (transposing by 4 semitones).</p>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.play_midi_file">
+    
+  </a>
+  <a name="play_midi_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">play_midi_file</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">filename</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1146">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#play_midi_file" title="fluidsynth.Synth.play_midi_file">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.play_midi_stop">
+    
+  </a>
+  <a name="play_midi_stop">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">play_midi_stop</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1158">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#play_midi_stop" title="fluidsynth.Synth.play_midi_stop">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.player_set_tempo">
+    
+  </a>
+  <a name="player_set_tempo">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">player_set_tempo</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">tempo_type, </span><span class="rst-sig-param">tempo</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1166">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#player_set_tempo" title="fluidsynth.Synth.player_set_tempo">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.program_change">
+    
+  </a>
+  <a name="program_change">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">program_change</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">prg</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1091">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#program_change" title="fluidsynth.Synth.program_change">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Change the program</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.program_info">
+    
+  </a>
+  <a name="program_info">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">program_info</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L870">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#program_info" title="fluidsynth.Synth.program_info">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>get active soundfont, bank, prog on a channel</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.program_reset">
+    
+  </a>
+  <a name="program_reset">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">program_reset</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1106">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#program_reset" title="fluidsynth.Synth.program_reset">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Reset the programs on all channels</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.program_select">
+    
+  </a>
+  <a name="program_select">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">program_select</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">sfid, </span><span class="rst-sig-param">bank, </span><span class="rst-sig-param">preset</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L854">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#program_select" title="fluidsynth.Synth.program_select">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Select a program</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.program_unset">
+    
+  </a>
+  <a name="program_unset">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">program_unset</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L857">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#program_unset" title="fluidsynth.Synth.program_unset">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Set the preset of a MIDI channel to an unassigned state</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_begin">
+    
+  </a>
+  <a name="router_begin">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_begin</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">type</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L897">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_begin" title="fluidsynth.Synth.router_begin">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>types are [note|cc|prog|pbend|cpress|kpress]</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_chan">
+    
+  </a>
+  <a name="router_chan">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_chan</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">min, </span><span class="rst-sig-param">max, </span><span class="rst-sig-param">mul, </span><span class="rst-sig-param">add</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L922">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_chan" title="fluidsynth.Synth.router_chan">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_clear">
+    
+  </a>
+  <a name="router_clear">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_clear</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L891">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_clear" title="fluidsynth.Synth.router_clear">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_default">
+    
+  </a>
+  <a name="router_default">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_default</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L894">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_default" title="fluidsynth.Synth.router_default">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_end">
+    
+  </a>
+  <a name="router_end">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_end</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L915">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_end" title="fluidsynth.Synth.router_end">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_par1">
+    
+  </a>
+  <a name="router_par1">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_par1</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">min, </span><span class="rst-sig-param">max, </span><span class="rst-sig-param">mul, </span><span class="rst-sig-param">add</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L925">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_par1" title="fluidsynth.Synth.router_par1">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.router_par2">
+    
+  </a>
+  <a name="router_par2">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">router_par2</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">min, </span><span class="rst-sig-param">max, </span><span class="rst-sig-param">mul, </span><span class="rst-sig-param">add</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L928">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router_par2" title="fluidsynth.Synth.router_par2">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_chorus">
+    
+  </a>
+  <a name="set_chorus">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_chorus</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">nr=-1, </span><span class="rst-sig-param">level=-1.0, </span><span class="rst-sig-param">speed=-1.0, </span><span class="rst-sig-param">depth=-1.0, </span><span class="rst-sig-param">type=-1</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L951">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_chorus" title="fluidsynth.Synth.set_chorus">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>nr Chorus voice count (0-99, CPU time consumption proportional to this value)
+level Chorus level (0.0-10.0)
+speed Chorus speed in Hz (0.29-5.0)
+depth_ms Chorus depth (max value depends on synth sample rate, 0.0-21.0 is safe for sample rate values up to 96KHz)
+type Chorus waveform type (0=sine, 1=triangle)</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_chorus_depth">
+    
+  </a>
+  <a name="set_chorus_depth">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_chorus_depth</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">depth_ms</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1009">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_chorus_depth" title="fluidsynth.Synth.set_chorus_depth">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_chorus_level">
+    
+  </a>
+  <a name="set_chorus_level">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_chorus_level</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">level</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L999">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_chorus_level" title="fluidsynth.Synth.set_chorus_level">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_chorus_nr">
+    
+  </a>
+  <a name="set_chorus_nr">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_chorus_nr</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">nr</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L994">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_chorus_nr" title="fluidsynth.Synth.set_chorus_nr">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_chorus_speed">
+    
+  </a>
+  <a name="set_chorus_speed">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_chorus_speed</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">speed</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1004">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_chorus_speed" title="fluidsynth.Synth.set_chorus_speed">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_chorus_type">
+    
+  </a>
+  <a name="set_chorus_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_chorus_type</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">type</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1014">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_chorus_type" title="fluidsynth.Synth.set_chorus_type">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_reverb">
+    
+  </a>
+  <a name="set_reverb">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_reverb</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">roomsize=-1.0, </span><span class="rst-sig-param">damping=-1.0, </span><span class="rst-sig-param">width=-1.0, </span><span class="rst-sig-param">level=-1.0</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L931">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_reverb" title="fluidsynth.Synth.set_reverb">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>roomsize Reverb room size value (0.0-1.0)
+damping Reverb damping value (0.0-1.0)
+width Reverb width value (0.0-100.0)
+level Reverb level value (0.0-1.0)</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_reverb_damp">
+    
+  </a>
+  <a name="set_reverb_damp">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_reverb_damp</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">damping</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L979">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_reverb_damp" title="fluidsynth.Synth.set_reverb_damp">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_reverb_level">
+    
+  </a>
+  <a name="set_reverb_level">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_reverb_level</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">level</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L984">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_reverb_level" title="fluidsynth.Synth.set_reverb_level">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_reverb_roomsize">
+    
+  </a>
+  <a name="set_reverb_roomsize">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_reverb_roomsize</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">roomsize</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L974">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_reverb_roomsize" title="fluidsynth.Synth.set_reverb_roomsize">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.set_reverb_width">
+    
+  </a>
+  <a name="set_reverb_width">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">set_reverb_width</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">width</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L989">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_reverb_width" title="fluidsynth.Synth.set_reverb_width">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.setting">
+    
+  </a>
+  <a name="setting">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">setting</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">opt, </span><span class="rst-sig-param">val</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L786">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setting" title="fluidsynth.Synth.setting">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>change an arbitrary synth setting, type-smart</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.sfload">
+    
+  </a>
+  <a name="sfload">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">sfload</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">filename, </span><span class="rst-sig-param">update_midi_preset=0</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L848">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#sfload" title="fluidsynth.Synth.sfload">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Load SoundFont and return its ID</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.sfont_select">
+    
+  </a>
+  <a name="sfont_select">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">sfont_select</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">chan, </span><span class="rst-sig-param">sfid</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1103">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#sfont_select" title="fluidsynth.Synth.sfont_select">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Choose a SoundFont</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.sfpreset_name">
+    
+  </a>
+  <a name="sfpreset_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">sfpreset_name</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">sfid, </span><span class="rst-sig-param">bank, </span><span class="rst-sig-param">prenum</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L881">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#sfpreset_name" title="fluidsynth.Synth.sfpreset_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return name of a soundfont preset</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.sfunload">
+    
+  </a>
+  <a name="sfunload">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">sfunload</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">sfid, </span><span class="rst-sig-param">update_midi_preset=0</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L851">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#sfunload" title="fluidsynth.Synth.sfunload">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Unload a SoundFont and free memory it used</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.start">
+    
+  </a>
+  <a name="start">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">start</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">driver=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">device=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">midi_driver=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">midi_router=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L807">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#start" title="fluidsynth.Synth.start">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Start audio output driver in separate background thread</p>
+<p>Call this function any time after creating the Synth object.
+If you don't call this function, use get_samples() to generate
+samples.</p>
+<p>Optional keyword argument:
+driver : which audio driver to use for output
+device : the device to use for audio output
+midi_driver : the midi driver to use for communicating with midi devices
+see <a class="rst-external rst-reference" href="http://www.fluidsynth.org/api/fluidsettings.xml" target="_top">http://www.fluidsynth.org/api/fluidsettings.xml</a> for allowed values and defaults by platform</p>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.system_reset">
+    
+  </a>
+  <a name="system_reset">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">system_reset</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1109">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#system_reset" title="fluidsynth.Synth.system_reset">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Stop all notes and reset all programs</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="fluidsynth.Synth.tuning_dump">
+    
+  </a>
+  <a name="tuning_dump">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">tuning_dump</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">bank, </span><span class="rst-sig-param">prog</span>):</span>
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1121">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#tuning_dump" title="fluidsynth.Synth.tuning_dump">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get tuning information for given bank and preset</p>
+<p>Return value is an array of length 128 with tuning factors for each MIDI note.
+Tuning factor of 0.0 in each position is standard tuning. Measured in cents.</p>
+</div>
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.audio_driver">
+    
+  </a>
+  <a name="audio_driver">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">audio_driver</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L782">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#audio_driver" title="fluidsynth.Synth.audio_driver">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.custom_router_callback">
+    
+  </a>
+  <a name="custom_router_callback">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">custom_router_callback</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L785">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#custom_router_callback" title="fluidsynth.Synth.custom_router_callback">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.midi_driver">
+    
+  </a>
+  <a name="midi_driver">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">midi_driver</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L783">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#midi_driver" title="fluidsynth.Synth.midi_driver">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.player">
+    
+  </a>
+  <a name="player">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">player</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L1147">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#player" title="fluidsynth.Synth.player">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.router">
+    
+  </a>
+  <a name="router">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">router</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L784">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#router" title="fluidsynth.Synth.router">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.settings">
+    
+  </a>
+  <a name="settings">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">settings</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L775">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#settings" title="fluidsynth.Synth.settings">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="fluidsynth.Synth.synth">
+    
+  </a>
+  <a name="synth">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">synth</span> =
+    <a class="sourceLink" href="https://github.com/nwhitehead/pyfluidsynth/tree/5a9e76107a1eb0eb80144a9319b4b2d86ee2b827/fluidsynth.py#L781">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#synth" title="fluidsynth.Synth.synth">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div>
+        </div>
+      
+      </main>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container-fluid">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/nwhitehead/pyfluidsynth" class="projecthome">fluidsynth</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    25.10.1 at 2026-05-22 19:17:07.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
