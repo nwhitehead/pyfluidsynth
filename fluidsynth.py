@@ -102,7 +102,7 @@ def cfunc(name, result, *args):
         return None
 
 # Bump this up when changing the interface for users
-api_version = '1.3.5'
+api_version = '1.3.6'
 
 # Function prototypes for C versions of functions
 
