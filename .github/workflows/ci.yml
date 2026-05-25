@@ -118,11 +118,13 @@ jobs:
           python test/test1.py
           python test/test2.py
           python test/test3.py
+          python test/test8.py
           python test/sequencerTest.py
       - if: runner.os == 'Linux'
         run: |
           python test/test1.py
           python test/test3.py
+          python test/test8.py
           python test/sequencerTest.py
       # On Windows all tests will pass quickly.
       - if: runner.os == 'Windows'
@@ -130,6 +132,7 @@ jobs:
           python test/test1.py
           python test/test2.py
           python test/test3.py
+          python test/test8.py
           python test/sequencerTest.py
 
   build:
