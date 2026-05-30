@@ -24,10 +24,10 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with: 
-          python-version: 3.12
+          python-version: 3.x
       - name: Install requirements
         run: |
-          python -m pip install -U pip setuptools wheel
+          python -m pip install --upgrade pip
           python -m pip install pydoctor
       - name: Run pydoctor
         run: |
@@ -51,24 +51,15 @@ jobs:
     needs: [codespell_and_ruff]
     strategy:
       fail-fast: false
-      matrix:  # macos-15-intel runs on Intel, macos-latest runs on Apple Silicon M1 ARM
-        os: [macos-15-intel, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
-        # `windows-11-arm` is blocked by CristiFati/pyaudio#15
-        python-version: ['3.14', '3.14t']
+      matrix:  # macos-26-intel runs on Intel, macos-latest runs on Apple Silicon ARM
+        os: [macos-26-intel, macos-latest, ubuntu-latest, ubuntu-24.04-arm, windows-latest]
+        # `windows-11-arm` should be added.
+        python-version: ['3.14', '3.14t', '3.15t']
         include:
           - os: ubuntu-latest
             python-version: '3.12'
           - os: ubuntu-latest
             python-version: '3.10'
-          - os: windows-latest
-            python-version: '3.13'
-          - os: windows-latest
-            python-version: '3.13t'
-        exclude:
-          - os: windows-latest
-            python-version: '3.14'
-          - os: windows-latest
-            python-version: '3.14t'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
@@ -76,7 +67,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v8.1.0
         with:
           activate-environment: true
           version: latest
@@ -97,8 +88,8 @@ jobs:
       - run: pytest
       - run: uv pip install pytest-run-parallel
       - run: pytest --iterations=8 --parallel-threads=auto
-        if: runner.os != 'macOS'  # Segmentation faults on macOS
-        env:  # No issues on Py3.14 but there are on earlier versions
+        if: runner.os != 'macOS'  # Segmentation faults only on macOS
+        env:
           PYTEST_RUN_PARALLEL_VERBOSE: 1
       # Import fluidsynth and document OS-specific values
       - shell: python
@@ -115,25 +106,25 @@ jobs:
       # On macOS X64 all tests will pass quickly.
       - if: runner.os == 'macOS' && runner.arch == 'X64'
         run: |
-          python test/test1.py
-          python test/test2.py
-          python test/test3.py
-          python test/test8.py
-          python test/sequencerTest.py
+          test/test1.py
+          test/test2.py
+          test/test3.py
+          test/test8.py
+          test/sequencerTest.py
       - if: runner.os == 'Linux'
         run: |
-          python test/test1.py
-          python test/test3.py
-          python test/test8.py
-          python test/sequencerTest.py
+          test/test1.py
+          test/test3.py
+          test/test8.py
+          test/sequencerTest.py
       # On Windows all tests will pass quickly.
       - if: runner.os == 'Windows'
         run: |
-          python test/test1.py
-          python test/test2.py
-          python test/test3.py
-          python test/test8.py
-          python test/sequencerTest.py
+          test/test1.py
+          test/test2.py
+          test/test3.py
+          test/test8.py
+          test/sequencerTest.py
 
   build:
     needs: [ci]
@@ -143,7 +134,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v8.1.0
         with:
           version: latest
 
@@ -180,7 +171,7 @@ jobs:
           path: dist
       - run: ls -la
       - run: ls -la dist || true
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v8.1.0
         with:
           version: latest
       - run: uv publish

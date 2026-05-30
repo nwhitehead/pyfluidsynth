@@ -96,13 +96,13 @@ def cfunc(name, result, *args):
         aflags = []
         for arg in args:
             atypes.append(arg[1])
-            aflags.append((arg[2], arg[0]) + arg[3:])
+            aflags.append((arg[2], arg[0]) + arg[3:])  # noqa: RUF005
         return CFUNCTYPE(result, *atypes)((name, _fl), tuple(aflags))
     else: # Handle Fluidsynth 1.x, 2.x, etc. API differences
         return None
 
 # Bump this up when changing the interface for users
-api_version = '1.3.6'
+api_version = '1.4.0'
 
 # Function prototypes for C versions of functions
 
@@ -876,7 +876,7 @@ class Synth:
             fluid_synth_get_program(self.synth, chan, byref(sfontid), byref(banknum), byref(presetnum))
             return (sfontid.value, banknum.value, presetnum.value)
         else:
-            (sfontid, banknum, prognum, presetname) = self.channel_info(chan)
+            (sfontid, banknum, prognum, _presetname) = self.channel_info(chan)
             return (sfontid, banknum, prognum)
     def sfpreset_name(self, sfid, bank, prenum):
         """Return name of a soundfont preset"""
@@ -1152,8 +1152,7 @@ class Synth:
         status = fluid_player_add(self.player, filename.encode())
         if status == FLUID_FAILED:
             return status
-        status = fluid_player_play(self.player)
-        return status
+        return fluid_player_play(self.player)
 
     def play_midi_stop(self):
         status = fluid_player_stop(self.player)

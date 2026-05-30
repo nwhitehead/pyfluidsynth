@@ -1,13 +1,11 @@
 #!/usr/bin/env -S uv run --script
 
 # /// script
-# requires-python = ">=3.9"
+# requires-python = ">=3.10"
 # dependencies = [
 #     "pyfluidsynth",
 # ]
 # ///
-
-# ruff: noqa: PLW0603
 
 import time
 
@@ -47,7 +45,7 @@ def local_file_path(file_name: str) -> str:
     return join(dirname(__file__), file_name)
 
 if __name__=="__main__":
-    global sequencer, fs, mySeqID, synthSeqID, now  # noqa: PLW0604
+    global sequencer, fs, mySeqID, synthSeqID, now  # noqa: PLW0603,PLW0604
     fs = fluidsynth.Synth()
     fs.start()
     # you might have to use other drivers:

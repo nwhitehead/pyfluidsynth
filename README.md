@@ -20,7 +20,7 @@ FluidSynth works on all major platforms, so pyFluidSynth should also.
 * [MacOS/Linux Distributions](https://github.com/FluidSynth/fluidsynth/wiki/Download#distributions)
 * [Building from Source](https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake)
 
-(optional) [NumPy](http://numpy.org/) 1.0 or later for some features
+(optional) [NumPy](http://numpy.org/) for some features
 
 NOTE: If you don't need all the features of FluidSynth you may be interested in
 [tinysoundfont-pybind](https://github.com/nwhitehead/tinysoundfont-pybind) which
@@ -34,6 +34,10 @@ playback and is permissively licensed.
 To use the latest official release:
 
     pip install pyfluidsynth
+
+If you also want to use [PyAudio](https://people.csail.mit.edu/hubert/pyaudio):
+
+    pip install "pyfluidsynth[pyaudio]"
 
 
 ## Pre-release Versions
@@ -124,9 +128,22 @@ Here is an example that generates a chord then plays the data using
 PyAudio.
 
 ```python
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "numpy",
+#     "pyaudio",
+#     "pyfluidsynth",
+# ]
+# ///
+
 import time
+
 import numpy
 import pyaudio
+
 import fluidsynth
 
 pa = pyaudio.PyAudio()
